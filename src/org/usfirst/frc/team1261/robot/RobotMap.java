@@ -1,4 +1,12 @@
 package org.usfirst.frc.team1261.robot;
+
+import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.SerialPort;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -15,4 +23,11 @@ public class RobotMap {
     // number and the module. For example you with a rangefinder:
     // public static int rangefinderPort = 1;
     // public static int rangefinderModule = 1;
+	
+	public static CANTalon leftMotor = new CANTalon(1);
+	public static CANTalon rightMotor = new CANTalon(2);
+	public static Encoder leftEncoder = new Encoder(6, 7);
+	public static Encoder rightEncoder = new Encoder(8, 9);
+	public static RobotDrive driveTrain = new RobotDrive(leftMotor, rightMotor);
+	public static AHRS navX = new AHRS(SerialPort.Port.kUSB);
 }
