@@ -1,12 +1,16 @@
 package org.usfirst.frc.team1261.robot.commands;
 
 import org.usfirst.frc.team1261.robot.Robot;
+import org.usfirst.frc.team1261.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class JoystickDrive extends Command {
+/**
+ *
+ */
+public class AutonomousCommand extends Command {
 
-    public JoystickDrive() {
+    public AutonomousCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.driveTrain);
@@ -14,13 +18,13 @@ public class JoystickDrive extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.driveTrain.disablePIDController();
     	Robot.driveTrain.stop();
+    	Robot.driveTrain.setPIDController(DriveTrain.DriveTrainPIDController.DISTANCE);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveTrain.getRobotDrive().arcadeDrive(Robot.oi.getDriverJoystick(), 1, Robot.oi.getDriverJoystick(), 4, true);
+    	Robot.driveTrain.turn(0.25);
     }
 
     // Make this return true when this Command no longer needs to run execute()

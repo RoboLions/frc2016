@@ -47,6 +47,7 @@ public class Robot extends IterativeRobot {
 	
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		allPeriodic();
 	}
 
 	/**
@@ -59,7 +60,8 @@ public class Robot extends IterativeRobot {
 	 * or additional comparisons to the switch structure below with additional strings & commands.
 	 */
     public void autonomousInit() {
-        autonomousCommand = (Command) chooser.getSelected();
+        //autonomousCommand = (Command) chooser.getSelected();
+    	autonomousCommand = new org.usfirst.frc.team1261.robot.commands.AutonomousCommand();
         
 		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
 		switch(autoSelected) {
@@ -81,6 +83,7 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
+        allPeriodic();
     }
 
     public void teleopInit() {
@@ -96,6 +99,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        allPeriodic();
     }
     
     /**
@@ -103,5 +107,14 @@ public class Robot extends IterativeRobot {
      */
     public void testPeriodic() {
         LiveWindow.run();
+        allPeriodic();
+    }
+    
+    /**
+     * This function is called periodically during all modes
+     */
+    public void allPeriodic() {
+    	SmartDashboard.putNumber("Left distance", Robot.driveTrain.leftDistanceTraveled());
+    	SmartDashboard.putNumber("Right distance", Robot.driveTrain.rightDistanceTraveled());
     }
 }

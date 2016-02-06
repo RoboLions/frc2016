@@ -16,3 +16,4 @@ hs_err_pid*
 
 # Generated during build process
 sysProps.xml
+/bin/

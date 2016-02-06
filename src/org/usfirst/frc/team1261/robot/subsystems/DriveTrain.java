@@ -75,7 +75,7 @@ public class DriveTrain extends Subsystem {
 	 * @return Right encoder's distance traveled in encoder units.
 	 */
 	public double leftDistanceTraveled() {
-		return leftEncoder.getDistance();
+		return leftEncoder.getRaw();
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class DriveTrain extends Subsystem {
 	 * @return Right encoder's distance traveled in encoder units.
 	 */
 	public double rightDistanceTraveled() {
-		return rightEncoder.getDistance();
+		return rightEncoder.getRaw();
 	}
 
 	/**
@@ -102,7 +102,7 @@ public class DriveTrain extends Subsystem {
 	 *            The power, between -1.0 and 1.0.
 	 */
 	public void drive(double power) {
-		robotDrive.setLeftRightMotorOutputs(power, power);
+		robotDrive.setLeftRightMotorOutputs(-power, -power);
 	}
 
 	/**
@@ -113,7 +113,7 @@ public class DriveTrain extends Subsystem {
 	 *            turning left, and positive values represent turning right.
 	 */
 	public void turn(double power) {
-		robotDrive.setLeftRightMotorOutputs(power, -power);
+		robotDrive.setLeftRightMotorOutputs(-power, power);
 	}
 
 	/**
