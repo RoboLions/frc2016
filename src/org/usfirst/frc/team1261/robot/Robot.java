@@ -116,5 +116,6 @@ public class Robot extends IterativeRobot {
     public void allPeriodic() {
     	SmartDashboard.putNumber("Left distance", Robot.driveTrain.leftDistanceTraveled());
     	SmartDashboard.putNumber("Right distance", Robot.driveTrain.rightDistanceTraveled());
+    	SmartDashboard.putNumber("Range finder voltage", RobotMap.rangeFinder.getAverageVoltage());
     }
 }

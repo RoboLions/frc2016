@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.PIDOutput;
  */
 class DistanceBasedDriveTrainPIDController extends PIDController {
 
-	public static final double kP = 0.01;
-	public static final double kI = 0.0;
+	public static final double kP = 0.001;
+	public static final double kI = 0.00002;
 	public static final double kD = 0.0;
 
 	public DistanceBasedDriveTrainPIDController(DriveTrain driveTrain) {

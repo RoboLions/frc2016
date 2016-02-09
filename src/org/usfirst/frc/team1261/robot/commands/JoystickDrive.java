@@ -15,7 +15,6 @@ public class JoystickDrive extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.driveTrain.disablePIDController();
-    	Robot.driveTrain.stop();
     }
 
     // Called repeatedly when this Command is scheduled to run

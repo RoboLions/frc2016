@@ -2,10 +2,13 @@ package org.usfirst.frc.team1261.robot;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.RobotDrive.MotorType;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.Servo;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -24,10 +27,24 @@ public class RobotMap {
     // public static int rangefinderPort = 1;
     // public static int rangefinderModule = 1;
 	
-	public static CANTalon leftMotor = new CANTalon(1);
-	public static CANTalon rightMotor = new CANTalon(2);
-	public static Encoder leftEncoder = new Encoder(6, 7);
-	public static Encoder rightEncoder = new Encoder(8, 9);
-	public static RobotDrive driveTrain = new RobotDrive(leftMotor, rightMotor);
-	public static AHRS navX = new AHRS(SerialPort.Port.kUSB);
+	public static CANTalon frontLeftMotor = new CANTalon(6);
+	public static CANTalon rearLeftMotor = new CANTalon(5);
+	public static CANTalon frontRightMotor = new CANTalon(3);
+	public static CANTalon rearRightMotor = new CANTalon(4);
+	public static Servo servo = new Servo(6);
+	public static Encoder rightEncoder = new Encoder(6, 7);
+	public static Encoder leftEncoder = new Encoder(8, 9, true); // left encoder has reversed direction sense
+	public static RobotDrive driveTrain = new RobotDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
+	//public static AHRS navX = new AHRS(SerialPort.Port.kUSB);
+	public static AHRS navX = null;
+	public static AnalogInput rangeFinder = new AnalogInput(0);
+	
+	static {
+		driveTrain.setInvertedMotor(MotorType.kFrontLeft, true);
+		driveTrain.setInvertedMotor(MotorType.kRearLeft, true);
+		driveTrain.setInvertedMotor(MotorType.kFrontRight, true);
+		driveTrain.setInvertedMotor(MotorType.kRearRight, true);
+		rangeFinder.setAverageBits(0);
+		rangeFinder.setOversampleBits(0);
+	}
 }

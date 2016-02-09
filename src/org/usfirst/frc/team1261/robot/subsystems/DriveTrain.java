@@ -16,8 +16,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class DriveTrain extends Subsystem {
 
-	CANTalon leftMotor = RobotMap.leftMotor;
-	CANTalon rightMotor = RobotMap.rightMotor;
+	CANTalon frontLeftMotor = RobotMap.frontLeftMotor;
+	CANTalon rearLeftMotor = RobotMap.rearLeftMotor;
+	CANTalon frontRightMotor = RobotMap.frontRightMotor;
+	CANTalon rearRightMotor = RobotMap.rearRightMotor;
 	Encoder leftEncoder = RobotMap.leftEncoder;
 	Encoder rightEncoder = RobotMap.rightEncoder;
 	RobotDrive robotDrive = RobotMap.driveTrain;
@@ -75,7 +77,7 @@ public class DriveTrain extends Subsystem {
 	 * @return Right encoder's distance traveled in encoder units.
 	 */
 	public double leftDistanceTraveled() {
-		return leftEncoder.getRaw();
+		return leftEncoder.getDistance();
 	}
 
 	/**
@@ -84,7 +86,7 @@ public class DriveTrain extends Subsystem {
 	 * @return Right encoder's distance traveled in encoder units.
 	 */
 	public double rightDistanceTraveled() {
-		return rightEncoder.getRaw();
+		return rightEncoder.getDistance();
 	}
 
 	/**
@@ -149,7 +151,9 @@ public class DriveTrain extends Subsystem {
 	 */
 	public void setPIDController(PIDController pidController) {
 		controller.disable();
+		stop();
 		controller = pidController;
+		controller.enable();
 	}
 
 	/**
@@ -197,5 +201,41 @@ public class DriveTrain extends Subsystem {
 	 */
 	public AHRS getNavX() {
 		return navX;
+	}
+	
+	/**
+	 * Gets the {@link CANTalon} that represents the front left motor.
+	 * 
+	 * @return The {@link CANTalon} associated with the front left motor.
+	 */
+	public CANTalon getFrontLeftMotor() {
+		return frontLeftMotor;
+	}
+	
+	/**
+	 * Gets the {@link CANTalon} that represents the rear left motor.
+	 * 
+	 * @return The {@link CANTalon} associated with the rear left motor.
+	 */
+	public CANTalon getRearLeftMotor() {
+		return rearLeftMotor;
+	}
+	
+	/**
+	 * Gets the {@link CANTalon} that represents the front right motor.
+	 * 
+	 * @return The {@link CANTalon} associated with the front right motor.
+	 */
+	public CANTalon getFrontRightMotor() {
+		return frontRightMotor;
+	}
+
+	/**
+	 * Gets the {@link CANTalon} that represents the rear right motor.
+	 * 
+	 * @return The {@link CANTalon} associated with the rear right motor.
+	 */
+	public CANTalon getRearRightMotor() {
+		return rearRightMotor;
 	}
 }
