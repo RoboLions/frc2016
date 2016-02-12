@@ -17,7 +17,7 @@ class AngleBasedDriveTrainPIDController extends PIDController {
 		super(kP, kI, kD, new DisplacementPIDSource() {
 			@Override
 			public double pidGet() {
-				return driveTrain.getYaw();
+				return driveTrain.getAngle();
 			}
 		}, new PIDOutput() {
 			@Override

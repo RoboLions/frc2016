@@ -130,17 +130,44 @@ public class DriveTrain extends Subsystem {
 	}
 
 	/**
-	 * Gets the yaw angle from the navX micro.
+	 * Gets the accumulated yaw angle from the navX micro. This does not reset
+	 * when the robot turns a full 360 degrees, so it is useful for algorithms
+	 * expecting a continuous, unbounded input range. To reset this value to
+	 * zero degrees, use the {@link DriveTrain#zeroYaw zeroYaw} method.
+	 * 
+	 * @return A {@code double} representing the accumulated yaw angle in
+	 *         degrees.
+	 * @see {@link DriveTrain#getYaw getYaw}
+	 */
+	public double getAngle() {
+		return navX.getAngle();
+	}
+
+	/**
+	 * Gets the yaw angle from the navX micro. To reset this value to zero
+	 * degrees, use the {@link DriveTrain#zeroYaw zeroYaw} method.
 	 * 
 	 * @return A {@code float} between -180.0 and 180.0 representing the yaw
 	 *         angle in degrees.
+	 * @see {@link DriveTrain#getAngle getAngle}
 	 */
 	public float getYaw() {
 		return navX.getYaw();
 	}
 
 	/**
-	 * Zeroes the yaw angle on the navX micro.
+	 * Alias for {@link DriveTrain#zeroYaw zeroYaw}, which zeroes the yaw angle
+	 * on the navX micro. This affects both {@link DriveTrain#getYaw getYaw} and
+	 * {@link DriveTrain#getAngle getAngle} .
+	 */
+	public void zeroAngle() {
+		navX.zeroYaw();
+	}
+
+	/**
+	 * Zeroes the yaw angle on the navX micro. This affects both
+	 * {@link DriveTrain#getYaw getYaw} and {@link DriveTrain#getAngle getAngle}
+	 * .
 	 */
 	public void zeroYaw() {
 		navX.zeroYaw();
