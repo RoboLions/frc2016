@@ -1,5 +1,8 @@
 package org.usfirst.frc.team1261.robot.subsystems;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.usfirst.frc.team1261.robot.RobotMap;
 import org.usfirst.frc.team1261.robot.commands.JoystickDrive;
 
@@ -186,6 +189,58 @@ public class DriveTrain extends Subsystem {
 	}
 
 	/**
+	 * Sets the setpoint for the PIDController. Equivalent to
+	 * getPIDController().setSetpoint(setpoint).
+	 * 
+	 * @param setpoint
+	 *            The desired setpoint.
+	 */
+	public void setSetpoint(double setpoint) {
+		getPIDController().setSetpoint(setpoint);
+	}
+
+	/**
+	 * Return true if the error is within the specified tolerance. Equivalent to
+	 * getPIDController().onTarget().<br>
+	 * <em>The current implementation of getPIDController().onTarget() is buggy.<br>
+	 * Please implement this method yourself.</em>
+	 * 
+	 * @return {@code true} if the error is less than the tolerance.
+	 */
+	public boolean onTarget() {
+		Logger.getLogger("DriveTrain").log(Level.WARNING,
+				"DriveTrain#onTarget() is being used. This implementation, provided by the underlying PIDController, is buggy, and should not be used.");
+		return getPIDController().onTarget();
+	}
+
+	/**
+	 * Drive to a specified distance.
+	 * 
+	 * @param distance
+	 *            The distance, according to the encoders, to which the robot
+	 *            should drive.
+	 * @see {@link driveToRelative} to drive to a distance relative to the
+	 *      current distance.
+	 */
+	public void driveTo(double distance) {
+		setPIDController(DriveTrainPIDController.DISTANCE);
+		setSetpoint(distance);
+	}
+
+	/**
+	 * Drive to a specified distance relative to the current distance.
+	 * 
+	 * @param distance
+	 *            The distance relative to the current distance, according to
+	 *            the encoders, to which the robot should drive.
+	 * @see {@link driveTo} to drive to an absolute distance.
+	 */
+	public void driveToRelative(double distance) {
+		setPIDController(DriveTrainPIDController.DISTANCE);
+		setSetpoint(distanceTraveled() + distance);
+	}
+
+	/**
 	 * Gets the {@link RobotDrive}.
 	 * 
 	 * @return The {@link RobotDrive} associated with the drivetrain.
@@ -202,7 +257,7 @@ public class DriveTrain extends Subsystem {
 	public AHRS getNavX() {
 		return navX;
 	}
-	
+
 	/**
 	 * Gets the {@link CANTalon} that represents the front left motor.
 	 * 
@@ -211,7 +266,7 @@ public class DriveTrain extends Subsystem {
 	public CANTalon getFrontLeftMotor() {
 		return frontLeftMotor;
 	}
-	
+
 	/**
 	 * Gets the {@link CANTalon} that represents the rear left motor.
 	 * 
@@ -220,7 +275,7 @@ public class DriveTrain extends Subsystem {
 	public CANTalon getRearLeftMotor() {
 		return rearLeftMotor;
 	}
-	
+
 	/**
 	 * Gets the {@link CANTalon} that represents the front right motor.
 	 * 

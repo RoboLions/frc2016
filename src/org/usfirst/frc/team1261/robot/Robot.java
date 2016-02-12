@@ -1,11 +1,14 @@
 
 package org.usfirst.frc.team1261.robot;
 
+import org.usfirst.frc.team1261.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team1261.robot.subsystems.Flywheel;
+import org.usfirst.frc.team1261.robot.subsystems.Intake;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import org.usfirst.frc.team1261.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -19,10 +22,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 
 	public static final DriveTrain driveTrain = new DriveTrain();
+	public static final Intake intake = new Intake();
+	public static final Flywheel flywheel = new Flywheel();
+	
 	public static OI oi;
 
     Command autonomousCommand;
     SendableChooser chooser;
+    
+    public static boolean isAlignedVert = true;
+    
+    SendableChooser startingPositionChooser = new SendableChooser();
+    SendableChooser endingPositionChooser = new SendableChooser();
+    SendableChooser defenseTypeChooser = new SendableChooser();
+    SendableChooser shotLocationChooser = new SendableChooser();
 
     /**
      * This function is run when the robot is first started up and should be
@@ -34,6 +47,35 @@ public class Robot extends IterativeRobot {
 //        chooser.addDefault("Default Auto", new ExampleCommand());
 //        chooser.addObject("My Auto", new MyAutoCommand());
 //        SmartDashboard.putData("Auto mode", chooser);
+		
+		startingPositionChooser.addDefault("Left", "Left");
+        startingPositionChooser.addObject("Left-Center", "Left-Center");
+        startingPositionChooser.addObject("Center", "Center");
+        startingPositionChooser.addObject("Right-Center", "Right-Center");
+        startingPositionChooser.addObject("Right", "Right");
+        
+        endingPositionChooser.addDefault("Left", "Left");
+        endingPositionChooser.addObject("Left-Center", "Left-Center");
+        endingPositionChooser.addObject("Center", "Center");
+        endingPositionChooser.addObject("Right-Center", "Right-Center");
+        endingPositionChooser.addObject("Right", "Right");
+        
+        defenseTypeChooser.addDefault("Low Bar", "Low Bar");
+        defenseTypeChooser.addObject("Portcullis", "Portcullis");
+        defenseTypeChooser.addObject("Cheval-de-Frise", "Cheval-de-Frise");
+        defenseTypeChooser.addObject("Moat", "Moat");
+        defenseTypeChooser.addObject("Ramparts", "Ramparts");
+        defenseTypeChooser.addObject("Rock Wall", "Rock Wall");
+        defenseTypeChooser.addObject("Rough Terrain", "Rough Terrain");
+        
+        shotLocationChooser.addDefault("Middle-Long", "Middle-Long");
+        shotLocationChooser.addObject("Middle-Short", "Middle-Short");
+        shotLocationChooser.addObject("Side-Long", "Side-Long");
+        
+        SmartDashboard.putData("Starting Position Chooser", startingPositionChooser);
+        SmartDashboard.putData("Shot Location Chooser", shotLocationChooser);
+        SmartDashboard.putData("Ending Position Chooser", endingPositionChooser);
+        SmartDashboard.putData("Defense Type Chooser", defenseTypeChooser);
     }
 	
 	/**
@@ -60,6 +102,18 @@ public class Robot extends IterativeRobot {
 	 * or additional comparisons to the switch structure below with additional strings & commands.
 	 */
     public void autonomousInit() {
+    	
+    	System.out.println("Starting Position: " + startingPositionChooser.getSelected() + "     Defense Type: " + defenseTypeChooser.getSelected()
+    	+ "     Shot Location: " + shotLocationChooser.getSelected() + "     End Position: " + endingPositionChooser.getSelected());
+    
+    	if((String)startingPositionChooser.getSelected() == "Left"){
+    		isAlignedVert = false;
+    	}
+    	else{
+    		isAlignedVert = true;
+    	}
+    	SmartDashboard.putBoolean("Aligned Vertically", isAlignedVert);
+    	
         //autonomousCommand = (Command) chooser.getSelected();
     	autonomousCommand = new org.usfirst.frc.team1261.robot.commands.AutonomousCommand();
         

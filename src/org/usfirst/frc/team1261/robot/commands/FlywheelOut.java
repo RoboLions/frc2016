@@ -1,44 +1,41 @@
 package org.usfirst.frc.team1261.robot.commands;
 
+import org.usfirst.frc.team1261.robot.OI;
 import org.usfirst.frc.team1261.robot.Robot;
-import org.usfirst.frc.team1261.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class AutonomousCommand extends Command {
-	
-	static final double TOLERANCE = 10.0;
-	static final double SETPOINT = 500.0;
+public class FlywheelOut extends Command {
 
-    public AutonomousCommand() {
+	public static final double POWER_SCALING_FACTOR = 1.0;
+	
+    public FlywheelOut() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.driveTrain);
+    	requires(Robot.flywheel);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.driveTrain.driveToRelative(SETPOINT);
+    	Robot.flywheel.setFlywheelPower(0.0);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.flywheel.setFlywheelPower(Robot.oi.getDriverJoystick().getRawAxis(OI.AXIS_RIGHT_TRIGGER));
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        // return Robot.driveTrain.getPIDController().onTarget();
-    	
-    	// Workaround for https://usfirst.collab.net/sf/tracker/do/viewArtifact/projects.wpilib/tracker.4_defects/artf4812
-    	return (Math.abs(Robot.driveTrain.getPIDController().getError()) < TOLERANCE);
+        return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.driveTrain.disablePIDController();
+    	Robot.flywheel.setFlywheelPower(0.0);
     }
 
     // Called when another command which requires one or more of the same

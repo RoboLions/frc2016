@@ -11,6 +11,7 @@ class AngleBasedDriveTrainPIDController extends PIDController {
 	public static final double kP = 0.001;
 	public static final double kI = 0.0;
 	public static final double kD = 0.0;
+	public static final double DEFAULT_TOLERANCE = 10.0;
 
 	public AngleBasedDriveTrainPIDController(DriveTrain driveTrain) {
 		super(kP, kI, kD, new DisplacementPIDSource() {
@@ -24,5 +25,6 @@ class AngleBasedDriveTrainPIDController extends PIDController {
 				driveTrain.turn(output);
 			}
 		});
+		setAbsoluteTolerance(DEFAULT_TOLERANCE);
 	}
 }

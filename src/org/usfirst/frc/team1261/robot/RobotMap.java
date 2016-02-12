@@ -31,12 +31,17 @@ public class RobotMap {
 	public static CANTalon rearLeftMotor = new CANTalon(5);
 	public static CANTalon frontRightMotor = new CANTalon(3);
 	public static CANTalon rearRightMotor = new CANTalon(4);
+	public static CANTalon intakeMotor = new CANTalon(0);
+	public static CANTalon intakeArmMotor = new CANTalon(0);
+	public static CANTalon flywheelLeftMotor = new CANTalon(0);
+	public static CANTalon flywheelRightMotor = new CANTalon(0);
+	public static CANTalon shooterArmMotor = new CANTalon(0);
 	public static Servo servo = new Servo(6);
 	public static Encoder rightEncoder = new Encoder(6, 7);
 	public static Encoder leftEncoder = new Encoder(8, 9, true); // left encoder has reversed direction sense
+	public static Encoder shooterArmEncoder = new Encoder(0, 0);
 	public static RobotDrive driveTrain = new RobotDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
-	//public static AHRS navX = new AHRS(SerialPort.Port.kUSB);
-	public static AHRS navX = null;
+	public static AHRS navX = new AHRS(SerialPort.Port.kUSB);
 	public static AnalogInput rangeFinder = new AnalogInput(0);
 	
 	static {
