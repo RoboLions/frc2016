@@ -47,7 +47,8 @@ public class ShooterArm extends PIDSubsystem {
 	/**
 	 * Gets the {@link Encoder} that represents the shooter arm motor encoder.
 	 * 
-	 * @return The {@link Encoder} associated with the shooter arm motor encoder.
+	 * @return The {@link Encoder} associated with the shooter arm motor
+	 *         encoder.
 	 */
 	public Encoder getShooterArmEncoder() {
 		return shooterArmEncoder;
@@ -62,6 +63,39 @@ public class ShooterArm extends PIDSubsystem {
 		return shooterArmMotor;
 	}
 
+	/**
+	 * Sets shooter arm motor power to the specified power level.
+	 * 
+	 * @param power
+	 *            The power, between -1.0 and 1.0.
+	 */
+	public void setShooterArmMotorPower(double power) {
+		shooterArmMotor.set(power);
+	}
+
+	/**
+	 * Ceases function in the motors correlated with the shooter arm, causing a
+	 * general end to motion of the shooter arm.
+	 */
+	public void stop() {
+		disable();
+		setShooterArmMotorPower(0.0);
+	}
+
+	/**
+	 * Return {@code true} if the error is within the tolerance determined by
+	 * {@link ShooterArm#TOLERANCE}.<br>
+	 * <em>This method overrides {@link PIDSubsystem}'s
+	 * {@link PIDSubsystem#onTarget onTarget} method as a workaround for
+	 * <a href="https://usfirst.collab.net/sf/tracker/do/viewArtifact/projects.wpilib/tracker.4_defects/artf4812">
+	 * a bug in WPILib's implementation</a>.</em>
+	 * 
+	 * @return {@code true} if the error is less than the tolerance.
+	 */
+	public boolean onTarget() {
+		return (Math.abs(getPIDController().getError()) < TOLERANCE);
+	}
+
 	protected double returnPIDInput() {
 		// Return your input value for the PID loop
 		// e.g. a sensor, like a potentiometer:
@@ -72,6 +106,6 @@ public class ShooterArm extends PIDSubsystem {
 	protected void usePIDOutput(double output) {
 		// Use output to drive your system, like a motor
 		// e.g. yourMotor.set(output);
-		shooterArmMotor.set(output);
+		setShooterArmMotorPower(output);
 	}
 }

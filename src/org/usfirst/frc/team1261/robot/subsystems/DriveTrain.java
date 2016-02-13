@@ -1,8 +1,5 @@
 package org.usfirst.frc.team1261.robot.subsystems;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.usfirst.frc.team1261.robot.RobotMap;
 import org.usfirst.frc.team1261.robot.commands.JoystickDrive;
 
@@ -126,6 +123,7 @@ public class DriveTrain extends Subsystem {
 	 * general end to motion of the wheels.
 	 */
 	public void stop() {
+		controller.disable();
 		robotDrive.stopMotor();
 	}
 
@@ -180,7 +178,6 @@ public class DriveTrain extends Subsystem {
 	 *            A {@link PIDController}.
 	 */
 	public void setPIDController(PIDController pidController) {
-		controller.disable();
 		stop();
 		controller = pidController;
 		controller.enable();
@@ -227,16 +224,15 @@ public class DriveTrain extends Subsystem {
 	}
 
 	/**
-	 * Return true if the error is within the specified tolerance. Equivalent to
-	 * getPIDController().onTarget().<br>
-	 * <em>The current implementation of getPIDController().onTarget() is buggy.<br>
-	 * Please implement this method yourself.</em>
+	 * Return {@code true} if the error is within the specified tolerance.
+	 * Equivalent to getPIDController().onTarget().<br>
+	 * <em>The current implementation of {@link PIDController#onTarget()} is
+	 * buggy. If you are using a {@link PIDController} that is not a
+	 * {@link DriveTrainPIDController}, please implement this method yourself.</em>
 	 * 
 	 * @return {@code true} if the error is less than the tolerance.
 	 */
 	public boolean onTarget() {
-		Logger.getLogger("DriveTrain").log(Level.WARNING,
-				"DriveTrain#onTarget() is being used. This implementation, provided by the underlying PIDController, is buggy, and should not be used.");
 		return getPIDController().onTarget();
 	}
 

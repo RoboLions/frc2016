@@ -5,6 +5,8 @@ import org.usfirst.frc.team1261.robot.commands.IntakeArmDown;
 import org.usfirst.frc.team1261.robot.commands.IntakeArmUp;
 import org.usfirst.frc.team1261.robot.commands.IntakeIn;
 import org.usfirst.frc.team1261.robot.commands.IntakeOut;
+import org.usfirst.frc.team1261.robot.commands.ShooterArmDown;
+import org.usfirst.frc.team1261.robot.commands.ShooterArmUp;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -69,14 +71,18 @@ public class OI {
 	
 	Button intakeInButton = new JoystickButton(driverJoystick, BUTTON_A);
 	Button intakeOutButton = new JoystickButton(driverJoystick, BUTTON_B);
-	Button intakeArmUpButton = new JoystickButton(driverJoystick, BUTTON_X);
-	Button intakeArmDownButton = new JoystickButton(driverJoystick, BUTTON_Y);
+	Button intakeArmUpButton = new JoystickButton(driverJoystick, BUTTON_Y);
+	Button intakeArmDownButton = new JoystickButton(driverJoystick, BUTTON_X);
+	Button shooterArmUpButton = new JoystickButton(driverJoystick, BUTTON_RIGHT_BUMPER);
+	Button shooterArmDownButton = new JoystickButton(driverJoystick, BUTTON_LEFT_BUMPER);
 	
 	public OI() {
 		intakeInButton.whileHeld(new IntakeIn());
 		intakeOutButton.whileHeld(new IntakeOut());
 		intakeArmUpButton.whileHeld(new IntakeArmUp());
 		intakeArmDownButton.whileHeld(new IntakeArmDown());
+		shooterArmUpButton.whileHeld(new ShooterArmUp());
+		shooterArmDownButton.whileHeld(new ShooterArmDown());
 	}
 	
 	public Joystick getDriverJoystick() {

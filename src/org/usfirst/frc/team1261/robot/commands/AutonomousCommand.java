@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1261.robot.commands;
 
 import org.usfirst.frc.team1261.robot.Robot;
-import org.usfirst.frc.team1261.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -30,15 +29,12 @@ public class AutonomousCommand extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        // return Robot.driveTrain.getPIDController().onTarget();
-    	
-    	// Workaround for https://usfirst.collab.net/sf/tracker/do/viewArtifact/projects.wpilib/tracker.4_defects/artf4812
-    	return (Math.abs(Robot.driveTrain.getPIDController().getError()) < TOLERANCE);
+        return Robot.driveTrain.onTarget();
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.driveTrain.disablePIDController();
+    	Robot.driveTrain.stop();
     }
 
     // Called when another command which requires one or more of the same
