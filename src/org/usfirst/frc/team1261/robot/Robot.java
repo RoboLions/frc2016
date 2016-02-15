@@ -1,10 +1,12 @@
 
 package org.usfirst.frc.team1261.robot;
 
+import org.usfirst.frc.team1261.robot.commands.AutonomousCommand;
 import org.usfirst.frc.team1261.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1261.robot.subsystems.Flywheel;
 import org.usfirst.frc.team1261.robot.subsystems.Intake;
 import org.usfirst.frc.team1261.robot.subsystems.ShooterArm;
+import org.usfirst.frc.team1261.robot.subsystems.SpikePuncher;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -26,6 +28,7 @@ public class Robot extends IterativeRobot {
 	public static final Intake intake = new Intake();
 	public static final Flywheel flywheel = new Flywheel();
 	public static final ShooterArm shooterArm = new ShooterArm();
+	public static final SpikePuncher spikePuncher = new SpikePuncher();
 	
 	public static OI oi;
 
@@ -117,7 +120,7 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putBoolean("Aligned Vertically", isAlignedVert);
     	
         //autonomousCommand = (Command) chooser.getSelected();
-    	autonomousCommand = new org.usfirst.frc.team1261.robot.commands.AutonomousCommand();
+    	autonomousCommand = new AutonomousCommand();
         
 		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
 		switch(autoSelected) {
@@ -170,8 +173,5 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during all modes
      */
     public void allPeriodic() {
-    	SmartDashboard.putNumber("Left distance", Robot.driveTrain.leftDistanceTraveled());
-    	SmartDashboard.putNumber("Right distance", Robot.driveTrain.rightDistanceTraveled());
-    	SmartDashboard.putNumber("Range finder voltage", RobotMap.rangeFinder.getAverageVoltage());
     }
 }

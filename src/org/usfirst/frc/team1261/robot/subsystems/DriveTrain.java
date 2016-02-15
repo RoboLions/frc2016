@@ -23,7 +23,7 @@ public class DriveTrain extends Subsystem {
 	Encoder leftEncoder = RobotMap.leftEncoder;
 	Encoder rightEncoder = RobotMap.rightEncoder;
 	RobotDrive robotDrive = RobotMap.driveTrain;
-	AHRS navX = RobotMap.navX;
+    AHRS navX = RobotMap.navX;
 
 	// Change this to change the default PIDController for the DriveTrain.
 	PIDController controller = new DisabledDriveTrainPIDController(this);

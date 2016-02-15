@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1261.robot.subsystems;
 
 import org.usfirst.frc.team1261.robot.RobotMap;
-import org.usfirst.frc.team1261.robot.commands.FlywheelOut;
+import org.usfirst.frc.team1261.robot.commands.JoystickFlywheel;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -17,7 +17,7 @@ public class Flywheel extends Subsystem {
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
-		setDefaultCommand(new FlywheelOut());
+		setDefaultCommand(new JoystickFlywheel());
 	}
 
 	/**
