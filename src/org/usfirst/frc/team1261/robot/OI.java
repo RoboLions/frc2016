@@ -1,12 +1,8 @@
 
 package org.usfirst.frc.team1261.robot;
 
-import org.usfirst.frc.team1261.robot.commands.IntakeArmDown;
-import org.usfirst.frc.team1261.robot.commands.IntakeArmUp;
 import org.usfirst.frc.team1261.robot.commands.IntakeIn;
 import org.usfirst.frc.team1261.robot.commands.IntakeOut;
-import org.usfirst.frc.team1261.robot.commands.ShooterArmDown;
-import org.usfirst.frc.team1261.robot.commands.ShooterArmUp;
 import org.usfirst.frc.team1261.robot.commands.SpikeOutAndIn;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -70,21 +66,13 @@ public class OI {
 	Joystick driverJoystick = new Joystick(DRIVER_JOYSTICK);
 	Joystick manipulatorJoystick = new Joystick(MANIPULATOR_JOYSTICK);
 	
-	Button intakeInButton = new JoystickButton(manipulatorJoystick, BUTTON_A);
-	Button intakeOutButton = new JoystickButton(manipulatorJoystick, BUTTON_B);
-	Button intakeArmUpButton = new JoystickButton(manipulatorJoystick, BUTTON_Y);
-	Button intakeArmDownButton = new JoystickButton(manipulatorJoystick, BUTTON_X);
-	Button shooterArmUpButton = new JoystickButton(manipulatorJoystick, BUTTON_RIGHT_BUMPER);
-	Button shooterArmDownButton = new JoystickButton(manipulatorJoystick, BUTTON_LEFT_BUMPER);
-	Button spikeOutAndInButton = new JoystickButton(manipulatorJoystick, BUTTON_RIGHT_STICK);
+	Button intakeInButton = new JoystickButton(manipulatorJoystick, BUTTON_RIGHT_BUMPER);
+	Button intakeOutButton = new JoystickButton(manipulatorJoystick, BUTTON_LEFT_BUMPER);
+	Button spikeOutAndInButton = new JoystickButton(driverJoystick, BUTTON_RIGHT_BUMPER);
 	
 	public OI() {
 		intakeInButton.whileHeld(new IntakeIn());
 		intakeOutButton.whileHeld(new IntakeOut());
-		intakeArmUpButton.whileHeld(new IntakeArmUp());
-		intakeArmDownButton.whileHeld(new IntakeArmDown());
-		shooterArmUpButton.whileHeld(new ShooterArmUp());
-		shooterArmDownButton.whileHeld(new ShooterArmDown());
 		spikeOutAndInButton.whenPressed(new SpikeOutAndIn());
 	}
 	

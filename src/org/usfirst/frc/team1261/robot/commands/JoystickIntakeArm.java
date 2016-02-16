@@ -1,16 +1,22 @@
 package org.usfirst.frc.team1261.robot.commands;
 
+import org.usfirst.frc.team1261.robot.OI;
 import org.usfirst.frc.team1261.robot.Robot;
+
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class IntakeArmDown extends Command {
+public class JoystickIntakeArm extends Command {
 	
-	public static final double POWER = -1.0;
+	public static final Joystick JOYSTICK = Robot.oi.getManipulatorJoystick();
+	public static final int JOYSTICK_AXIS = OI.AXIS_RIGHT_STICK_Y;
 
-    public IntakeArmDown() {
+	public static final double POWER_SCALING_FACTOR = -1.0;
+
+    public JoystickIntakeArm() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.intake);
@@ -23,7 +29,7 @@ public class IntakeArmDown extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.intake.setIntakeArmMotorPower(POWER);
+    	Robot.intake.setIntakeArmMotorPower(JOYSTICK.getRawAxis(JOYSTICK_AXIS) * POWER_SCALING_FACTOR);
     }
 
     // Make this return true when this Command no longer needs to run execute()

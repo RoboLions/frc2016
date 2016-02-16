@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1261.robot.subsystems;
 
 import org.usfirst.frc.team1261.robot.RobotMap;
+import org.usfirst.frc.team1261.robot.commands.JoystickShooterArm;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
@@ -32,6 +33,7 @@ public class ShooterArm extends PIDSubsystem {
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
+		setDefaultCommand(new JoystickShooterArm());
 	}
 
 	/**
