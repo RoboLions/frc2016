@@ -72,9 +72,9 @@ public class DriveTrain extends Subsystem {
 	}
 
 	/**
-	 * Returns distance traveled according to the right encoder.
+	 * Returns distance traveled according to the left encoder.
 	 * 
-	 * @return Right encoder's distance traveled in encoder units.
+	 * @return Left encoder's distance traveled in encoder units.
 	 */
 	public double leftDistanceTraveled() {
 		return leftEncoder.getDistance();
