@@ -173,5 +173,9 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during all modes
      */
     public void allPeriodic() {
+    	SmartDashboard.putNumber("Left distance traveled", Robot.driveTrain.leftDistanceTraveled());
+    	SmartDashboard.putNumber("Right distance traveled", Robot.driveTrain.rightDistanceTraveled());
+    	SmartDashboard.putNumber("Distance traveled", Robot.driveTrain.distanceTraveled());
+    	SmartDashboard.putBoolean("Shooter loaded", Robot.flywheel.getPhotoGateStatus());
     }
 }

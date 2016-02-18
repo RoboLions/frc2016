@@ -4,6 +4,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -37,12 +38,13 @@ public class RobotMap {
 	public static CANTalon flywheelRightMotor = new CANTalon(6);
 	public static CANTalon shooterArmMotor = new CANTalon(7);
 	public static Relay spike = new Relay(0);
-	public static Encoder rightEncoder = new Encoder(6, 7);
-	public static Encoder leftEncoder = new Encoder(8, 9, true); // left encoder has reversed direction sense
+	public static Encoder rightEncoder = new Encoder(0, 1);
+	public static Encoder leftEncoder = new Encoder(4, 5); // left encoder has reversed direction sense
 	public static Encoder shooterArmEncoder = null;
 	public static RobotDrive driveTrain = new RobotDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
 	public static AHRS navX = new AHRS(SerialPort.Port.kUSB);
 	public static AnalogInput rangeFinder = new AnalogInput(0);
+	public static DigitalInput photoGate = new DigitalInput(8);
 	
 	static {
 		driveTrain.setInvertedMotor(MotorType.kFrontLeft, true);
