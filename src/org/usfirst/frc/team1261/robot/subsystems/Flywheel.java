@@ -4,6 +4,7 @@ import org.usfirst.frc.team1261.robot.RobotMap;
 import org.usfirst.frc.team1261.robot.commands.JoystickFlywheel;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -13,6 +14,7 @@ public class Flywheel extends Subsystem {
 
 	CANTalon flywheelLeftMotor = RobotMap.flywheelLeftMotor;
 	CANTalon flywheelRightMotor = RobotMap.flywheelRightMotor;
+	DigitalInput photoGate = RobotMap.photoGate;
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
@@ -47,6 +49,15 @@ public class Flywheel extends Subsystem {
 	 */
 	public CANTalon getRightFlywheelMotor() {
 		return flywheelRightMotor;
+	}
+	
+	/**
+	 * Gets the {@code boolean} that represents the status of the flywheel photogate.
+	 * 
+	 * @return {@code true} if the photogate is blocked, {@code false} otherwise.
+	 */
+	public boolean getPhotoGateStatus() {
+		return photoGate.get();
 	}
 
 }
