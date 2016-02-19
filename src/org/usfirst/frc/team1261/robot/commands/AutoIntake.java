@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class AutoIntake extends CommandGroup {
 	
+	// TODO: figure out these values
 	public static final double INTAKE_ARM_POSITION = 0.0;
 	public static final double SHOOTER_ARM_POSITION = 0.0;
     
