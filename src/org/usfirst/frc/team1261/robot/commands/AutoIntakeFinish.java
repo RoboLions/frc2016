@@ -7,9 +7,12 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class AutoIntake extends CommandGroup {
+public class AutoIntakeFinish extends CommandGroup {
     
-    public  AutoIntake() {
+	// TODO: figure out this values
+	public static final double INTAKE_ARM_POSITION = 0.0;
+	
+    public  AutoIntakeFinish() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -27,10 +30,6 @@ public class AutoIntake extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	requires(Robot.intakeArm);
-    	requires(Robot.intakeRoller);
-    	requires(Robot.shooterArm);
-    	requires(Robot.flywheel);
-    	addSequential(new AutoIntakeMain());
-    	addSequential(new AutoIntakeFinish());
+    	addSequential(new GoToIntakeArmPosition(INTAKE_ARM_POSITION));
     }
 }
