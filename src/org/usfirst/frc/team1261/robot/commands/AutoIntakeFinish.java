@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class AutoIntakeFinish extends CommandGroup {
     
-	// TODO: figure out this values
+	// TODO: figure out this value
 	public static final double INTAKE_ARM_POSITION = 0.0;
 	
     public  AutoIntakeFinish() {
