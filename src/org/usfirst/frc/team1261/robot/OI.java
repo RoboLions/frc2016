@@ -2,8 +2,6 @@
 package org.usfirst.frc.team1261.robot;
 
 import org.usfirst.frc.team1261.robot.commands.AutoIntake;
-import org.usfirst.frc.team1261.robot.commands.IntakeIn;
-import org.usfirst.frc.team1261.robot.commands.IntakeOut;
 import org.usfirst.frc.team1261.robot.commands.SpikeOutAndIn;
 import org.usfirst.frc.team1261.robot.triggers.DriverRightTriggerTrigger;
 import org.usfirst.frc.team1261.robot.triggers.ManipulatorLeftTriggerTrigger;
@@ -70,14 +68,11 @@ public class OI {
 	Joystick driverJoystick = new Joystick(DRIVER_JOYSTICK);
 	Joystick manipulatorJoystick = new Joystick(MANIPULATOR_JOYSTICK);
 	
-	Button intakeInButton = new JoystickButton(manipulatorJoystick, BUTTON_RIGHT_BUMPER);
-	Button intakeOutButton = new JoystickButton(manipulatorJoystick, BUTTON_LEFT_BUMPER);
+	Button prepareToShootButton = new JoystickButton(manipulatorJoystick, BUTTON_RIGHT_BUMPER);
 	Trigger spikeOutAndInButton = new DriverRightTriggerTrigger();
 	Trigger autoIntakeButton = new ManipulatorLeftTriggerTrigger();
 	
 	public OI() {
-		intakeInButton.whileHeld(new IntakeIn());
-		intakeOutButton.whileHeld(new IntakeOut());
 		spikeOutAndInButton.whenActive(new SpikeOutAndIn());
 		autoIntakeButton.whenActive(new AutoIntake());
 	}
