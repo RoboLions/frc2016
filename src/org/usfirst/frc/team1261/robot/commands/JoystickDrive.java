@@ -16,7 +16,7 @@ public class JoystickDrive extends Command {
 
 	public static final double SCALING_FACTOR = 0.75;
 
-	double correctedScalingFactor;
+	private double correctedScalingFactor;
 
 	public JoystickDrive() {
 		// Use requires() here to declare subsystem dependencies
