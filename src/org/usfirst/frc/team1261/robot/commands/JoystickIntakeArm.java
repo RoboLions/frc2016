@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class JoystickIntakeArm extends Command {
 	
 	public static final Joystick JOYSTICK = Robot.oi.getManipulatorJoystick();
-	public static final int JOYSTICK_AXIS = OI.AXIS_RIGHT_STICK_Y;
+	public static final int JOYSTICK_AXIS = OI.AXIS_LEFT_STICK_Y;
 
 	public static final double POWER_SCALING_FACTOR = -1.0;
 
