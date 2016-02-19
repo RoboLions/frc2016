@@ -45,6 +45,7 @@ public class RobotMap {
 	public static RobotDrive driveTrain = new RobotDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
 	public static AHRS navX = new AHRS(SerialPort.Port.kUSB);
 	public static AnalogInput rangeFinder = new AnalogInput(0);
+	public static DigitalInput intakeArmLimitSwitch = new DigitalInput(0);
 	public static DigitalInput photoGate = new DigitalInput(8);
 	
 	static {

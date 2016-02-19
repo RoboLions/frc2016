@@ -4,6 +4,7 @@ import org.usfirst.frc.team1261.robot.RobotMap;
 import org.usfirst.frc.team1261.robot.commands.JoystickIntakeArm;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
@@ -23,6 +24,32 @@ public class IntakeArm extends PIDSubsystem {
 
 	Encoder intakeArmEncoder = RobotMap.intakeArmEncoder;
 	CANTalon intakeArmMotor = RobotMap.intakeArmMotor;
+	DigitalInput intakeArmLimitSwitch = RobotMap.intakeArmLimitSwitch;
+
+	LimitSwitchStatus intakeArmLimitSwitchStatus = LimitSwitchStatus.OFF;
+
+	/**
+	 * {@code enum} defining possible statuses of the limit switch. Possible
+	 * values are {@link LimitSwitchStatus#UPPER UPPER},
+	 * {@link LimitSwitchStatus#LOWER LOWER}, or {@link LimitSwitchStatus#OFF
+	 * OFF}.
+	 */
+	public static enum LimitSwitchStatus {
+		/**
+		 * Indicates that the limit switch is pressed because the mechanism
+		 * pressing it is at its upper limit.
+		 */
+		UPPER,
+		/**
+		 * Indicates that the limit switch is pressed because the mechanism
+		 * pressing it is at its lower limit.
+		 */
+		LOWER,
+		/**
+		 * Indicates that the limit switch is not pressed.
+		 */
+		OFF
+	}
 
 	// Initialize your subsystem here
 	public IntakeArm() {
@@ -41,12 +68,39 @@ public class IntakeArm extends PIDSubsystem {
 	}
 
 	/**
-	 * Sets intake arm motor power to the specified power level.
+	 * Updates the limit switch status returned by
+	 * {@link IntakeArm#getLimitSwitchStatus getLimitSwitchStatus}.
+	 */
+	public void updateLimitSwitchStatus() {
+		if (intakeArmLimitSwitch.get()) {
+			if (intakeArmLimitSwitchStatus == LimitSwitchStatus.OFF) {
+				double currentSpeed = intakeArmMotor.get();
+				if (currentSpeed > 0.0) {
+					intakeArmLimitSwitchStatus = LimitSwitchStatus.UPPER;
+				} else if (currentSpeed < 0.0) {
+					intakeArmLimitSwitchStatus = LimitSwitchStatus.LOWER;
+				}
+			}
+		} else {
+			intakeArmLimitSwitchStatus = LimitSwitchStatus.OFF;
+		}
+	}
+
+	/**
+	 * Sets intake arm motor power to the specified power level. Note that this
+	 * method will automatically set the motor power to {@code 0.0} if the power
+	 * level indicates that the intake arm is trying to go in the direction of
+	 * the limit switch when the limit switch is pressed.
 	 * 
 	 * @param power
 	 *            The power, between -1.0 and 1.0.
 	 */
 	public void setIntakeArmMotorPower(double power) {
+		updateLimitSwitchStatus();
+		if ((power > 0.0 && intakeArmLimitSwitchStatus == LimitSwitchStatus.UPPER)
+				|| (power < 0.0 && intakeArmLimitSwitchStatus == LimitSwitchStatus.LOWER)) {
+			power = 0.0;
+		}
 		intakeArmMotor.set(power);
 	}
 
@@ -99,6 +153,19 @@ public class IntakeArm extends PIDSubsystem {
 	 */
 	public boolean onTarget() {
 		return (Math.abs(getPIDController().getError()) < TOLERANCE);
+	}
+
+	/**
+	 * Gets the {@link LimitSwitchStatus} that represents the status of the
+	 * intake arm limit switch.
+	 * 
+	 * @return {@link LimitSwitchStatus#UPPER UPPER},
+	 *         {@link LimitSwitchStatus#LOWER LOWER}, or
+	 *         {@link LimitSwitchStatus#OFF OFF}, depending on the status of the
+	 *         limit switch.
+	 */
+	public LimitSwitchStatus getLimitSwitchStatus() {
+		return intakeArmLimitSwitchStatus;
 	}
 
 	protected double returnPIDInput() {
