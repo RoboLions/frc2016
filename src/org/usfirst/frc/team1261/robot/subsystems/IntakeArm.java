@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
 /**
- * The {@link PIDSubsystem} representing the intake.
+ * The {@link PIDSubsystem} representing the intake arm.
  */
-public class Intake extends PIDSubsystem {
+public class IntakeArm extends PIDSubsystem {
 
 	public static final double kP = 0.001;
 	public static final double kI = 0.0;
@@ -18,16 +18,15 @@ public class Intake extends PIDSubsystem {
 	public static final double TOLERANCE = 0.0;
 
 	Encoder intakeArmEncoder = RobotMap.intakeArmEncoder;
-	CANTalon intakeMotor = RobotMap.intakeMotor;
 	CANTalon intakeArmMotor = RobotMap.intakeArmMotor;
 
 	// Initialize your subsystem here
-	public Intake() {
+	public IntakeArm() {
 		// Use these to get going:
 		// setSetpoint() - Sets where the PID controller should move the system
 		// to
 		// enable() - Enables the PID controller.
-		super("Intake", kP, kI, kD);
+		super("IntakeArm", kP, kI, kD);
 		setAbsoluteTolerance(TOLERANCE);
 	}
 
@@ -38,16 +37,6 @@ public class Intake extends PIDSubsystem {
 	}
 
 	/**
-	 * Sets intake motor power to the specified power level.
-	 * 
-	 * @param power
-	 *            The power, between -1.0 and 1.0.
-	 */
-	public void setIntakeMotorPower(double power) {
-		intakeMotor.set(power);
-	}
-
-	/**
 	 * Sets intake arm motor power to the specified power level.
 	 * 
 	 * @param power
@@ -55,15 +44,6 @@ public class Intake extends PIDSubsystem {
 	 */
 	public void setIntakeArmMotorPower(double power) {
 		intakeArmMotor.set(power);
-	}
-
-	/**
-	 * Gets the {@link CANTalon} that represents the intake motor.
-	 * 
-	 * @return The {@link CANTalon} associated with the intake motor.
-	 */
-	public CANTalon getIntakeMotor() {
-		return intakeMotor;
 	}
 
 	/**
@@ -105,7 +85,7 @@ public class Intake extends PIDSubsystem {
 
 	/**
 	 * Return {@code true} if the error is within the tolerance determined by
-	 * {@link Intake#TOLERANCE}.<br>
+	 * {@link IntakeArm#TOLERANCE}.<br>
 	 * <em>This method overrides {@link PIDSubsystem}'s
 	 * {@link PIDSubsystem#onTarget onTarget} method as a workaround for
 	 * <a href="https://usfirst.collab.net/sf/tracker/do/viewArtifact/projects.wpilib/tracker.4_defects/artf4812">

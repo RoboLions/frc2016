@@ -32,7 +32,7 @@ public class RobotMap {
 	public static CANTalon rearLeftMotor = new CANTalon(4);
 	public static CANTalon frontRightMotor = new CANTalon(1);
 	public static CANTalon rearRightMotor = new CANTalon(2);
-	public static CANTalon intakeMotor = new CANTalon(8);
+	public static CANTalon intakeRollerMotor = new CANTalon(8);
 	public static CANTalon intakeArmMotor = new CANTalon(9);
 	public static CANTalon flywheelLeftMotor = new CANTalon(5);
 	public static CANTalon flywheelRightMotor = new CANTalon(6);

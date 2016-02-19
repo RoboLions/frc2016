@@ -6,24 +6,24 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class IntakeOut extends Command {
+public class FlywheelOut extends Command {
 	
-	public static final double POWER = -1.0;
+	public static final double POWER = 1.0;
 
-    public IntakeOut() {
+    public FlywheelOut() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.intakeRoller);
+    	requires(Robot.flywheel);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.intakeRoller.stop();
+    	Robot.flywheel.stop();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.intakeRoller.setIntakeRollerMotorPower(POWER);
+    	Robot.flywheel.setFlywheelPower(POWER);
     }
 
     // Make this return true when this Command no longer needs to run execute()
