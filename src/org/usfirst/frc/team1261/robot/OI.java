@@ -74,10 +74,10 @@ public class OI {
 	Joystick manipulatorJoystick = new Joystick(MANIPULATOR_JOYSTICK);
 	
 	Button prepareToShootButton = new JoystickButton(manipulatorJoystick, BUTTON_RIGHT_BUMPER);
-	Trigger spikeOutAndInButton = new DriverRightTriggerTrigger();
-	Trigger autoIntakeButton = new ManipulatorLeftTriggerTrigger();
-	Trigger intakeArmSetpointDownButton = new ManipulatorDPadDownTrigger();
-	Trigger intakeArmSetpointUpButton = new ManipulatorDPadUpTrigger();
+	Trigger spikeOutAndInButton = new DriverRightTriggerTrigger(driverJoystick);
+	Trigger autoIntakeButton = new ManipulatorLeftTriggerTrigger(manipulatorJoystick);
+	Trigger intakeArmSetpointDownButton = new ManipulatorDPadDownTrigger(manipulatorJoystick);
+	Trigger intakeArmSetpointUpButton = new ManipulatorDPadUpTrigger(manipulatorJoystick);
 	
 	public OI() {
 		prepareToShootButton.whenPressed(new PrepareToShoot());
