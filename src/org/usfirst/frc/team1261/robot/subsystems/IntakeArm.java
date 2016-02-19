@@ -17,6 +17,10 @@ public class IntakeArm extends PIDSubsystem {
 	public static final double kD = 0.0;
 	public static final double TOLERANCE = 0.0;
 
+	// TODO: figure out these values
+	public static final double[] SETPOINTS = { 0.0, 200.0, 400.0, 600.0 };
+	// This array needs to be in ascending order for other code to work.
+
 	Encoder intakeArmEncoder = RobotMap.intakeArmEncoder;
 	CANTalon intakeArmMotor = RobotMap.intakeArmMotor;
 
