@@ -4,10 +4,12 @@ package org.usfirst.frc.team1261.robot;
 import org.usfirst.frc.team1261.robot.commands.IntakeIn;
 import org.usfirst.frc.team1261.robot.commands.IntakeOut;
 import org.usfirst.frc.team1261.robot.commands.SpikeOutAndIn;
+import org.usfirst.frc.team1261.robot.triggers.DriverRightTriggerTrigger;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.buttons.Trigger;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -68,12 +70,12 @@ public class OI {
 	
 	Button intakeInButton = new JoystickButton(manipulatorJoystick, BUTTON_RIGHT_BUMPER);
 	Button intakeOutButton = new JoystickButton(manipulatorJoystick, BUTTON_LEFT_BUMPER);
-	Button spikeOutAndInButton = new JoystickButton(driverJoystick, BUTTON_RIGHT_BUMPER);
+	Trigger spikeOutAndInButton = new DriverRightTriggerTrigger();
 	
 	public OI() {
 		intakeInButton.whileHeld(new IntakeIn());
 		intakeOutButton.whileHeld(new IntakeOut());
-		spikeOutAndInButton.whenPressed(new SpikeOutAndIn());
+		spikeOutAndInButton.whenActive(new SpikeOutAndIn());
 	}
 	
 	public Joystick getDriverJoystick() {
