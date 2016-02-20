@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class FlywheelIn extends Command {
 	
-	public static final double POWER = -0.35;
+	public static final double POWER = -0.42;
 
     public FlywheelIn() {
         // Use requires() here to declare subsystem dependencies
