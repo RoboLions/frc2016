@@ -24,7 +24,7 @@ public class JoystickShooterArm extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.shooterArm.stop();
+    	Robot.shooterArm.disablePIDController();
     }
 
     // Called repeatedly when this Command is scheduled to run

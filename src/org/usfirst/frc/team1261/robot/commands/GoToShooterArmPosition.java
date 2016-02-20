@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1261.robot.commands;
 
 import org.usfirst.frc.team1261.robot.Robot;
+import org.usfirst.frc.team1261.robot.subsystems.ShooterArm;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -20,8 +21,7 @@ public class GoToShooterArmPosition extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.shooterArm.stop();
-    	Robot.shooterArm.enable();
+    	Robot.shooterArm.setPIDController(ShooterArm.ShooterArmPIDController.ANGLE);
     	Robot.shooterArm.setSetpoint(position);
     }
 
