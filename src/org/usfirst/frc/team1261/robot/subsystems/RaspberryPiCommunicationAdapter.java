@@ -3,14 +3,14 @@ package org.usfirst.frc.team1261.robot.subsystems;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 /**
- *
+ * A class that retrieves vision tracking data from the Raspberry Pi.
  */
 class RaspberryPiCommunicationAdapter {
 
 	static class NoContoursFoundException extends Exception {
-
 		/**
-		 * 
+		 * Indicates that the vision processor was unable to identify any
+		 * contours representing goals.
 		 */
 		private static final long serialVersionUID = 8913380034267672587L;
 
@@ -29,17 +29,37 @@ class RaspberryPiCommunicationAdapter {
 	public static final double Y_AXIS_TOLERANCE = Y_IMAGE_SIZE * TOLERANCE_FACTOR;
 	public static final double X_AXIS_TOLERANCE = X_IMAGE_SIZE * TOLERANCE_FACTOR;
 
-	// Put methods for controlling this subsystem
-	// here. Call these from Commands.
-
+	/**
+	 * Gets the y-axis offset of the center of the goal from where the shooter
+	 * arm is pointing.
+	 * 
+	 * @return The y-axis offset of the center of the goal in pixels.
+	 * @throws NoContoursFoundException
+	 *             If no contours representing goals can be identified.
+	 */
 	public static double getTargetYOffset() throws NoContoursFoundException {
 		return Y_AXIS_TARGET - getY();
 	}
 
+	/**
+	 * Gets the x-axis offset of the center of the goal from where the shooter
+	 * arm is pointing.
+	 * 
+	 * @return The x-axis offset of the center of the goal in pixels.
+	 * @throws NoContoursFoundException
+	 *             If no contours representing goals can be identified.
+	 */
 	public static double getTargetXOffset() throws NoContoursFoundException {
 		return X_AXIS_TARGET - getX();
 	}
 
+	/**
+	 * Gets the y-axis position of the center of the goal.
+	 * 
+	 * @return The y-axis position of the center of the goal in pixels.
+	 * @throws NoContoursFoundException
+	 *             If no contours representing goals can be identified.
+	 */
 	public static double getY() throws NoContoursFoundException {
 		boolean isContourFound = CONTOUR_TABLE.getBoolean("contourFound", false);
 		if (!isContourFound) {
@@ -49,6 +69,13 @@ class RaspberryPiCommunicationAdapter {
 		}
 	}
 
+	/**
+	 * Gets the x-axis position of the center of the goal.
+	 * 
+	 * @return The x-axis position of the center of the goal in pixels.
+	 * @throws NoContoursFoundException
+	 *             If no contours representing goals can be identified.
+	 */
 	public static double getX() throws NoContoursFoundException {
 		boolean isContourFound = CONTOUR_TABLE.getBoolean("contourFound", false);
 		if (!isContourFound) {
@@ -58,6 +85,13 @@ class RaspberryPiCommunicationAdapter {
 		}
 	}
 
+	/**
+	 * Gets the area of the contour representing the goal.
+	 * 
+	 * @return The area of the contour representing the goal in pixels.
+	 * @throws NoContoursFoundException
+	 *             If no contours representing goals can be identified.
+	 */
 	public static double getArea() throws NoContoursFoundException {
 		boolean isContourFound = CONTOUR_TABLE.getBoolean("contourFound", false);
 		if (!isContourFound) {
