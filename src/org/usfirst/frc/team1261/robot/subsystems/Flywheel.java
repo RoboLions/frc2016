@@ -50,14 +50,24 @@ public class Flywheel extends Subsystem {
 	public CANTalon getRightFlywheelMotor() {
 		return flywheelRightMotor;
 	}
-	
+
 	/**
-	 * Gets the {@code boolean} that represents the status of the flywheel photogate.
+	 * Gets the {@code boolean} that represents the status of the flywheel
+	 * photogate.
 	 * 
-	 * @return {@code true} if the photogate is blocked, {@code false} otherwise.
+	 * @return {@code true} if the photogate is blocked, {@code false}
+	 *         otherwise.
 	 */
 	public boolean getPhotoGateStatus() {
 		return photoGate.get();
+	}
+
+	/**
+	 * Ceases function in the motors correlated with the flywheel, causing a
+	 * general end to motion of the flywheel.
+	 */
+	public void stop() {
+		setFlywheelPower(0.0);
 	}
 
 }

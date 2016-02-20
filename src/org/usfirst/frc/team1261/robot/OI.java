@@ -1,13 +1,20 @@
 
 package org.usfirst.frc.team1261.robot;
 
-import org.usfirst.frc.team1261.robot.commands.IntakeIn;
-import org.usfirst.frc.team1261.robot.commands.IntakeOut;
+import org.usfirst.frc.team1261.robot.commands.BothMotorIntake;
+import org.usfirst.frc.team1261.robot.commands.IntakeArmSetpointDown;
+import org.usfirst.frc.team1261.robot.commands.IntakeArmSetpointUp;
+import org.usfirst.frc.team1261.robot.commands.PrepareToShoot;
 import org.usfirst.frc.team1261.robot.commands.SpikeOutAndIn;
+import org.usfirst.frc.team1261.robot.triggers.DriverRightTriggerTrigger;
+import org.usfirst.frc.team1261.robot.triggers.ManipulatorDPadDownTrigger;
+import org.usfirst.frc.team1261.robot.triggers.ManipulatorDPadUpTrigger;
+import org.usfirst.frc.team1261.robot.triggers.ManipulatorLeftTriggerTrigger;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.buttons.Trigger;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -66,14 +73,18 @@ public class OI {
 	Joystick driverJoystick = new Joystick(DRIVER_JOYSTICK);
 	Joystick manipulatorJoystick = new Joystick(MANIPULATOR_JOYSTICK);
 	
-	Button intakeInButton = new JoystickButton(manipulatorJoystick, BUTTON_RIGHT_BUMPER);
-	Button intakeOutButton = new JoystickButton(manipulatorJoystick, BUTTON_LEFT_BUMPER);
-	Button spikeOutAndInButton = new JoystickButton(driverJoystick, BUTTON_RIGHT_BUMPER);
+	Button prepareToShootButton = new JoystickButton(manipulatorJoystick, BUTTON_RIGHT_BUMPER);
+	Trigger spikeOutAndInButton = new DriverRightTriggerTrigger(driverJoystick);
+	Trigger autoIntakeButton = new ManipulatorLeftTriggerTrigger(manipulatorJoystick);
+	Trigger intakeArmSetpointDownButton = new ManipulatorDPadDownTrigger(manipulatorJoystick);
+	Trigger intakeArmSetpointUpButton = new ManipulatorDPadUpTrigger(manipulatorJoystick);
 	
 	public OI() {
-		intakeInButton.whileHeld(new IntakeIn());
-		intakeOutButton.whileHeld(new IntakeOut());
-		spikeOutAndInButton.whenPressed(new SpikeOutAndIn());
+		prepareToShootButton.whenPressed(new PrepareToShoot());
+		spikeOutAndInButton.whenActive(new SpikeOutAndIn());
+		autoIntakeButton.whileActive(new BothMotorIntake());
+		intakeArmSetpointDownButton.whenActive(new IntakeArmSetpointDown());
+		intakeArmSetpointUpButton.whenActive(new IntakeArmSetpointUp());
 	}
 	
 	public Joystick getDriverJoystick() {

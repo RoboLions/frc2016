@@ -13,17 +13,17 @@ public class IntakeIn extends Command {
     public IntakeIn() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.intake);
+    	requires(Robot.intakeRoller);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.intake.setIntakeMotorPower(0.0);
+    	Robot.intakeRoller.stop();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.intake.setIntakeMotorPower(POWER);
+    	Robot.intakeRoller.setIntakeRollerMotorPower(POWER);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -33,7 +33,7 @@ public class IntakeIn extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.intake.setIntakeMotorPower(0.0);
+    	Robot.intakeRoller.stop();
     }
 
     // Called when another command which requires one or more of the same

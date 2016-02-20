@@ -26,10 +26,6 @@ public class AutonomousCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveTrain.getFrontRightMotor().set(1.0);
-    	Robot.driveTrain.getRearRightMotor().set(1.0);
-    	Robot.driveTrain.getFrontLeftMotor().set(1.0);
-    	Robot.driveTrain.getRearLeftMotor().set(1.0);
     }
 
     // Make this return true when this Command no longer needs to run execute()

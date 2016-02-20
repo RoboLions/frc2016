@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class JoystickShooterArm extends Command {
 	
 	public static final Joystick JOYSTICK = Robot.oi.getManipulatorJoystick();
-	public static final int JOYSTICK_AXIS = OI.AXIS_LEFT_STICK_Y;
+	public static final int JOYSTICK_AXIS = OI.AXIS_RIGHT_STICK_Y;
 
 	public static final double POWER_SCALING_FACTOR = -1.0;
 
@@ -24,7 +24,7 @@ public class JoystickShooterArm extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.shooterArm.setShooterArmMotorPower(0.0);
+    	Robot.shooterArm.stop();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -39,7 +39,7 @@ public class JoystickShooterArm extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.shooterArm.setShooterArmMotorPower(0.0);
+    	Robot.shooterArm.stop();
     }
 
     // Called when another command which requires one or more of the same
