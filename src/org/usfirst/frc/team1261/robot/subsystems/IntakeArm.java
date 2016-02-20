@@ -27,6 +27,7 @@ public class IntakeArm extends PIDSubsystem {
 	DigitalInput intakeArmLimitSwitch = RobotMap.intakeArmLimitSwitch;
 
 	LimitSwitchStatus intakeArmLimitSwitchStatus = LimitSwitchStatus.OFF;
+	double lastPower = 0.0;
 
 	/**
 	 * {@code enum} defining possible statuses of the limit switch. Possible
@@ -74,10 +75,9 @@ public class IntakeArm extends PIDSubsystem {
 	public void updateLimitSwitchStatus() {
 		if (intakeArmLimitSwitch.get()) {
 			if (intakeArmLimitSwitchStatus == LimitSwitchStatus.OFF) {
-				double currentSpeed = intakeArmMotor.get();
-				if (currentSpeed > 0.0) {
+				if (lastPower > 0.0) {
 					intakeArmLimitSwitchStatus = LimitSwitchStatus.UPPER;
-				} else if (currentSpeed < 0.0) {
+				} else if (lastPower < 0.0) {
 					intakeArmLimitSwitchStatus = LimitSwitchStatus.LOWER;
 				}
 			}
@@ -97,9 +97,12 @@ public class IntakeArm extends PIDSubsystem {
 	 */
 	public void setIntakeArmMotorPower(double power) {
 		updateLimitSwitchStatus();
-		if ((power > 0.0 && intakeArmLimitSwitchStatus == LimitSwitchStatus.UPPER)
-				|| (power < 0.0 && intakeArmLimitSwitchStatus == LimitSwitchStatus.LOWER)) {
-			power = 0.0;
+//		if ((power > 0.0 && intakeArmLimitSwitchStatus == LimitSwitchStatus.UPPER)
+//				|| (power < 0.0 && intakeArmLimitSwitchStatus == LimitSwitchStatus.LOWER)) {
+//			power = 0.0;
+//		}
+		if (power != 0.0) {
+			lastPower = power;
 		}
 		intakeArmMotor.set(power);
 	}

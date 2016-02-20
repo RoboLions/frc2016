@@ -38,22 +38,22 @@ public class RobotMap {
 	public static CANTalon flywheelRightMotor = new CANTalon(6);
 	public static CANTalon shooterArmMotor = new CANTalon(7);
 	public static Relay spike = new Relay(0);
-	public static Encoder rightEncoder = new Encoder(0, 1);
-	public static Encoder leftEncoder = new Encoder(4, 5);
-	public static Encoder shooterArmEncoder = null;
-	public static Encoder intakeArmEncoder = null;
+	public static Encoder rightDriveEncoder = new Encoder(6, 7);
+	public static Encoder leftDriveEncoder = new Encoder(4, 5);
+	public static Encoder shooterArmEncoder = new Encoder(2, 3);
+	public static Encoder intakeArmEncoder = new Encoder(8, 9);
 	public static RobotDrive driveTrain = new RobotDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
 	public static AHRS navX = new AHRS(SerialPort.Port.kUSB);
-	public static AnalogInput rangeFinder = new AnalogInput(0);
-	public static DigitalInput intakeArmLimitSwitch = new DigitalInput(0);
-	public static DigitalInput photoGate = new DigitalInput(8);
+	public static AnalogInput rangeFinder = null;
+	public static DigitalInput intakeArmLimitSwitch = new DigitalInput(1);
+	public static DigitalInput photoGate = new DigitalInput(10);
 	
 	static {
 		driveTrain.setInvertedMotor(MotorType.kFrontLeft, true);
 		driveTrain.setInvertedMotor(MotorType.kRearLeft, true);
 		driveTrain.setInvertedMotor(MotorType.kFrontRight, true);
 		driveTrain.setInvertedMotor(MotorType.kRearRight, true);
-		rangeFinder.setAverageBits(0);
-		rangeFinder.setOversampleBits(0);
+//		rangeFinder.setAverageBits(0);
+//		rangeFinder.setOversampleBits(0);
 	}
 }

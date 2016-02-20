@@ -20,8 +20,8 @@ public class DriveTrain extends Subsystem {
 	CANTalon rearLeftMotor = RobotMap.rearLeftMotor;
 	CANTalon frontRightMotor = RobotMap.frontRightMotor;
 	CANTalon rearRightMotor = RobotMap.rearRightMotor;
-	Encoder leftEncoder = RobotMap.leftEncoder;
-	Encoder rightEncoder = RobotMap.rightEncoder;
+	Encoder leftEncoder = RobotMap.leftDriveEncoder;
+	Encoder rightEncoder = RobotMap.rightDriveEncoder;
 	RobotDrive robotDrive = RobotMap.driveTrain;
     AHRS navX = RobotMap.navX;
 

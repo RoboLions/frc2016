@@ -178,6 +178,10 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("Left distance traveled", Robot.driveTrain.leftDistanceTraveled());
     	SmartDashboard.putNumber("Right distance traveled", Robot.driveTrain.rightDistanceTraveled());
     	SmartDashboard.putNumber("Distance traveled", Robot.driveTrain.distanceTraveled());
+    	SmartDashboard.putNumber("Shooter arm encoder", Robot.shooterArm.getAngle());
+    	SmartDashboard.putNumber("Intake arm encoder", Robot.intakeArm.getAngle());
     	SmartDashboard.putBoolean("Shooter loaded", Robot.flywheel.getPhotoGateStatus());
+    	SmartDashboard.putBoolean("Intake upper limit", Robot.intakeArm.getLimitSwitchStatus() == IntakeArm.LimitSwitchStatus.UPPER);
+    	SmartDashboard.putBoolean("Intake lower limit", Robot.intakeArm.getLimitSwitchStatus() == IntakeArm.LimitSwitchStatus.LOWER);
     }
 }

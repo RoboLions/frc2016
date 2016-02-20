@@ -1,14 +1,14 @@
 
 package org.usfirst.frc.team1261.robot;
 
-import org.usfirst.frc.team1261.robot.commands.AutoIntake;
+import org.usfirst.frc.team1261.robot.commands.BothMotorIntake;
 import org.usfirst.frc.team1261.robot.commands.IntakeArmSetpointDown;
 import org.usfirst.frc.team1261.robot.commands.IntakeArmSetpointUp;
 import org.usfirst.frc.team1261.robot.commands.PrepareToShoot;
 import org.usfirst.frc.team1261.robot.commands.SpikeOutAndIn;
+import org.usfirst.frc.team1261.robot.triggers.DriverRightTriggerTrigger;
 import org.usfirst.frc.team1261.robot.triggers.ManipulatorDPadDownTrigger;
 import org.usfirst.frc.team1261.robot.triggers.ManipulatorDPadUpTrigger;
-import org.usfirst.frc.team1261.robot.triggers.DriverRightTriggerTrigger;
 import org.usfirst.frc.team1261.robot.triggers.ManipulatorLeftTriggerTrigger;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -82,7 +82,7 @@ public class OI {
 	public OI() {
 		prepareToShootButton.whenPressed(new PrepareToShoot());
 		spikeOutAndInButton.whenActive(new SpikeOutAndIn());
-		autoIntakeButton.whenActive(new AutoIntake());
+		autoIntakeButton.whileActive(new BothMotorIntake());
 		intakeArmSetpointDownButton.whenActive(new IntakeArmSetpointDown());
 		intakeArmSetpointUpButton.whenActive(new IntakeArmSetpointUp());
 	}
