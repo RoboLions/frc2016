@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1261.robot.commands;
 
+import org.usfirst.frc.team1261.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -25,6 +27,8 @@ public class AutoElevateAlign extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
+    	requires(Robot.shooterArm);
+    	requires(Robot.driveTrain);
     	addParallel(new AutoElevate());
     	addParallel(new AutoAlign()); 
     	
