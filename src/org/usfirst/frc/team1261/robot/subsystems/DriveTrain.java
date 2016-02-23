@@ -41,6 +41,10 @@ public class DriveTrain extends Subsystem {
 		 */
 		ANGLE,
 		/**
+		 * A vision-tracking-based {@link PIDController} for the {@link DriveTrain}.
+		 */
+		VISION_TRACK,
+		/**
 		 * A {@link PIDController} for the {@link DriveTrain} that does nothing.
 		 */
 		DISABLED;
@@ -51,6 +55,8 @@ public class DriveTrain extends Subsystem {
 				return new DistanceBasedDriveTrainPIDController(driveTrain);
 			case ANGLE:
 				return new AngleBasedDriveTrainPIDController(driveTrain);
+			case VISION_TRACK:
+				return new VisionTrackingBasedDriveTrainPIDController(driveTrain);
 			default:
 				return new DisabledDriveTrainPIDController(driveTrain);
 			}
