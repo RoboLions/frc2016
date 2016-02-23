@@ -30,6 +30,11 @@ class RaspberryPiCommunicationAdapter {
 	public static final double X_AXIS_TOLERANCE = X_IMAGE_SIZE * TOLERANCE_FACTOR;
 
 	/**
+	 * Value used for x, y, and area of target when it cannot be retrieved.
+	 */
+	public static final double DEFAULT_VALUE = 0.0;
+
+	/**
 	 * Gets the y-axis offset of the center of the goal from where the shooter
 	 * arm is pointing.
 	 * 
@@ -65,7 +70,7 @@ class RaspberryPiCommunicationAdapter {
 		if (!isContourFound) {
 			throw new NoContoursFoundException();
 		} else {
-			return CONTOUR_TABLE.getNumber("y", 0.0);
+			return CONTOUR_TABLE.getNumber("y", DEFAULT_VALUE);
 		}
 	}
 
@@ -81,7 +86,7 @@ class RaspberryPiCommunicationAdapter {
 		if (!isContourFound) {
 			throw new NoContoursFoundException();
 		} else {
-			return CONTOUR_TABLE.getNumber("x", 0.0);
+			return CONTOUR_TABLE.getNumber("x", DEFAULT_VALUE);
 		}
 	}
 
@@ -97,7 +102,7 @@ class RaspberryPiCommunicationAdapter {
 		if (!isContourFound) {
 			throw new NoContoursFoundException();
 		} else {
-			return CONTOUR_TABLE.getNumber("area", 0.0);
+			return CONTOUR_TABLE.getNumber("area", DEFAULT_VALUE);
 		}
 	}
 }

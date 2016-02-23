@@ -15,6 +15,11 @@ class VisionTrackingBasedShooterArmPIDController extends PIDController {
 	public static final double kD = 0.0;
 	public static final double DEFAULT_TOLERANCE = RaspberryPiCommunicationAdapter.Y_AXIS_TOLERANCE;
 
+	/**
+	 * Error value used for PID when no target can be found.
+	 */
+	public static final double DEFAULT_ERROR = 0.0;
+
 	public VisionTrackingBasedShooterArmPIDController(ShooterArm shooterArm) {
 		super(kP, kI, kD, new DisplacementPIDSource() {
 			@Override
@@ -22,7 +27,7 @@ class VisionTrackingBasedShooterArmPIDController extends PIDController {
 				try {
 					return RaspberryPiCommunicationAdapter.getTargetYOffset();
 				} catch (RaspberryPiCommunicationAdapter.NoContoursFoundException e) {
-					return 0.0;
+					return DEFAULT_ERROR;
 				}
 			}
 		}, new PIDOutput() {
@@ -33,7 +38,7 @@ class VisionTrackingBasedShooterArmPIDController extends PIDController {
 		});
 		setAbsoluteTolerance(DEFAULT_TOLERANCE);
 	}
-	
+
 	/**
 	 * Return {@code true} if the error is within the tolerance determined by
 	 * {@link VisionTrackingBasedShooterArmPIDController#DEFAULT_TOLERANCE}.<br>

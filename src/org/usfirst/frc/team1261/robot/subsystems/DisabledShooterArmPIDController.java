@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
 /**
- * A distance-based {@link ShooterArm} {@link PIDController}.
+ * A {@link PIDController} for the {@link ShooterArm} that does nothing.
  */
 class DisabledShooterArmPIDController extends PIDController {
 
@@ -14,11 +14,16 @@ class DisabledShooterArmPIDController extends PIDController {
 	public static final double kD = 0.0;
 	public static final double DEFAULT_TOLERANCE = 0.0;
 
+	/**
+	 * Error value used for PID because this PID controller has no effect.
+	 */
+	public static final double DEFAULT_ERROR = 0.0;
+
 	public DisabledShooterArmPIDController(ShooterArm shooterArm) {
 		super(kP, kI, kD, new DisplacementPIDSource() {
 			@Override
 			public double pidGet() {
-				return 0.0;
+				return DEFAULT_ERROR;
 			}
 		}, new PIDOutput() {
 			@Override
@@ -26,7 +31,7 @@ class DisabledShooterArmPIDController extends PIDController {
 			}
 		});
 	}
-	
+
 	/**
 	 * Return {@code true} if the error is within the tolerance determined by
 	 * {@link DisabledShooterArmPIDController#DEFAULT_TOLERANCE}.<br>
