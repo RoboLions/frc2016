@@ -1,36 +1,47 @@
 package org.usfirst.frc.team1261.robot.commands;
 
+import org.usfirst.frc.team1261.robot.Robot;
+import org.usfirst.frc.team1261.robot.subsystems.DriveTrain;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *TODO
+ *
  */
 public class AutoAlign extends Command {
 
-    public AutoAlign() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    }
+	public static final double X_AXIS_TARGET = 0.0;
 
-    // Called just before this Command runs the first time
-    protected void initialize() {
-    }
+	public AutoAlign() {
+		// Use requires() here to declare subsystem dependencies
+		// eg. requires(chassis);
+		requires(Robot.driveTrain);
+	}
 
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    }
+	// Called just before this Command runs the first time
+	protected void initialize() {
+		Robot.driveTrain.setPIDController(DriveTrain.DriveTrainPIDController.VISION_TRACK);
+		Robot.driveTrain.setSetpoint(X_AXIS_TARGET);
 
-    // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-        return false;
-    }
+	}
 
-    // Called once after isFinished returns true
-    protected void end() {
-    }
+	// Called repeatedly when this Command is scheduled to run
+	protected void execute() {
+	}
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
-    }
+	// Make this return true when this Command no longer needs to run execute()
+	protected boolean isFinished() {
+		return Robot.driveTrain.onTarget();
+	}
+
+	// Called once after isFinished returns true
+	protected void end() {
+		Robot.driveTrain.stop();
+	}
+
+	// Called when another command which requires one or more of the same
+	// subsystems is scheduled to run
+	protected void interrupted() {
+		end();
+	}
 }
