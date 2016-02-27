@@ -7,13 +7,12 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
  */
 class RaspberryPiCommunicationAdapter {
 
+	/**
+	 * Indicates that the vision processor was unable to identify any
+	 * contours representing goals.
+	 */
 	static class NoContoursFoundException extends Exception {
-		/**
-		 * Indicates that the vision processor was unable to identify any
-		 * contours representing goals.
-		 */
 		private static final long serialVersionUID = 8913380034267672587L;
-
 	}
 
 	public static final NetworkTable CONTOUR_TABLE = NetworkTable.getTable("RaspberryPi");
