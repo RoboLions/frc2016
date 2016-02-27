@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class JoystickFlywheel extends Command {
 
-	public static final Joystick JOYSTICK = Robot.oi.getManipulatorJoystick();
+	public static final Joystick JOYSTICK = OI.getManipulatorJoystick();
 	public static final int JOYSTICK_AXIS = OI.AXIS_RIGHT_TRIGGER;
 
 	public static final double POWER_SCALING_FACTOR = 1.0;

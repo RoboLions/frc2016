@@ -33,10 +33,9 @@ public class AutoElevateAlignShoot extends CommandGroup {
 		requires(Robot.driveTrain);
 		requires(Robot.flywheel);
 		requires(Robot.spikePuncher);
-		FlywheelOut flywheelOutCommand = new FlywheelOut();
-		addParallel(flywheelOutCommand);
+		addParallel(new FlywheelOut());
 		addSequential(new CommandWithMinimumDuration(new AutoElevateAlign(), MINIMUM_SPIKE_DELAY));
 		addSequential(new SpikeOutAndIn());
-		flywheelOutCommand.cancel();
+		cancel();
 	}
 }

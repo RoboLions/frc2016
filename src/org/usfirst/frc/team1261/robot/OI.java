@@ -72,8 +72,8 @@ public class OI {
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
 	
-	Joystick driverJoystick = new Joystick(DRIVER_JOYSTICK);
-	Joystick manipulatorJoystick = new Joystick(MANIPULATOR_JOYSTICK);
+	static Joystick driverJoystick = new Joystick(DRIVER_JOYSTICK);
+	static Joystick manipulatorJoystick = new Joystick(MANIPULATOR_JOYSTICK);
 	
 	Button prepareToShootButton = new JoystickButton(manipulatorJoystick, BUTTON_RIGHT_BUMPER);
 	Button trackElevateAlignButton = new JoystickButton(driverJoystick, BUTTON_A);
@@ -93,11 +93,11 @@ public class OI {
 		intakeArmSetpointUpButton.whenActive(new IntakeArmSetpointUp());
 	}
 	
-	public Joystick getDriverJoystick() {
+	public static Joystick getDriverJoystick() {
 		return driverJoystick;
 	}
 	
-	public Joystick getManipulatorJoystick() {
+	public static Joystick getManipulatorJoystick() {
 		return manipulatorJoystick;
 	}
 }
