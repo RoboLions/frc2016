@@ -1,7 +1,11 @@
+// NOTE TO ALL FUTURE PROGRAMMERS LOOKING AT THIS CODE:
+// I'm sorry.
+// -Rishov
 
 package org.usfirst.frc.team1261.robot;
 
 import org.usfirst.frc.team1261.robot.commands.AutonomousCommand;
+import org.usfirst.frc.team1261.robot.commands.DriveForward;
 import org.usfirst.frc.team1261.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1261.robot.subsystems.Flywheel;
 import org.usfirst.frc.team1261.robot.subsystems.IntakeArm;
@@ -27,14 +31,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 
 	public static final int IMAGE_QUALITY = 50;
-	public static final String CAMERA_ID = "cam0";
+	public static final String CAMERA_ID = null;
 
-	public static final DriveTrain driveTrain = new DriveTrain();
-	public static final IntakeArm intakeArm = new IntakeArm();
-	public static final IntakeRoller intakeRoller = new IntakeRoller();
-	public static final Flywheel flywheel = new Flywheel();
-	public static final ShooterArm shooterArm = new ShooterArm();
-	public static final SpikePuncher spikePuncher = new SpikePuncher();
+	public static DriveTrain driveTrain;
+	public static IntakeArm intakeArm;
+	public static IntakeRoller intakeRoller;
+	public static Flywheel flywheel;
+	public static ShooterArm shooterArm;
+	public static SpikePuncher spikePuncher;
 
 	public static OI oi;
 
@@ -50,12 +54,24 @@ public class Robot extends IterativeRobot {
 
 	CameraServer server;
 
+	public Robot() {
+		RobotMap.init();
+
+		driveTrain = new DriveTrain();
+		intakeArm = new IntakeArm();
+		intakeRoller = new IntakeRoller();
+		flywheel = new Flywheel();
+		shooterArm = new ShooterArm();
+		spikePuncher = new SpikePuncher();
+
+		oi = new OI();
+	}
+
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
-		oi = new OI();
 		// chooser = new SendableChooser();
 		// chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
@@ -89,11 +105,14 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Shot Location Chooser", shotLocationChooser);
 		SmartDashboard.putData("Ending Position Chooser", endingPositionChooser);
 		SmartDashboard.putData("Defense Type Chooser", defenseTypeChooser);
+		
+		SmartDashboard.putData(new DriveForward(5.0));
 
-		server = CameraServer.getInstance();
-		server.setQuality(IMAGE_QUALITY);
-		server.startAutomaticCapture(CAMERA_ID);
-
+		if (CAMERA_ID != null) {
+			server = CameraServer.getInstance();
+			server.setQuality(IMAGE_QUALITY);
+			server.startAutomaticCapture(CAMERA_ID);
+		}
 	}
 
 	/**
@@ -196,5 +215,7 @@ public class Robot extends IterativeRobot {
 				Robot.intakeArm.getLimitSwitchStatus() == IntakeArm.LimitSwitchStatus.UPPER);
 		SmartDashboard.putBoolean("Intake lower limit",
 				Robot.intakeArm.getLimitSwitchStatus() == IntakeArm.LimitSwitchStatus.LOWER);
+		SmartDashboard.putNumber("Flywheel left speed", Robot.flywheel.getLeftFlywheelMotor().getEncPosition());
+		SmartDashboard.putNumber("Flywheel right speed", Robot.flywheel.getRightFlywheelMotor().getEncPosition());
 	}
 }

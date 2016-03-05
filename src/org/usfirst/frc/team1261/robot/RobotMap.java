@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.RobotDrive.MotorType;
-import edu.wpi.first.wpilibj.SerialPort;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -18,42 +17,64 @@ import edu.wpi.first.wpilibj.SerialPort;
  * floating around.
  */
 public class RobotMap {
-    // For example to map the left and right motors, you could define the
-    // following variables to use with your drivetrain subsystem.
-    // public static int leftMotor = 1;
-    // public static int rightMotor = 2;
-    
-    // If you are using multiple modules, make sure to define both the port
-    // number and the module. For example you with a rangefinder:
-    // public static int rangefinderPort = 1;
-    // public static int rangefinderModule = 1;
-	
-	public static CANTalon frontLeftMotor = new CANTalon(3);
-	public static CANTalon rearLeftMotor = new CANTalon(4);
-	public static CANTalon frontRightMotor = new CANTalon(1);
-	public static CANTalon rearRightMotor = new CANTalon(2);
-	public static CANTalon intakeRollerMotor = new CANTalon(8);
-	public static CANTalon intakeArmMotor = new CANTalon(9);
-	public static CANTalon flywheelLeftMotor = new CANTalon(5);
-	public static CANTalon flywheelRightMotor = new CANTalon(6);
-	public static CANTalon shooterArmMotor = new CANTalon(7);
-	public static Relay spike = new Relay(0);
-	public static Encoder rightDriveEncoder = new Encoder(6, 7);
-	public static Encoder leftDriveEncoder = new Encoder(4, 5);
-	public static Encoder shooterArmEncoder = new Encoder(2, 3);
-	public static Encoder intakeArmEncoder = new Encoder(8, 9);
-	public static RobotDrive driveTrain = new RobotDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
-	public static AHRS navX = new AHRS(SerialPort.Port.kUSB);
-	public static AnalogInput rangeFinder = null;
-	public static DigitalInput intakeArmLimitSwitch = new DigitalInput(1);
-	public static DigitalInput photoGate = new DigitalInput(10);
-	
-	static {
+	// For example to map the left and right motors, you could define the
+	// following variables to use with your drivetrain subsystem.
+	// public static int leftMotor = 1;
+	// public static int rightMotor = 2;
+
+	// If you are using multiple modules, make sure to define both the port
+	// number and the module. For example you with a rangefinder:
+	// public static int rangefinderPort = 1;
+	// public static int rangefinderModule = 1;
+
+	public static CANTalon frontLeftMotor;
+	public static CANTalon rearLeftMotor;
+	public static CANTalon frontRightMotor;
+	public static CANTalon rearRightMotor;
+	public static CANTalon intakeRollerMotor;
+	public static CANTalon leftIntakeArmMotor;
+	public static CANTalon rightIntakeArmMotor;
+	public static CANTalon flywheelLeftMotor;
+	public static CANTalon flywheelRightMotor;
+	public static CANTalon shooterArmMotor;
+	public static Relay spike;
+	public static Encoder rightDriveEncoder;
+	public static Encoder leftDriveEncoder;
+	public static Encoder shooterArmEncoder;
+	public static Encoder intakeArmEncoder;
+	public static RobotDrive driveTrain;
+	public static AHRS navX;
+	public static AnalogInput rangeFinder;
+	public static DigitalInput intakeArmLimitSwitch;
+	public static DigitalInput photoGate;
+
+	public static void init() {
+		frontLeftMotor = new CANTalon(3);
+		rearLeftMotor = new CANTalon(4);
+		frontRightMotor = new CANTalon(1);
+		rearRightMotor = new CANTalon(2);
+		intakeRollerMotor = new CANTalon(8);
+		leftIntakeArmMotor = new CANTalon(9);
+		rightIntakeArmMotor = new CANTalon(11);
+		flywheelLeftMotor = new CANTalon(6);
+		flywheelRightMotor = new CANTalon(5);
+		shooterArmMotor = new CANTalon(7);
+		spike = new Relay(0);
+		rightDriveEncoder = new Encoder(6, 7);
+		leftDriveEncoder = new Encoder(4, 5);
+		shooterArmEncoder = new Encoder(2, 3);
+		intakeArmEncoder = new Encoder(8, 9);
+		driveTrain = new RobotDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
+		navX = null;
+		rangeFinder = null;
+		intakeArmLimitSwitch = new DigitalInput(1);
+		photoGate = new DigitalInput(10);
+
 		driveTrain.setInvertedMotor(MotorType.kFrontLeft, true);
 		driveTrain.setInvertedMotor(MotorType.kRearLeft, true);
 		driveTrain.setInvertedMotor(MotorType.kFrontRight, true);
 		driveTrain.setInvertedMotor(MotorType.kRearRight, true);
-//		rangeFinder.setAverageBits(0);
-//		rangeFinder.setOversampleBits(0);
+		// rangeFinder.setAverageBits(0);
+		// rangeFinder.setOversampleBits(0);
 	}
 }

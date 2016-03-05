@@ -18,12 +18,15 @@ public class IntakeArm extends PIDSubsystem {
 	public static final double kD = 0.0;
 	public static final double TOLERANCE = 0.0;
 
+	public static final double PID_POWER_SCALING_FACTOR = 0.8;
+
 	// TODO: figure out these values
 	public static final double[] SETPOINTS = { 0.0, 200.0, 400.0, 600.0 };
 	// This array needs to be in ascending order for other code to work.
 
 	Encoder intakeArmEncoder = RobotMap.intakeArmEncoder;
-	CANTalon intakeArmMotor = RobotMap.intakeArmMotor;
+	CANTalon leftIntakeArmMotor = RobotMap.leftIntakeArmMotor;
+	CANTalon rightIntakeArmMotor = RobotMap.rightIntakeArmMotor;
 	DigitalInput intakeArmLimitSwitch = RobotMap.intakeArmLimitSwitch;
 
 	LimitSwitchStatus intakeArmLimitSwitchStatus = LimitSwitchStatus.OFF;
@@ -97,23 +100,35 @@ public class IntakeArm extends PIDSubsystem {
 	 */
 	public void setIntakeArmMotorPower(double power) {
 		updateLimitSwitchStatus();
-//		if ((power > 0.0 && intakeArmLimitSwitchStatus == LimitSwitchStatus.UPPER)
-//				|| (power < 0.0 && intakeArmLimitSwitchStatus == LimitSwitchStatus.LOWER)) {
-//			power = 0.0;
-//		}
+		// if ((power > 0.0 && intakeArmLimitSwitchStatus ==
+		// LimitSwitchStatus.UPPER)
+		// || (power < 0.0 && intakeArmLimitSwitchStatus ==
+		// LimitSwitchStatus.LOWER)) {
+		// power = 0.0;
+		// }
 		if (power != 0.0) {
 			lastPower = power;
 		}
-		intakeArmMotor.set(power);
+		leftIntakeArmMotor.set(power);
+		rightIntakeArmMotor.set(power);
 	}
 
 	/**
-	 * Gets the {@link CANTalon} that represents the intake arm motor.
+	 * Gets the {@link CANTalon} that represents the left intake arm motor.
 	 * 
-	 * @return The {@link CANTalon} associated with the intake arm motor.
+	 * @return The {@link CANTalon} associated with the left intake arm motor.
 	 */
-	public CANTalon getIntakeArmMotor() {
-		return intakeArmMotor;
+	public CANTalon getLeftIntakeArmMotor() {
+		return leftIntakeArmMotor;
+	}
+
+	/**
+	 * Gets the {@link CANTalon} that represents the right intake arm motor.
+	 * 
+	 * @return The {@link CANTalon} associated with the right intake arm motor.
+	 */
+	public CANTalon getRightIntakeArmMotor() {
+		return rightIntakeArmMotor;
 	}
 
 	/**
@@ -181,7 +196,7 @@ public class IntakeArm extends PIDSubsystem {
 	protected void usePIDOutput(double output) {
 		// Use output to drive your system, like a motor
 		// e.g. yourMotor.set(output);
-		setIntakeArmMotorPower(output);
+		setIntakeArmMotorPower(Math.signum(output) * PID_POWER_SCALING_FACTOR);
 	}
 
 }

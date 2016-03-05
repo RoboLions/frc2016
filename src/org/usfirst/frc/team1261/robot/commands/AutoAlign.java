@@ -1,45 +1,42 @@
 package org.usfirst.frc.team1261.robot.commands;
 
-import org.usfirst.frc.team1261.robot.OI;
 import org.usfirst.frc.team1261.robot.Robot;
+import org.usfirst.frc.team1261.robot.subsystems.DriveTrain;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class JoystickFlywheel extends Command {
+public class AutoAlign extends Command {
 
-	public static final Joystick JOYSTICK = OI.getManipulatorJoystick();
-	public static final int JOYSTICK_AXIS = OI.AXIS_RIGHT_TRIGGER;
+	public static final double X_AXIS_TARGET = 0.0;
 
-	public static final double POWER_SCALING_FACTOR = 1.0;
-
-	public JoystickFlywheel() {
+	public AutoAlign() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		requires(Robot.flywheel);
+		requires(Robot.driveTrain);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.flywheel.stop();
+		Robot.driveTrain.setPIDController(DriveTrain.DriveTrainPIDController.VISION_TRACK);
+		Robot.driveTrain.setSetpoint(X_AXIS_TARGET);
+
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.flywheel.setFlywheelPower(JOYSTICK.getRawAxis(JOYSTICK_AXIS) * POWER_SCALING_FACTOR);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return false;
+		return Robot.driveTrain.onTarget();
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.flywheel.stop();
+		Robot.driveTrain.stop();
 	}
 
 	// Called when another command which requires one or more of the same

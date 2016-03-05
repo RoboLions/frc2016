@@ -1,11 +1,13 @@
 
 package org.usfirst.frc.team1261.robot;
 
+import org.usfirst.frc.team1261.robot.commands.AutoElevateAlignShoot;
 import org.usfirst.frc.team1261.robot.commands.BothMotorIntake;
 import org.usfirst.frc.team1261.robot.commands.IntakeArmSetpointDown;
 import org.usfirst.frc.team1261.robot.commands.IntakeArmSetpointUp;
 import org.usfirst.frc.team1261.robot.commands.PrepareToShoot;
 import org.usfirst.frc.team1261.robot.commands.SpikeOutAndIn;
+import org.usfirst.frc.team1261.robot.commands.TrackElevateAlign;
 import org.usfirst.frc.team1261.robot.triggers.DriverRightTriggerTrigger;
 import org.usfirst.frc.team1261.robot.triggers.ManipulatorDPadDownTrigger;
 import org.usfirst.frc.team1261.robot.triggers.ManipulatorDPadUpTrigger;
@@ -70,10 +72,12 @@ public class OI {
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
 	
-	Joystick driverJoystick = new Joystick(DRIVER_JOYSTICK);
-	Joystick manipulatorJoystick = new Joystick(MANIPULATOR_JOYSTICK);
+	static Joystick driverJoystick = new Joystick(DRIVER_JOYSTICK);
+	static Joystick manipulatorJoystick = new Joystick(MANIPULATOR_JOYSTICK);
 	
 	Button prepareToShootButton = new JoystickButton(manipulatorJoystick, BUTTON_RIGHT_BUMPER);
+	Button trackElevateAlignButton = new JoystickButton(driverJoystick, BUTTON_A);
+	Button autoElevateAlignShootButton = new JoystickButton(driverJoystick, BUTTON_B);
 	Trigger spikeOutAndInButton = new DriverRightTriggerTrigger(driverJoystick);
 	Trigger autoIntakeButton = new ManipulatorLeftTriggerTrigger(manipulatorJoystick);
 	Trigger intakeArmSetpointDownButton = new ManipulatorDPadDownTrigger(manipulatorJoystick);
@@ -81,17 +85,19 @@ public class OI {
 	
 	public OI() {
 		prepareToShootButton.whenPressed(new PrepareToShoot());
+		trackElevateAlignButton.toggleWhenPressed(new TrackElevateAlign());
+		autoElevateAlignShootButton.toggleWhenPressed(new AutoElevateAlignShoot());
 		spikeOutAndInButton.whenActive(new SpikeOutAndIn());
 		autoIntakeButton.whileActive(new BothMotorIntake());
 		intakeArmSetpointDownButton.whenActive(new IntakeArmSetpointDown());
 		intakeArmSetpointUpButton.whenActive(new IntakeArmSetpointUp());
 	}
 	
-	public Joystick getDriverJoystick() {
+	public static Joystick getDriverJoystick() {
 		return driverJoystick;
 	}
 	
-	public Joystick getManipulatorJoystick() {
+	public static Joystick getManipulatorJoystick() {
 		return manipulatorJoystick;
 	}
 }

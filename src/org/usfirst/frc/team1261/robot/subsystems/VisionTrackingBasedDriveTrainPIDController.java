@@ -3,6 +3,7 @@ package org.usfirst.frc.team1261.robot.subsystems;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * A vision-tracking-based {@link DriveTrain} {@link PIDController}.
@@ -10,8 +11,8 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
 class VisionTrackingBasedDriveTrainPIDController extends PIDController {
 
 	// TODO: figure out these values
-	public static final double kP = 0.001;
-	public static final double kI = 0.0;
+	public static final double kP = 0.0025;
+	public static final double kI = 0.00002;
 	public static final double kD = 0.0;
 	public static final double DEFAULT_TOLERANCE = RaspberryPiCommunicationAdapter.X_AXIS_TOLERANCE;
 
@@ -25,8 +26,13 @@ class VisionTrackingBasedDriveTrainPIDController extends PIDController {
 			@Override
 			public double pidGet() {
 				try {
-					return RaspberryPiCommunicationAdapter.getTargetXOffset();
+					double targetXOffset = RaspberryPiCommunicationAdapter.getTargetXOffset();
+					SmartDashboard.putNumber("targetXOffset", targetXOffset);
+					SmartDashboard.putBoolean("Contours found", true);
+					return targetXOffset;
 				} catch (RaspberryPiCommunicationAdapter.NoContoursFoundException e) {
+					SmartDashboard.putNumber("targetXOffset", DEFAULT_ERROR);
+					SmartDashboard.putBoolean("Contours found", false);
 					return DEFAULT_ERROR;
 				}
 			}
@@ -34,6 +40,7 @@ class VisionTrackingBasedDriveTrainPIDController extends PIDController {
 			@Override
 			public void pidWrite(double output) {
 				driveTrain.turn(output);
+				SmartDashboard.putNumber("Output to driveTrain.turn", output);
 			}
 		});
 		setAbsoluteTolerance(DEFAULT_TOLERANCE);

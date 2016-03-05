@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class JoystickDrive extends Command {
 
-	public static final Joystick JOYSTICK = Robot.oi.getDriverJoystick();
+	public static final Joystick JOYSTICK = OI.getDriverJoystick();
 	public static final int THROTTLE_AXIS = OI.AXIS_LEFT_STICK_Y;
 	public static final int ROTATE_AXIS = OI.AXIS_RIGHT_STICK_X;
 	public static final int TURBO_BUTTON = OI.BUTTON_RIGHT_BUMPER;

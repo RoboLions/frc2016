@@ -1,45 +1,41 @@
 package org.usfirst.frc.team1261.robot.commands;
 
-import org.usfirst.frc.team1261.robot.OI;
 import org.usfirst.frc.team1261.robot.Robot;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class JoystickShooterArm extends Command {
-	
-	public static final Joystick JOYSTICK = OI.getManipulatorJoystick();
-	public static final int JOYSTICK_AXIS = OI.AXIS_RIGHT_STICK_Y;
+public class DriveForward extends Command {
 
-	public static final double POWER_SCALING_FACTOR = -1.0;
+	public static double POWER = 1.0;
 
-    public JoystickShooterArm() {
+    public DriveForward(double duration) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.shooterArm);
+    	requires(Robot.driveTrain);
+    	setTimeout(duration);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.shooterArm.disablePIDController();
+    	Robot.driveTrain.disablePIDController();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.shooterArm.setShooterArmMotorPower(JOYSTICK.getRawAxis(JOYSTICK_AXIS) * POWER_SCALING_FACTOR);
+    	Robot.driveTrain.drive(POWER);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return isTimedOut();
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.shooterArm.stop();
+    	Robot.driveTrain.stop();
     }
 
     // Called when another command which requires one or more of the same
