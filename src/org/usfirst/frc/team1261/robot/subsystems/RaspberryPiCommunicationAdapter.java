@@ -15,7 +15,7 @@ class RaspberryPiCommunicationAdapter {
 		private static final long serialVersionUID = 8913380034267672587L;
 	}
 
-	public static final NetworkTable CONTOUR_TABLE = NetworkTable.getTable("RaspberryPi");
+	public static final NetworkTable CONTOUR_TABLE = NetworkTable.getTable("RaspberryPI");
 
 	public static final double TOLERANCE_FACTOR = 0.05;
 

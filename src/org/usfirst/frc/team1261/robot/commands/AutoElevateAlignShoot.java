@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class AutoElevateAlignShoot extends CommandGroup {
 
-	public static final double MINIMUM_SPIKE_DELAY = 5.0;
+	public static final double MINIMUM_SPIKE_DELAY = 4.0;
 
 	public AutoElevateAlignShoot() {
 		// Add Commands here:
@@ -28,7 +28,7 @@ public class AutoElevateAlignShoot extends CommandGroup {
 		// e.g. if Command1 requires chassis, and Command2 requires arm,
 		// a CommandGroup containing them would require both the chassis and the
 		// arm.
-
+		
 		requires(Robot.shooterArm);
 		requires(Robot.driveTrain);
 		requires(Robot.flywheel);
@@ -36,6 +36,6 @@ public class AutoElevateAlignShoot extends CommandGroup {
 		addParallel(new FlywheelOut());
 		addSequential(new CommandWithMinimumDuration(new AutoElevateAlign(), MINIMUM_SPIKE_DELAY));
 		addSequential(new SpikeOutAndIn());
-		cancel();
+		addSequential(new CancelCommandGroup(this));
 	}
 }

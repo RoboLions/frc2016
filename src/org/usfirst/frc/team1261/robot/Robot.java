@@ -1,7 +1,11 @@
+// NOTE TO ALL FUTURE PROGRAMMERS LOOKING AT THIS CODE:
+// I'm sorry.
+// -Rishov
 
 package org.usfirst.frc.team1261.robot;
 
 import org.usfirst.frc.team1261.robot.commands.AutonomousCommand;
+import org.usfirst.frc.team1261.robot.commands.DriveForward;
 import org.usfirst.frc.team1261.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1261.robot.subsystems.Flywheel;
 import org.usfirst.frc.team1261.robot.subsystems.IntakeArm;
@@ -101,6 +105,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Shot Location Chooser", shotLocationChooser);
 		SmartDashboard.putData("Ending Position Chooser", endingPositionChooser);
 		SmartDashboard.putData("Defense Type Chooser", defenseTypeChooser);
+		
+		SmartDashboard.putData(new DriveForward(5.0));
 
 		if (CAMERA_ID != null) {
 			server = CameraServer.getInstance();
@@ -209,5 +215,7 @@ public class Robot extends IterativeRobot {
 				Robot.intakeArm.getLimitSwitchStatus() == IntakeArm.LimitSwitchStatus.UPPER);
 		SmartDashboard.putBoolean("Intake lower limit",
 				Robot.intakeArm.getLimitSwitchStatus() == IntakeArm.LimitSwitchStatus.LOWER);
+		SmartDashboard.putNumber("Flywheel left speed", Robot.flywheel.getLeftFlywheelMotor().getEncPosition());
+		SmartDashboard.putNumber("Flywheel right speed", Robot.flywheel.getRightFlywheelMotor().getEncPosition());
 	}
 }

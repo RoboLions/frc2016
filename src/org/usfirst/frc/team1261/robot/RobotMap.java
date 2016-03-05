@@ -32,7 +32,8 @@ public class RobotMap {
 	public static CANTalon frontRightMotor;
 	public static CANTalon rearRightMotor;
 	public static CANTalon intakeRollerMotor;
-	public static CANTalon intakeArmMotor;
+	public static CANTalon leftIntakeArmMotor;
+	public static CANTalon rightIntakeArmMotor;
 	public static CANTalon flywheelLeftMotor;
 	public static CANTalon flywheelRightMotor;
 	public static CANTalon shooterArmMotor;
@@ -53,9 +54,10 @@ public class RobotMap {
 		frontRightMotor = new CANTalon(1);
 		rearRightMotor = new CANTalon(2);
 		intakeRollerMotor = new CANTalon(8);
-		intakeArmMotor = new CANTalon(9);
-		flywheelLeftMotor = new CANTalon(5);
-		flywheelRightMotor = new CANTalon(6);
+		leftIntakeArmMotor = new CANTalon(9);
+		rightIntakeArmMotor = new CANTalon(11);
+		flywheelLeftMotor = new CANTalon(6);
+		flywheelRightMotor = new CANTalon(5);
 		shooterArmMotor = new CANTalon(7);
 		spike = new Relay(0);
 		rightDriveEncoder = new Encoder(6, 7);

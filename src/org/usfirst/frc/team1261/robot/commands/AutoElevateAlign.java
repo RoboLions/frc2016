@@ -30,7 +30,7 @@ public class AutoElevateAlign extends CommandGroup {
     	requires(Robot.shooterArm);
     	requires(Robot.driveTrain);
     	addParallel(new AutoElevate());
-    	addParallel(new AutoAlign()); 
+    	addSequential(new AutoAlign()); 
     	
     }
 }

@@ -30,7 +30,7 @@ public class TrackElevateAlign extends CommandGroup {
     	requires(Robot.shooterArm);
     	requires(Robot.driveTrain);
     	addParallel(new TrackElevate());
-    	addParallel(new TrackAlign()); 
+    	addSequential(new TrackAlign()); 
     	
     }
 }
