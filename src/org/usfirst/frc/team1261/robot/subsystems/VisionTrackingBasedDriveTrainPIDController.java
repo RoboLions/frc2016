@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 class VisionTrackingBasedDriveTrainPIDController extends PIDController {
 
 	// TODO: figure out these values
-	public static final double kP = 0.0025;
-	public static final double kI = 0.00002;
+	public static final double kP = 0.0015;
+	public static final double kI = 0.0001;
 	public static final double kD = 0.0;
 	public static final double DEFAULT_TOLERANCE = RaspberryPiCommunicationAdapter.X_AXIS_TOLERANCE;
 

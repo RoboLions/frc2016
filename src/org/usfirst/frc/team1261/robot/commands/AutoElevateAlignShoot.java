@@ -3,6 +3,7 @@ package org.usfirst.frc.team1261.robot.commands;
 import org.usfirst.frc.team1261.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -35,7 +36,21 @@ public class AutoElevateAlignShoot extends CommandGroup {
 		requires(Robot.spikePuncher);
 		addParallel(new FlywheelOut());
 		addSequential(new CommandWithMinimumDuration(new AutoElevateAlign(), MINIMUM_SPIKE_DELAY));
-		addSequential(new SpikeOutAndIn());
+		//addSequential(new SpikeOutAndIn());
 		addSequential(new CancelCommandGroup(this));
 	}
+	
+    
+    public void initialize() {
+    	SmartDashboard.putBoolean("AutoElevateAlign running", true);
+    }
+    
+
+    public void end() {
+    	SmartDashboard.putBoolean("AutoElevateAlign running", false);
+    }
+    
+    public void interrupted() {
+    	end();
+    }
 }

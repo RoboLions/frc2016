@@ -49,14 +49,14 @@ public class RobotMap {
 	public static DigitalInput photoGate;
 
 	public static void init() {
-		frontLeftMotor = new CANTalon(3);
+		frontLeftMotor = new CANTalon(6);
 		rearLeftMotor = new CANTalon(4);
 		frontRightMotor = new CANTalon(1);
 		rearRightMotor = new CANTalon(2);
 		intakeRollerMotor = new CANTalon(8);
 		leftIntakeArmMotor = new CANTalon(9);
 		rightIntakeArmMotor = new CANTalon(11);
-		flywheelLeftMotor = new CANTalon(6);
+		flywheelLeftMotor = new CANTalon(3);
 		flywheelRightMotor = new CANTalon(5);
 		shooterArmMotor = new CANTalon(7);
 		spike = new Relay(0);
@@ -66,7 +66,7 @@ public class RobotMap {
 		intakeArmEncoder = new Encoder(8, 9);
 		driveTrain = new RobotDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
 		navX = null;
-		rangeFinder = null;
+		rangeFinder = new AnalogInput(0);
 		intakeArmLimitSwitch = new DigitalInput(1);
 		photoGate = new DigitalInput(10);
 
@@ -74,7 +74,7 @@ public class RobotMap {
 		driveTrain.setInvertedMotor(MotorType.kRearLeft, true);
 		driveTrain.setInvertedMotor(MotorType.kFrontRight, true);
 		driveTrain.setInvertedMotor(MotorType.kRearRight, true);
-		// rangeFinder.setAverageBits(0);
-		// rangeFinder.setOversampleBits(0);
+		rangeFinder.setAverageBits(0);
+		rangeFinder.setOversampleBits(0);
 	}
 }

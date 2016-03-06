@@ -217,5 +217,6 @@ public class Robot extends IterativeRobot {
 				Robot.intakeArm.getLimitSwitchStatus() == IntakeArm.LimitSwitchStatus.LOWER);
 		SmartDashboard.putNumber("Flywheel left speed", Robot.flywheel.getLeftFlywheelMotor().getEncPosition());
 		SmartDashboard.putNumber("Flywheel right speed", Robot.flywheel.getRightFlywheelMotor().getEncPosition());
+		SmartDashboard.putNumber("Rangefinder voltage", RobotMap.rangeFinder.getVoltage());
 	}
 }
