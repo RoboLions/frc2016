@@ -6,6 +6,8 @@ import org.usfirst.frc.team1261.robot.commands.BothMotorIntake;
 import org.usfirst.frc.team1261.robot.commands.IntakeArmSetpointDown;
 import org.usfirst.frc.team1261.robot.commands.IntakeArmSetpointUp;
 import org.usfirst.frc.team1261.robot.commands.PrepareToShoot;
+import org.usfirst.frc.team1261.robot.commands.ShooterArmSetpointDown;
+import org.usfirst.frc.team1261.robot.commands.ShooterArmSetpointUp;
 import org.usfirst.frc.team1261.robot.commands.SpikeOutAndIn;
 import org.usfirst.frc.team1261.robot.commands.TrackElevateAlign;
 import org.usfirst.frc.team1261.robot.triggers.DriverRightTriggerTrigger;
@@ -82,6 +84,8 @@ public class OI {
 	Trigger autoIntakeButton = new ManipulatorLeftTriggerTrigger(manipulatorJoystick);
 	Trigger intakeArmSetpointDownButton = new ManipulatorDPadDownTrigger(manipulatorJoystick);
 	Trigger intakeArmSetpointUpButton = new ManipulatorDPadUpTrigger(manipulatorJoystick);
+	Button shooterArmSetpointUpButton = new JoystickButton(manipulatorJoystick, BUTTON_B);
+	Button shooterArmSetpointDownButton = new JoystickButton(manipulatorJoystick, BUTTON_A);
 	
 	public OI() {
 		prepareToShootButton.whenPressed(new PrepareToShoot());
@@ -91,6 +95,8 @@ public class OI {
 		autoIntakeButton.whileActive(new BothMotorIntake());
 		intakeArmSetpointDownButton.whenActive(new IntakeArmSetpointDown());
 		intakeArmSetpointUpButton.whenActive(new IntakeArmSetpointUp());
+		shooterArmSetpointDownButton.toggleWhenPressed(new ShooterArmSetpointDown());
+		shooterArmSetpointUpButton.toggleWhenPressed(new ShooterArmSetpointUp());
 	}
 	
 	public static Joystick getDriverJoystick() {

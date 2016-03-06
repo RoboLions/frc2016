@@ -60,10 +60,10 @@ public class RobotMap {
 		flywheelRightMotor = new CANTalon(5);
 		shooterArmMotor = new CANTalon(7);
 		spike = new Relay(0);
-		rightDriveEncoder = new Encoder(6, 7);
-		leftDriveEncoder = new Encoder(4, 5);
+		rightDriveEncoder = new Encoder(8, 9);
+		leftDriveEncoder = new Encoder(6, 7);
 		shooterArmEncoder = new Encoder(2, 3);
-		intakeArmEncoder = new Encoder(8, 9);
+		intakeArmEncoder = new Encoder(4, 5);
 		driveTrain = new RobotDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
 		navX = null;
 		rangeFinder = new AnalogInput(0);
