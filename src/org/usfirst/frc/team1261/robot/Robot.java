@@ -4,8 +4,8 @@
 
 package org.usfirst.frc.team1261.robot;
 
-import org.usfirst.frc.team1261.robot.commands.AutonomousCommand;
 import org.usfirst.frc.team1261.robot.commands.DriveForward;
+import org.usfirst.frc.team1261.robot.commands.ZeroAngle;
 import org.usfirst.frc.team1261.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1261.robot.subsystems.Flywheel;
 import org.usfirst.frc.team1261.robot.subsystems.IntakeArm;
@@ -105,7 +105,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Shot Location Chooser", shotLocationChooser);
 		SmartDashboard.putData("Ending Position Chooser", endingPositionChooser);
 		SmartDashboard.putData("Defense Type Chooser", defenseTypeChooser);
-		
+
+		SmartDashboard.putData(new ZeroAngle());
 		SmartDashboard.putData(new DriveForward(5.0));
 
 		if (CAMERA_ID != null) {
@@ -154,7 +155,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putBoolean("Aligned Vertically", isAlignedVert);
 
 		// autonomousCommand = (Command) chooser.getSelected();
-		autonomousCommand = new AutonomousCommand();
+		autonomousCommand = new DriveForward(10.0);
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -218,5 +219,11 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Flywheel left speed", Robot.flywheel.getLeftFlywheelMotor().getEncPosition());
 		SmartDashboard.putNumber("Flywheel right speed", Robot.flywheel.getRightFlywheelMotor().getEncPosition());
 		SmartDashboard.putNumber("Rangefinder voltage", RobotMap.rangeFinder.getVoltage());
+		SmartDashboard.putNumber("navX pitch", RobotMap.navX.getPitch());
+		SmartDashboard.putNumber("navX roll", RobotMap.navX.getRoll());
+		SmartDashboard.putNumber("navX yaw", RobotMap.navX.getYaw());
+		SmartDashboard.putNumber("navX angle", RobotMap.navX.getAngle());
+		SmartDashboard.putBoolean("navX connected", RobotMap.navX.isConnected());
+		SmartDashboard.putBoolean("navX calibrating", RobotMap.navX.isCalibrating());
 	}
 }

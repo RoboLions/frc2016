@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.RobotDrive.MotorType;
 
 /**
@@ -65,7 +66,7 @@ public class RobotMap {
 		shooterArmEncoder = new Encoder(2, 3);
 		intakeArmEncoder = new Encoder(4, 5);
 		driveTrain = new RobotDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
-		navX = null;
+		navX = new AHRS(SerialPort.Port.kUSB);
 		rangeFinder = new AnalogInput(0);
 		intakeArmLimitSwitch = new DigitalInput(1);
 		photoGate = new DigitalInput(10);
