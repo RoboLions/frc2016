@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.command.Command;
 public class SpikeOut extends Command {
 
 	public static final Value SPIKE_VALUE = Value.kReverse;
+
+	private static int shotCount = 0;
 	
     public SpikeOut() {
         // Use requires() here to declare subsystem dependencies
@@ -21,6 +23,7 @@ public class SpikeOut extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.spikePuncher.setSpikeValue(Value.kOff);
+    	System.out.println("Spike fired! This was shot #" + (++shotCount) + ". Shooter arm encoder was at: " + Robot.shooterArm.getAngle());
     }
 
     // Called repeatedly when this Command is scheduled to run
