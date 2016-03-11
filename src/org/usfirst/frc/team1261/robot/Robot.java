@@ -6,6 +6,8 @@ package org.usfirst.frc.team1261.robot;
 
 import org.usfirst.frc.team1261.robot.commands.DriveForward;
 import org.usfirst.frc.team1261.robot.commands.ZeroAngle;
+import org.usfirst.frc.team1261.robot.commands.ZeroIntakeArmEncoder;
+import org.usfirst.frc.team1261.robot.commands.ZeroShooterArmEncoder;
 import org.usfirst.frc.team1261.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1261.robot.subsystems.Flywheel;
 import org.usfirst.frc.team1261.robot.subsystems.IntakeArm;
@@ -107,6 +109,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Defense Type Chooser", defenseTypeChooser);
 
 		SmartDashboard.putData(new ZeroAngle());
+		SmartDashboard.putData(new ZeroShooterArmEncoder());
+		SmartDashboard.putData(new ZeroIntakeArmEncoder());
 		SmartDashboard.putData(new DriveForward(5.0));
 
 		SmartDashboard.putNumber("DriveTrain kP", Robot.driveTrain.getPIDController().getP());

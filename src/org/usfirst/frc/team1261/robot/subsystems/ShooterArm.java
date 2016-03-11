@@ -84,6 +84,13 @@ public class ShooterArm extends Subsystem {
 	}
 
 	/**
+	 * Resets the shooter arm motor encoder to the value 0.0.
+	 */
+	public void zeroShooterArmEncoder() {
+		shooterArmEncoder.reset();
+	}
+
+	/**
 	 * Gets the {@link CANTalon} that represents the shooter arm motor.
 	 * 
 	 * @return The {@link CANTalon} associated with the shooter arm motor.

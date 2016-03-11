@@ -151,6 +151,13 @@ public class IntakeArm extends PIDSubsystem {
 	}
 
 	/**
+	 * Resets the intake arm motor encoder to the value 0.0.
+	 */
+	public void zeroIntakeArmEncoder() {
+		intakeArmEncoder.reset();
+	}
+
+	/**
 	 * Ceases function in the motors correlated with the intake arm, causing a
 	 * general end to motion of the intake arm.
 	 */
