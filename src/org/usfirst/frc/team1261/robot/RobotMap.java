@@ -2,14 +2,13 @@ package org.usfirst.frc.team1261.robot;
 
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.RobotDrive.MotorType;
+import edu.wpi.first.wpilibj.SerialPort;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -45,19 +44,18 @@ public class RobotMap {
 	public static Encoder intakeArmEncoder;
 	public static RobotDrive driveTrain;
 	public static AHRS navX;
-	public static AnalogInput rangeFinder;
 	public static DigitalInput intakeArmLimitSwitch;
 	public static DigitalInput photoGate;
 
 	public static void init() {
-		frontLeftMotor = new CANTalon(6);
+		frontLeftMotor = new CANTalon(3);
 		rearLeftMotor = new CANTalon(4);
 		frontRightMotor = new CANTalon(1);
 		rearRightMotor = new CANTalon(2);
 		intakeRollerMotor = new CANTalon(8);
 		leftIntakeArmMotor = new CANTalon(9);
 		rightIntakeArmMotor = new CANTalon(11);
-		flywheelLeftMotor = new CANTalon(3);
+		flywheelLeftMotor = new CANTalon(6);
 		flywheelRightMotor = new CANTalon(5);
 		shooterArmMotor = new CANTalon(7);
 		spike = new Relay(0);
@@ -67,7 +65,6 @@ public class RobotMap {
 		intakeArmEncoder = new Encoder(4, 5);
 		driveTrain = new RobotDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
 		navX = new AHRS(SerialPort.Port.kUSB);
-		rangeFinder = new AnalogInput(0);
 		intakeArmLimitSwitch = new DigitalInput(1);
 		photoGate = new DigitalInput(10);
 
@@ -75,7 +72,5 @@ public class RobotMap {
 		driveTrain.setInvertedMotor(MotorType.kRearLeft, true);
 		driveTrain.setInvertedMotor(MotorType.kFrontRight, true);
 		driveTrain.setInvertedMotor(MotorType.kRearRight, true);
-		rangeFinder.setAverageBits(0);
-		rangeFinder.setOversampleBits(0);
 	}
 }
