@@ -16,6 +16,8 @@ class VisionTrackingBasedDriveTrainPIDController extends PIDController {
 	public static final double kD = 0.0;
 	public static final double DEFAULT_TOLERANCE = RaspberryPiCommunicationAdapter.X_AXIS_TOLERANCE;
 
+	public static final double OUTPUT_THRESHOLD = 0.2;
+
 	/**
 	 * Error value used for PID when no target can be found.
 	 */
@@ -39,8 +41,10 @@ class VisionTrackingBasedDriveTrainPIDController extends PIDController {
 		}, new PIDOutput() {
 			@Override
 			public void pidWrite(double output) {
+				if (Math.abs(output) <= OUTPUT_THRESHOLD) {
+					output = Math.signum(output) * OUTPUT_THRESHOLD;
+				}
 				driveTrain.turn(output);
-				SmartDashboard.putNumber("Output to driveTrain.turn", output);
 			}
 		});
 		setAbsoluteTolerance(DEFAULT_TOLERANCE);
