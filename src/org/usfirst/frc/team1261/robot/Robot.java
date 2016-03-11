@@ -109,6 +109,18 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(new ZeroAngle());
 		SmartDashboard.putData(new DriveForward(5.0));
 
+		SmartDashboard.putNumber("DriveTrain kP", Robot.driveTrain.getPIDController().getP());
+		SmartDashboard.putNumber("DriveTrain kI", Robot.driveTrain.getPIDController().getI());
+		SmartDashboard.putNumber("DriveTrain kD", Robot.driveTrain.getPIDController().getD());
+
+		SmartDashboard.putNumber("IntakeArm kP", Robot.intakeArm.getPIDController().getP());
+		SmartDashboard.putNumber("IntakeArm kI", Robot.intakeArm.getPIDController().getI());
+		SmartDashboard.putNumber("IntakeArm kD", Robot.intakeArm.getPIDController().getD());
+
+		SmartDashboard.putNumber("ShooterArm kP", Robot.shooterArm.getPIDController().getP());
+		SmartDashboard.putNumber("ShooterArm kI", Robot.shooterArm.getPIDController().getI());
+		SmartDashboard.putNumber("ShooterArm kD", Robot.shooterArm.getPIDController().getD());
+
 		if (CAMERA_ID != null) {
 			server = CameraServer.getInstance();
 			server.setQuality(IMAGE_QUALITY);
@@ -218,12 +230,24 @@ public class Robot extends IterativeRobot {
 				Robot.intakeArm.getLimitSwitchStatus() == IntakeArm.LimitSwitchStatus.LOWER);
 		SmartDashboard.putNumber("Flywheel left speed", Robot.flywheel.getLeftFlywheelMotor().getEncPosition());
 		SmartDashboard.putNumber("Flywheel right speed", Robot.flywheel.getRightFlywheelMotor().getEncPosition());
-		SmartDashboard.putNumber("Rangefinder voltage", RobotMap.rangeFinder.getVoltage());
 		SmartDashboard.putNumber("navX pitch", RobotMap.navX.getPitch());
 		SmartDashboard.putNumber("navX roll", RobotMap.navX.getRoll());
 		SmartDashboard.putNumber("navX yaw", RobotMap.navX.getYaw());
 		SmartDashboard.putNumber("navX angle", RobotMap.navX.getAngle());
 		SmartDashboard.putBoolean("navX connected", RobotMap.navX.isConnected());
 		SmartDashboard.putBoolean("navX calibrating", RobotMap.navX.isCalibrating());
+
+		Robot.driveTrain.getPIDController().setPID(
+				SmartDashboard.getNumber("DriveTrain kP", Robot.driveTrain.getPIDController().getP()),
+				SmartDashboard.getNumber("DriveTrain kI", Robot.driveTrain.getPIDController().getI()),
+				SmartDashboard.getNumber("DriveTrain kD", Robot.driveTrain.getPIDController().getD()));
+		Robot.intakeArm.getPIDController().setPID(
+				SmartDashboard.getNumber("IntakeArm kP", Robot.intakeArm.getPIDController().getP()),
+				SmartDashboard.getNumber("IntakeArm kI", Robot.intakeArm.getPIDController().getI()),
+				SmartDashboard.getNumber("IntakeArm kD", Robot.intakeArm.getPIDController().getD()));
+		Robot.shooterArm.getPIDController().setPID(
+				SmartDashboard.getNumber("ShooterArm kP", Robot.shooterArm.getPIDController().getP()),
+				SmartDashboard.getNumber("ShooterArm kI", Robot.shooterArm.getPIDController().getI()),
+				SmartDashboard.getNumber("ShooterArm kD", Robot.shooterArm.getPIDController().getD()));
 	}
 }

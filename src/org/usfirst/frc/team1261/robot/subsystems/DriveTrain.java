@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The {@link Subsystem} representing the drivetrain.
@@ -184,6 +185,10 @@ public class DriveTrain extends Subsystem {
 	public void setPIDController(PIDController pidController) {
 		stop();
 		controller = pidController;
+		// TODO: remove this debug code
+		SmartDashboard.putNumber("DriveTrain kP", controller.getP());
+		SmartDashboard.putNumber("DriveTrain kI", controller.getI());
+		SmartDashboard.putNumber("DriveTrain kD", controller.getD());
 		controller.enable();
 	}
 

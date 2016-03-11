@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The {@link Subsystem} representing the shooter arm.
@@ -120,6 +121,10 @@ public class ShooterArm extends Subsystem {
 	public void setPIDController(PIDController pidController) {
 		stop();
 		controller = pidController;
+		// TODO: remove this debug code
+		SmartDashboard.putNumber("ShooterArm kP", controller.getP());
+		SmartDashboard.putNumber("ShooterArm kI", controller.getI());
+		SmartDashboard.putNumber("ShooterArm kD", controller.getD());
 		controller.enable();
 	}
 
