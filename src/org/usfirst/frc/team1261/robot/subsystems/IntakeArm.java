@@ -21,39 +21,13 @@ public class IntakeArm extends PIDSubsystem {
 	public static final double PID_POWER_SCALING_FACTOR = 0.8;
 
 	// TODO: figure out these values
-	public static final double[] SETPOINTS = { 0.0, 200.0, 400.0, 600.0 };
+	public static final double[] SETPOINTS = { 0.0 };
 	// This array needs to be in ascending order for other code to work.
 
 	Encoder intakeArmEncoder = RobotMap.intakeArmEncoder;
 	CANTalon leftIntakeArmMotor = RobotMap.leftIntakeArmMotor;
 	CANTalon rightIntakeArmMotor = RobotMap.rightIntakeArmMotor;
-	DigitalInput intakeArmLimitSwitch = RobotMap.intakeArmLimitSwitch;
-
-	LimitSwitchStatus intakeArmLimitSwitchStatus = LimitSwitchStatus.OFF;
-	double lastPower = 0.0;
-
-	/**
-	 * {@code enum} defining possible statuses of the limit switch. Possible
-	 * values are {@link LimitSwitchStatus#UPPER UPPER},
-	 * {@link LimitSwitchStatus#LOWER LOWER}, or {@link LimitSwitchStatus#OFF
-	 * OFF}.
-	 */
-	public static enum LimitSwitchStatus {
-		/**
-		 * Indicates that the limit switch is pressed because the mechanism
-		 * pressing it is at its upper limit.
-		 */
-		UPPER,
-		/**
-		 * Indicates that the limit switch is pressed because the mechanism
-		 * pressing it is at its lower limit.
-		 */
-		LOWER,
-		/**
-		 * Indicates that the limit switch is not pressed.
-		 */
-		OFF
-	}
+	DigitalInput intakeArmLowerLimitSwitch = RobotMap.intakeArmLowerLimitSwitch;
 
 	// Initialize your subsystem here
 	public IntakeArm() {
@@ -72,24 +46,6 @@ public class IntakeArm extends PIDSubsystem {
 	}
 
 	/**
-	 * Updates the limit switch status returned by
-	 * {@link IntakeArm#getLimitSwitchStatus getLimitSwitchStatus}.
-	 */
-	public void updateLimitSwitchStatus() {
-		if (intakeArmLimitSwitch.get()) {
-			if (intakeArmLimitSwitchStatus == LimitSwitchStatus.OFF) {
-				if (lastPower > 0.0) {
-					intakeArmLimitSwitchStatus = LimitSwitchStatus.UPPER;
-				} else if (lastPower < 0.0) {
-					intakeArmLimitSwitchStatus = LimitSwitchStatus.LOWER;
-				}
-			}
-		} else {
-			intakeArmLimitSwitchStatus = LimitSwitchStatus.OFF;
-		}
-	}
-
-	/**
 	 * Sets intake arm motor power to the specified power level. Note that this
 	 * method will automatically set the motor power to {@code 0.0} if the power
 	 * level indicates that the intake arm is trying to go in the direction of
@@ -99,15 +55,9 @@ public class IntakeArm extends PIDSubsystem {
 	 *            The power, between -1.0 and 1.0.
 	 */
 	public void setIntakeArmMotorPower(double power) {
-		updateLimitSwitchStatus();
-		// if ((power > 0.0 && intakeArmLimitSwitchStatus ==
-		// LimitSwitchStatus.UPPER)
-		// || (power < 0.0 && intakeArmLimitSwitchStatus ==
-		// LimitSwitchStatus.LOWER)) {
-		// power = 0.0;
-		// }
-		if (power != 0.0) {
-			lastPower = power;
+		if (power < 0.0 && intakeArmLowerLimitSwitch.get()) {
+			// If motor is going against limit switch
+			power = 0.0;
 		}
 		leftIntakeArmMotor.set(power);
 		rightIntakeArmMotor.set(power);
@@ -180,19 +130,6 @@ public class IntakeArm extends PIDSubsystem {
 		return (Math.abs(getPIDController().getError()) < TOLERANCE);
 	}
 
-	/**
-	 * Gets the {@link LimitSwitchStatus} that represents the status of the
-	 * intake arm limit switch.
-	 * 
-	 * @return {@link LimitSwitchStatus#UPPER UPPER},
-	 *         {@link LimitSwitchStatus#LOWER LOWER}, or
-	 *         {@link LimitSwitchStatus#OFF OFF}, depending on the status of the
-	 *         limit switch.
-	 */
-	public LimitSwitchStatus getLimitSwitchStatus() {
-		return intakeArmLimitSwitchStatus;
-	}
-
 	protected double returnPIDInput() {
 		// Return your input value for the PID loop
 		// e.g. a sensor, like a potentiometer:
@@ -206,4 +143,25 @@ public class IntakeArm extends PIDSubsystem {
 		setIntakeArmMotorPower(Math.signum(output) * PID_POWER_SCALING_FACTOR);
 	}
 
+	/**
+	 * Gets the {@link DigitalInput} that represents the intake arm lower limit
+	 * switch.
+	 * 
+	 * @return The {@link DigitalInput} associated with the intake arm lower
+	 *         limit switch.
+	 */
+	public DigitalInput getIntakeArmLowerLimitSwitch() {
+		return intakeArmLowerLimitSwitch;
+	}
+
+	/**
+	 * Gets the {@code boolean} that represents the status of the intake arm
+	 * lower limit switch.
+	 * 
+	 * @return {@code true} if the intake arm lower limit switch is hit,
+	 *         {@code false} otherwise.
+	 */
+	public boolean isLowerLimitSwitchHit() {
+		return intakeArmLowerLimitSwitch.get();
+	}
 }

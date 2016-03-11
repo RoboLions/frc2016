@@ -228,13 +228,15 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Distance traveled", Robot.driveTrain.distanceTraveled());
 		SmartDashboard.putNumber("Shooter arm encoder", Robot.shooterArm.getAngle());
 		SmartDashboard.putNumber("Intake arm encoder", Robot.intakeArm.getAngle());
-		SmartDashboard.putBoolean("Shooter loaded", Robot.flywheel.getPhotoGateStatus());
+		SmartDashboard.putBoolean("Shooter loaded", Robot.flywheel.isPhotoGateBlocked());
 		SmartDashboard.putNumber("Flywheel left speed", Robot.flywheel.getLeftFlywheelMotor().getEncPosition());
 		SmartDashboard.putNumber("Flywheel right speed", Robot.flywheel.getRightFlywheelMotor().getEncPosition());
 		SmartDashboard.putNumber("navX pitch", RobotMap.navX.getPitch());
 		SmartDashboard.putNumber("navX roll", RobotMap.navX.getRoll());
 		SmartDashboard.putNumber("navX yaw", RobotMap.navX.getYaw());
 		SmartDashboard.putNumber("navX angle", RobotMap.navX.getAngle());
+		SmartDashboard.putBoolean("Shooter arm lower limit", Robot.shooterArm.isLowerLimitSwitchHit());
+		SmartDashboard.putBoolean("Intake arm lower limit", Robot.intakeArm.isLowerLimitSwitchHit());
 		SmartDashboard.putBoolean("navX connected", RobotMap.navX.isConnected());
 		SmartDashboard.putBoolean("navX calibrating", RobotMap.navX.isCalibrating());
 

@@ -6,7 +6,6 @@ import org.usfirst.frc.team1261.robot.commands.JoystickDrive;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -21,8 +20,6 @@ public class DriveTrain extends Subsystem {
 	CANTalon rearLeftMotor = RobotMap.rearLeftMotor;
 	CANTalon frontRightMotor = RobotMap.frontRightMotor;
 	CANTalon rearRightMotor = RobotMap.rearRightMotor;
-	Encoder leftEncoder = RobotMap.leftDriveEncoder;
-	Encoder rightEncoder = RobotMap.rightDriveEncoder;
 	RobotDrive robotDrive = RobotMap.driveTrain;
     AHRS navX = RobotMap.navX;
 
@@ -84,7 +81,7 @@ public class DriveTrain extends Subsystem {
 	 * @return Left encoder's distance traveled in encoder units.
 	 */
 	public double leftDistanceTraveled() {
-		return leftEncoder.getDistance();
+		return frontLeftMotor.getEncPosition();
 	}
 
 	/**
@@ -93,15 +90,15 @@ public class DriveTrain extends Subsystem {
 	 * @return Right encoder's distance traveled in encoder units.
 	 */
 	public double rightDistanceTraveled() {
-		return rightEncoder.getDistance();
+		return frontRightMotor.getEncPosition();
 	}
 
 	/**
 	 * Resets the encoders measuring distance traveled.
 	 */
 	public void resetDistanceTraveled() {
-		leftEncoder.reset();
-		rightEncoder.reset();
+		frontLeftMotor.setEncPosition(0);
+		frontRightMotor.setEncPosition(0);
 	}
 
 	/**

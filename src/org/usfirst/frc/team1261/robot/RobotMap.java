@@ -38,13 +38,12 @@ public class RobotMap {
 	public static CANTalon flywheelRightMotor;
 	public static CANTalon shooterArmMotor;
 	public static Relay spike;
-	public static Encoder rightDriveEncoder;
-	public static Encoder leftDriveEncoder;
 	public static Encoder shooterArmEncoder;
 	public static Encoder intakeArmEncoder;
 	public static RobotDrive driveTrain;
 	public static AHRS navX;
-	public static DigitalInput intakeArmLimitSwitch;
+	public static DigitalInput intakeArmLowerLimitSwitch;
+	public static DigitalInput shooterArmLowerLimitSwitch;
 	public static DigitalInput photoGate;
 
 	public static void init() {
@@ -59,14 +58,13 @@ public class RobotMap {
 		flywheelRightMotor = new CANTalon(5);
 		shooterArmMotor = new CANTalon(7);
 		spike = new Relay(0);
-		rightDriveEncoder = new Encoder(8, 9);
-		leftDriveEncoder = new Encoder(6, 7);
 		shooterArmEncoder = new Encoder(2, 3);
-		intakeArmEncoder = new Encoder(4, 5);
+		intakeArmEncoder = new Encoder(8, 9);
 		driveTrain = new RobotDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
 		navX = new AHRS(SerialPort.Port.kUSB);
-		intakeArmLimitSwitch = new DigitalInput(1);
-		photoGate = new DigitalInput(10);
+		intakeArmLowerLimitSwitch = new DigitalInput(0);
+		shooterArmLowerLimitSwitch = new DigitalInput(1);
+		photoGate = new DigitalInput(4);
 
 		driveTrain.setInvertedMotor(MotorType.kFrontLeft, true);
 		driveTrain.setInvertedMotor(MotorType.kRearLeft, true);

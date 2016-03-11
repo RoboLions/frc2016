@@ -4,6 +4,7 @@ import org.usfirst.frc.team1261.robot.RobotMap;
 import org.usfirst.frc.team1261.robot.commands.JoystickShooterArm;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -16,15 +17,12 @@ public class ShooterArm extends Subsystem {
 
 	Encoder shooterArmEncoder = RobotMap.shooterArmEncoder;
 	CANTalon shooterArmMotor = RobotMap.shooterArmMotor;
+	DigitalInput shooterArmLowerLimitSwitch = RobotMap.shooterArmLowerLimitSwitch;
 
-	public static final double SETPOINT_INTAKE_POSITION = -6.25;
-	public static final double SETPOINT_HORIZONTAL_POSITION = 0.0;
-	public static final double SETPOINT_SHOOTING_POSITION = 12.0;
-	
 	// TODO: figure out these values
-	public static final double[] SETPOINTS = { SETPOINT_INTAKE_POSITION, SETPOINT_HORIZONTAL_POSITION, SETPOINT_SHOOTING_POSITION };
+	public static final double[] SETPOINTS = { 0.0 };
 	// This array needs to be in ascending order for other code to work.
-	
+
 	// Change this to change the default PIDController for the DriveTrain.
 	PIDController controller = new DisabledShooterArmPIDController(this);
 
@@ -33,7 +31,8 @@ public class ShooterArm extends Subsystem {
 	 */
 	public static enum ShooterArmPIDController {
 		/**
-		 * A vision-tracking-based {@link PIDController} for the {@link ShooterArm}.
+		 * A vision-tracking-based {@link PIDController} for the
+		 * {@link ShooterArm}.
 		 */
 		VISION_TRACK,
 		/**
@@ -106,7 +105,11 @@ public class ShooterArm extends Subsystem {
 	 *            The power, between -1.0 and 1.0.
 	 */
 	public void setShooterArmMotorPower(double power) {
-		shooterArmMotor.set(power);
+		if (power < 0.0 && shooterArmLowerLimitSwitch.get()) {
+			// If motor is going against limit switch
+			power = 0.0;
+		}
+		shooterArmMotor.set(-power);
 	}
 
 	/**
@@ -117,7 +120,6 @@ public class ShooterArm extends Subsystem {
 		controller.disable();
 		setShooterArmMotorPower(0.0);
 	}
-	
 
 	/**
 	 * Sets the {@link PIDController} for this {@link ShooterArm}.
@@ -186,5 +188,27 @@ public class ShooterArm extends Subsystem {
 	 */
 	public boolean onTarget() {
 		return getPIDController().onTarget();
+	}
+
+	/**
+	 * Gets the {@link DigitalInput} that represents the shooter arm lower limit
+	 * switch.
+	 * 
+	 * @return The {@link DigitalInput} associated with the shooter arm lower
+	 *         limit switch.
+	 */
+	public DigitalInput getShooterArmLowerLimitSwitch() {
+		return shooterArmLowerLimitSwitch;
+	}
+
+	/**
+	 * Gets the {@code boolean} that represents the status of the shooter arm
+	 * lower limit switch.
+	 * 
+	 * @return {@code true} if the shooter arm lower limit switch is hit,
+	 *         {@code false} otherwise.
+	 */
+	public boolean isLowerLimitSwitchHit() {
+		return shooterArmLowerLimitSwitch.get();
 	}
 }
