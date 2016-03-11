@@ -10,7 +10,7 @@ public class TrackAlign extends AutoAlign {
 	public static final Joystick JOYSTICK = JoystickDrive.JOYSTICK;
 	public static final int CANCEL_AXIS_A = JoystickDrive.THROTTLE_AXIS;
 	public static final int CANCEL_AXIS_B = JoystickDrive.ROTATE_AXIS;
-	public static final double CANCEL_THRESHOLD = 0.0;
+	public static final double CANCEL_THRESHOLD = 0.25;
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {

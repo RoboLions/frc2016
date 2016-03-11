@@ -9,7 +9,7 @@ public class TrackElevate extends AutoElevate {
 
 	public static final Joystick JOYSTICK = JoystickShooterArm.JOYSTICK;
 	public static final int CANCEL_AXIS = JoystickShooterArm.JOYSTICK_AXIS;
-	public static final double CANCEL_THRESHOLD = 0.0;
+	public static final double CANCEL_THRESHOLD = 0.25;
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
