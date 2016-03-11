@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.RobotDrive.MotorType;
 
 /**
@@ -49,14 +50,14 @@ public class RobotMap {
 	public static DigitalInput photoGate;
 
 	public static void init() {
-		frontLeftMotor = new CANTalon(6);
+		frontLeftMotor = new CANTalon(3);
 		rearLeftMotor = new CANTalon(4);
 		frontRightMotor = new CANTalon(1);
 		rearRightMotor = new CANTalon(2);
 		intakeRollerMotor = new CANTalon(8);
 		leftIntakeArmMotor = new CANTalon(9);
 		rightIntakeArmMotor = new CANTalon(11);
-		flywheelLeftMotor = new CANTalon(3);
+		flywheelLeftMotor = new CANTalon(6);
 		flywheelRightMotor = new CANTalon(5);
 		shooterArmMotor = new CANTalon(7);
 		spike = new Relay(0);
@@ -65,7 +66,7 @@ public class RobotMap {
 		shooterArmEncoder = new Encoder(2, 3);
 		intakeArmEncoder = new Encoder(4, 5);
 		driveTrain = new RobotDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
-		navX = null;
+		navX = new AHRS(SerialPort.Port.kUSB);
 		rangeFinder = new AnalogInput(0);
 		intakeArmLimitSwitch = new DigitalInput(1);
 		photoGate = new DigitalInput(10);
