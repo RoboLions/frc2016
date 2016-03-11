@@ -61,6 +61,6 @@ class VisionTrackingBasedDriveTrainPIDController extends PIDController {
 	 * @return {@code true} if the error is less than the tolerance.
 	 */
 	public boolean onTarget() {
-		return (Math.abs(getError()) < DEFAULT_TOLERANCE);
+		return (RaspberryPiCommunicationAdapter.isContourFound() && Math.abs(getError()) < DEFAULT_TOLERANCE);
 	}
 }

@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 class RaspberryPiCommunicationAdapter {
 
 	/**
-	 * Indicates that the vision processor was unable to identify any
-	 * contours representing goals.
+	 * Indicates that the vision processor was unable to identify any contours
+	 * representing goals.
 	 */
 	static class NoContoursFoundException extends Exception {
 		private static final long serialVersionUID = 8913380034267672587L;
@@ -103,5 +103,16 @@ class RaspberryPiCommunicationAdapter {
 		} else {
 			return CONTOUR_TABLE.getNumber("area", DEFAULT_VALUE);
 		}
+	}
+
+	/**
+	 * Returns a boolean indicating whether or not a contour representing the
+	 * goal could be identified.
+	 * 
+	 * @return {@code true} if the contour representing the goal could be
+	 *         identified, {@code false} otherwise.
+	 */
+	public static boolean isContourFound() {
+		return CONTOUR_TABLE.getBoolean("contourFound", false);
 	}
 }
