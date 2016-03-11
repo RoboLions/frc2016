@@ -20,8 +20,13 @@ public class IntakeArm extends PIDSubsystem {
 
 	public static final double PID_POWER_SCALING_FACTOR = 0.8;
 
+	public static final double SETPOINT_ALMOST_GROUND_POSITION = 0.0;
+	public static final double SETPOINT_INTAKE_POSITION = 0.0;
+	public static final double SETPOINT_FULLY_UP_POSITION = 0.0;
+
 	// TODO: figure out these values
-	public static final double[] SETPOINTS = { 0.0 };
+	public static final double[] SETPOINTS = { SETPOINT_ALMOST_GROUND_POSITION, SETPOINT_INTAKE_POSITION,
+			SETPOINT_FULLY_UP_POSITION };
 	// This array needs to be in ascending order for other code to work.
 
 	Encoder intakeArmEncoder = RobotMap.intakeArmEncoder;

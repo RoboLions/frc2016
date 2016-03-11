@@ -19,8 +19,13 @@ public class ShooterArm extends Subsystem {
 	CANTalon shooterArmMotor = RobotMap.shooterArmMotor;
 	DigitalInput shooterArmLowerLimitSwitch = RobotMap.shooterArmLowerLimitSwitch;
 
+	public static final double SETPOINT_INTAKE_POSITION = 0.0;
+	public static final double SETPOINT_HORIZONTAL_POSITION = 0.0;
+	public static final double SETPOINT_SHOOTING_POSITION = 0.0;
+
 	// TODO: figure out these values
-	public static final double[] SETPOINTS = { 0.0 };
+	public static final double[] SETPOINTS = { SETPOINT_INTAKE_POSITION, SETPOINT_HORIZONTAL_POSITION,
+			SETPOINT_SHOOTING_POSITION };
 	// This array needs to be in ascending order for other code to work.
 
 	// Change this to change the default PIDController for the DriveTrain.
