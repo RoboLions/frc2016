@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1261.robot.commands;
 
 import org.usfirst.frc.team1261.robot.Robot;
+import org.usfirst.frc.team1261.robot.subsystems.StraightDrivingDriveTrainPIDController;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -25,14 +26,15 @@ public class DriveForwardUntilLevel extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.driveTrain.disablePIDController();
+		Robot.driveTrain.zeroAngle();
+		Robot.driveTrain.setPIDController(new StraightDrivingDriveTrainPIDController(POWER));
+		Robot.driveTrain.setSetpoint(0.0);
 		onDefense = false;
 		crossedDefense = false;
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.driveTrain.drive(POWER);
 		if (!crossedDefense) {
 			double pitch = Robot.driveTrain.getNavX().getPitch();
 			double roll = Robot.driveTrain.getNavX().getRoll();
