@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -171,7 +172,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putBoolean("Aligned Vertically", isAlignedVert);
 
 		// autonomousCommand = (Command) chooser.getSelected();
-		autonomousCommand = new DriveForward(10.0);
+		autonomousCommand = new WaitCommand(0.0); // does nothing
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -228,10 +229,6 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Shooter arm encoder", Robot.shooterArm.getAngle());
 		SmartDashboard.putNumber("Intake arm encoder", Robot.intakeArm.getAngle());
 		SmartDashboard.putBoolean("Shooter loaded", Robot.flywheel.getPhotoGateStatus());
-		SmartDashboard.putBoolean("Intake upper limit",
-				Robot.intakeArm.getLimitSwitchStatus() == IntakeArm.LimitSwitchStatus.UPPER);
-		SmartDashboard.putBoolean("Intake lower limit",
-				Robot.intakeArm.getLimitSwitchStatus() == IntakeArm.LimitSwitchStatus.LOWER);
 		SmartDashboard.putNumber("Flywheel left speed", Robot.flywheel.getLeftFlywheelMotor().getEncPosition());
 		SmartDashboard.putNumber("Flywheel right speed", Robot.flywheel.getRightFlywheelMotor().getEncPosition());
 		SmartDashboard.putNumber("navX pitch", RobotMap.navX.getPitch());
