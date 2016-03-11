@@ -218,5 +218,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Flywheel left speed", Robot.flywheel.getLeftFlywheelMotor().getEncPosition());
 		SmartDashboard.putNumber("Flywheel right speed", Robot.flywheel.getRightFlywheelMotor().getEncPosition());
 		SmartDashboard.putNumber("Rangefinder voltage", RobotMap.rangeFinder.getVoltage());
+		SmartDashboard.putNumber("navX pitch", Robot.driveTrain.getNavX().getPitch());
+		SmartDashboard.putNumber("navX roll", Robot.driveTrain.getNavX().getRoll());
+		SmartDashboard.putNumber("navX yaw", Robot.driveTrain.getNavX().getYaw());
 	}
 }
