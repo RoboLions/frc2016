@@ -5,23 +5,27 @@ import org.usfirst.frc.team1261.robot.commands.JoystickDrive;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The {@link Subsystem} representing the drivetrain.
  */
 public class DriveTrain extends Subsystem {
 
+	public static final double RANGEFINDER_VOLTS_TO_DISTANCE_FACTOR = 1.0;
+	public static final double RANGEFINDER_NO_SIGNAL_THRESHOLD = 0.25;
+
 	CANTalon frontLeftMotor = RobotMap.frontLeftMotor;
 	CANTalon rearLeftMotor = RobotMap.rearLeftMotor;
 	CANTalon frontRightMotor = RobotMap.frontRightMotor;
 	CANTalon rearRightMotor = RobotMap.rearRightMotor;
 	RobotDrive robotDrive = RobotMap.driveTrain;
-    AHRS navX = RobotMap.navX;
+	AHRS navX = RobotMap.navX;
+	AnalogInput rangeFinder = RobotMap.rangeFinder;
 
 	// Change this to change the default PIDController for the DriveTrain.
 	PIDController controller = new DisabledDriveTrainPIDController(this);
@@ -39,7 +43,8 @@ public class DriveTrain extends Subsystem {
 		 */
 		ANGLE,
 		/**
-		 * A vision-tracking-based {@link PIDController} for the {@link DriveTrain}.
+		 * A vision-tracking-based {@link PIDController} for the
+		 * {@link DriveTrain}.
 		 */
 		VISION_TRACK,
 		/**
@@ -59,6 +64,10 @@ public class DriveTrain extends Subsystem {
 				return new DisabledDriveTrainPIDController(driveTrain);
 			}
 		}
+	}
+
+	public class RangeFinderNoSignalException extends Exception {
+		private static final long serialVersionUID = 7796196790913368565L;
 	}
 
 	public void initDefaultCommand() {
@@ -182,10 +191,6 @@ public class DriveTrain extends Subsystem {
 	public void setPIDController(PIDController pidController) {
 		stop();
 		controller = pidController;
-		// TODO: remove this debug code
-		SmartDashboard.putNumber("DriveTrain kP", controller.getP());
-		SmartDashboard.putNumber("DriveTrain kI", controller.getI());
-		SmartDashboard.putNumber("DriveTrain kD", controller.getD());
 		controller.enable();
 	}
 
@@ -321,5 +326,22 @@ public class DriveTrain extends Subsystem {
 	 */
 	public CANTalon getRearRightMotor() {
 		return rearRightMotor;
+	}
+
+	/**
+	 * Gets the {@link AnalogInput} that represents the laser range finder.
+	 * 
+	 * @return The {@link AnalogInput} associated with the laser range finder.
+	 */
+	public AnalogInput getRangeFinder() {
+		return rangeFinder;
+	}
+
+	public double getRangeFinderDistance() throws RangeFinderNoSignalException {
+		double rangeFinderVoltage = rangeFinder.getVoltage();
+		if (rangeFinderVoltage < RANGEFINDER_NO_SIGNAL_THRESHOLD) {
+			throw new RangeFinderNoSignalException();
+		}
+		return rangeFinderVoltage * RANGEFINDER_VOLTS_TO_DISTANCE_FACTOR;
 	}
 }

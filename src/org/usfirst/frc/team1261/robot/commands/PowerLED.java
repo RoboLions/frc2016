@@ -7,25 +7,22 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class FlywheelOut extends Command {
-	
-	public static final double POWER = 1.0;
+public class PowerLED extends Command {
 
-    public FlywheelOut() {
+    public PowerLED() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.flywheel);
+    	requires(Robot.visionTrackingLED);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.flywheel.stop();
+    	Robot.visionTrackingLED.disable();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	//RaspberryPiCommunicationAdapter.setShooterFired(true);
-    	Robot.flywheel.setFlywheelPower(POWER);
+    	Robot.visionTrackingLED.enable();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -35,7 +32,7 @@ public class FlywheelOut extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.flywheel.stop();
+    	Robot.visionTrackingLED.disable();
     }
 
     // Called when another command which requires one or more of the same

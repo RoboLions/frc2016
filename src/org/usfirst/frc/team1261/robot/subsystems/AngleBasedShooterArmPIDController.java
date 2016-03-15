@@ -12,7 +12,7 @@ class AngleBasedShooterArmPIDController extends PIDController {
 	public static final double kP = 0.075;
 	public static final double kI = 0.01;
 	public static final double kD = 0.0;
-	public static final double DEFAULT_TOLERANCE = 1.0;
+	public static final double DEFAULT_TOLERANCE = 0.5;
 
 	public AngleBasedShooterArmPIDController(ShooterArm shooterArm) {
 		super(kP, kI, kD, new DisplacementPIDSource() {

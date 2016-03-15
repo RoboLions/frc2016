@@ -10,13 +10,15 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class DriveForwardUntilLevel extends Command {
 
-	public static final double POWER = 0.5;
-
+	public static final double POWER = 0.7;
 	public static final double PITCH_THRESHOLD = 5.0;
 	public static final double ROLL_THRESHOLD = 5.0;
+	public static final double MINIMUM_LEVEL_DURATION = 1.0;
 
+	private static final double MINIMUM_LEVEL_DURATION_MS = MINIMUM_LEVEL_DURATION * 1000;
 	private boolean onDefense = false;
 	private boolean crossedDefense = false;
+	private long timeAtDefenseCross = 0;
 
 	public DriveForwardUntilLevel() {
 		// Use requires() here to declare subsystem dependencies
@@ -35,10 +37,10 @@ public class DriveForwardUntilLevel extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
+		double pitch = Robot.driveTrain.getNavX().getPitch();
+		double roll = Robot.driveTrain.getNavX().getRoll();
+		boolean isLevel = (Math.abs(pitch) <= PITCH_THRESHOLD) || (Math.abs(roll) <= ROLL_THRESHOLD);
 		if (!crossedDefense) {
-			double pitch = Robot.driveTrain.getNavX().getPitch();
-			double roll = Robot.driveTrain.getNavX().getRoll();
-			boolean isLevel = (Math.abs(pitch) <= PITCH_THRESHOLD) || (Math.abs(roll) <= ROLL_THRESHOLD);
 			if (!isLevel && !onDefense) {
 				// We have just begun to cross the defense.
 				onDefense = true;
@@ -46,13 +48,18 @@ public class DriveForwardUntilLevel extends Command {
 				// We have just finished crossing the defense.
 				onDefense = false;
 				crossedDefense = true;
+				timeAtDefenseCross = System.currentTimeMillis();
 			}
+		} else if (!isLevel) {
+			// We didn't actually cross the defense.
+			onDefense = true;
+			crossedDefense = false;
 		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return crossedDefense;
+		return (crossedDefense && System.currentTimeMillis() - timeAtDefenseCross >= MINIMUM_LEVEL_DURATION_MS);
 	}
 
 	// Called once after isFinished returns true

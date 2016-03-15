@@ -3,7 +3,6 @@ package org.usfirst.frc.team1261.robot.subsystems;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * A vision-tracking-based {@link DriveTrain} {@link PIDController}.
@@ -28,13 +27,8 @@ class VisionTrackingBasedDriveTrainPIDController extends PIDController {
 			@Override
 			public double pidGet() {
 				try {
-					double targetXOffset = RaspberryPiCommunicationAdapter.getTargetXOffset();
-					SmartDashboard.putNumber("targetXOffset", targetXOffset);
-					SmartDashboard.putBoolean("Contours found", true);
-					return targetXOffset;
+					return RaspberryPiCommunicationAdapter.getTargetXOffset();
 				} catch (RaspberryPiCommunicationAdapter.NoContoursFoundException e) {
-					SmartDashboard.putNumber("targetXOffset", DEFAULT_ERROR);
-					SmartDashboard.putBoolean("Contours found", false);
 					return DEFAULT_ERROR;
 				}
 			}

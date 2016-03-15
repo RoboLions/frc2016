@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 /**
  * A class that retrieves vision tracking data from the Raspberry Pi.
  */
-class RaspberryPiCommunicationAdapter {
+public class RaspberryPiCommunicationAdapter {
 
 	/**
 	 * Indicates that the vision processor was unable to identify any contours
@@ -27,12 +27,16 @@ class RaspberryPiCommunicationAdapter {
 	public static final double X_AXIS_TARGET = X_IMAGE_SIZE / 2;
 	public static final double Y_AXIS_TOLERANCE = Y_IMAGE_SIZE * TOLERANCE_FACTOR;
 	public static final double X_AXIS_TOLERANCE = X_IMAGE_SIZE * TOLERANCE_FACTOR;
-
+	
 	/**
 	 * Value used for x, y, and area of target when it cannot be retrieved.
 	 */
 	public static final double DEFAULT_VALUE = 0.0;
 
+	public static void setShooterFired(boolean fired) {
+		CONTOUR_TABLE.putBoolean("shooterFired", fired);
+	}
+	
 	/**
 	 * Gets the y-axis offset of the center of the goal from where the shooter
 	 * arm is pointing.

@@ -20,8 +20,8 @@ public class IntakeArm extends PIDSubsystem {
 
 	public static final double PID_POWER_SCALING_FACTOR = 0.8;
 
-	public static final double SETPOINT_ALMOST_GROUND_POSITION = 0.0;
-	public static final double SETPOINT_INTAKE_POSITION = 0.0;
+	public static final double SETPOINT_ALMOST_GROUND_POSITION = -43.0;
+	public static final double SETPOINT_INTAKE_POSITION = -37.0;
 	public static final double SETPOINT_FULLY_UP_POSITION = 0.0;
 
 	// TODO: figure out these values
@@ -32,6 +32,7 @@ public class IntakeArm extends PIDSubsystem {
 	Encoder intakeArmEncoder = RobotMap.intakeArmEncoder;
 	CANTalon leftIntakeArmMotor = RobotMap.leftIntakeArmMotor;
 	CANTalon rightIntakeArmMotor = RobotMap.rightIntakeArmMotor;
+	DigitalInput intakeArmUpperLimitSwitch = RobotMap.intakeArmUpperLimitSwitch;
 	DigitalInput intakeArmLowerLimitSwitch = RobotMap.intakeArmLowerLimitSwitch;
 
 	// Initialize your subsystem here
@@ -60,7 +61,7 @@ public class IntakeArm extends PIDSubsystem {
 	 *            The power, between -1.0 and 1.0.
 	 */
 	public void setIntakeArmMotorPower(double power) {
-		if (power < 0.0 && intakeArmLowerLimitSwitch.get()) {
+		if ((power < 0.0 && intakeArmLowerLimitSwitch.get()) || (power > 0.0 && intakeArmUpperLimitSwitch.get())) {
 			// If motor is going against limit switch
 			power = 0.0;
 		}
@@ -168,5 +169,27 @@ public class IntakeArm extends PIDSubsystem {
 	 */
 	public boolean isLowerLimitSwitchHit() {
 		return intakeArmLowerLimitSwitch.get();
+	}
+
+	/**
+	 * Gets the {@link DigitalInput} that represents the intake arm upper limit
+	 * switch.
+	 * 
+	 * @return The {@link DigitalInput} associated with the intake arm upper
+	 *         limit switch.
+	 */
+	public DigitalInput getIntakeArmUpperLimitSwitch() {
+		return intakeArmUpperLimitSwitch;
+	}
+
+	/**
+	 * Gets the {@code boolean} that represents the status of the intake arm
+	 * upper limit switch.
+	 * 
+	 * @return {@code true} if the intake arm upper limit switch is hit,
+	 *         {@code false} otherwise.
+	 */
+	public boolean isUpperLimitSwitchHit() {
+		return intakeArmUpperLimitSwitch.get();
 	}
 }

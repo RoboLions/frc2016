@@ -19,9 +19,9 @@ public class ShooterArm extends Subsystem {
 	CANTalon shooterArmMotor = RobotMap.shooterArmMotor;
 	DigitalInput shooterArmLowerLimitSwitch = RobotMap.shooterArmLowerLimitSwitch;
 
-	public static final double SETPOINT_INTAKE_POSITION = 0.0;
-	public static final double SETPOINT_HORIZONTAL_POSITION = 0.0;
-	public static final double SETPOINT_SHOOTING_POSITION = 0.0;
+	public static final double SETPOINT_INTAKE_POSITION = 0;
+	public static final double SETPOINT_HORIZONTAL_POSITION = 7.5;
+	public static final double SETPOINT_SHOOTING_POSITION = 17.0;
 
 	// TODO: figure out these values
 	public static final double[] SETPOINTS = { SETPOINT_INTAKE_POSITION, SETPOINT_HORIZONTAL_POSITION,
@@ -110,7 +110,7 @@ public class ShooterArm extends Subsystem {
 	 *            The power, between -1.0 and 1.0.
 	 */
 	public void setShooterArmMotorPower(double power) {
-		if (power < 0.0 && shooterArmLowerLimitSwitch.get()) {
+		if (power < 0.0 && shooterArmLowerLimitSwitch.get() && !SmartDashboard.getBoolean("Override Shooter Limit Switch", false)) {
 			// If motor is going against limit switch
 			power = 0.0;
 		}
@@ -135,10 +135,6 @@ public class ShooterArm extends Subsystem {
 	public void setPIDController(PIDController pidController) {
 		stop();
 		controller = pidController;
-		// TODO: remove this debug code
-		SmartDashboard.putNumber("ShooterArm kP", controller.getP());
-		SmartDashboard.putNumber("ShooterArm kI", controller.getI());
-		SmartDashboard.putNumber("ShooterArm kD", controller.getD());
 		controller.enable();
 	}
 

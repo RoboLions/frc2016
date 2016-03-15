@@ -2,13 +2,14 @@ package org.usfirst.frc.team1261.robot;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.RobotDrive.MotorType;
-import edu.wpi.first.wpilibj.SerialPort;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -43,8 +44,11 @@ public class RobotMap {
 	public static RobotDrive driveTrain;
 	public static AHRS navX;
 	public static DigitalInput intakeArmLowerLimitSwitch;
+	public static DigitalInput intakeArmUpperLimitSwitch;
 	public static DigitalInput shooterArmLowerLimitSwitch;
 	public static DigitalInput photoGate;
+	public static Relay ledPower;
+	public static AnalogInput rangeFinder;
 
 	public static void init() {
 		frontLeftMotor = new CANTalon(3);
@@ -52,8 +56,8 @@ public class RobotMap {
 		frontRightMotor = new CANTalon(1);
 		rearRightMotor = new CANTalon(2);
 		intakeRollerMotor = new CANTalon(8);
-		leftIntakeArmMotor = new CANTalon(9);
-		rightIntakeArmMotor = new CANTalon(11);
+		leftIntakeArmMotor = new CANTalon(10);
+		rightIntakeArmMotor = new CANTalon(9);
 		flywheelLeftMotor = new CANTalon(6);
 		flywheelRightMotor = new CANTalon(5);
 		shooterArmMotor = new CANTalon(7);
@@ -61,14 +65,19 @@ public class RobotMap {
 		shooterArmEncoder = new Encoder(2, 3);
 		intakeArmEncoder = new Encoder(8, 9);
 		driveTrain = new RobotDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
-		navX = new AHRS(SerialPort.Port.kUSB);
+		navX = new AHRS(I2C.Port.kOnboard);
 		intakeArmLowerLimitSwitch = new DigitalInput(0);
+		intakeArmUpperLimitSwitch = new DigitalInput(5);
 		shooterArmLowerLimitSwitch = new DigitalInput(1);
 		photoGate = new DigitalInput(4);
+		ledPower = new Relay(1);
+		rangeFinder = new AnalogInput(0);
 
 		driveTrain.setInvertedMotor(MotorType.kFrontLeft, true);
 		driveTrain.setInvertedMotor(MotorType.kRearLeft, true);
 		driveTrain.setInvertedMotor(MotorType.kFrontRight, true);
 		driveTrain.setInvertedMotor(MotorType.kRearRight, true);
+		rangeFinder.setAverageBits(0);
+		rangeFinder.setOversampleBits(0);
 	}
 }

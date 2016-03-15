@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class DriveForward extends Command {
 
-	public static final double POWER = 0.5;
+	public static final double POWER = 0.70;
 
     public DriveForward(double duration) {
         // Use requires() here to declare subsystem dependencies
