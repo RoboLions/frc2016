@@ -1,37 +1,70 @@
 package org.usfirst.frc.team1261.robot.subsystems;
 
 import org.usfirst.frc.team1261.robot.RobotMap;
+import org.usfirst.frc.team1261.robot.commands.JoystickShooterArm;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * The {@link PIDSubsystem} representing the shooter arm.
+ * The {@link Subsystem} representing the shooter arm.
  */
-public class ShooterArm extends PIDSubsystem {
-
-	public static final double kP = 0.001;
-	public static final double kI = 0.0;
-	public static final double kD = 0.0;
-	public static final double TOLERANCE = 0.0;
+public class ShooterArm extends Subsystem {
 
 	Encoder shooterArmEncoder = RobotMap.shooterArmEncoder;
 	CANTalon shooterArmMotor = RobotMap.shooterArmMotor;
+	DigitalInput shooterArmLowerLimitSwitch = RobotMap.shooterArmLowerLimitSwitch;
 
-	// Initialize your subsystem here
-	public ShooterArm() {
-		// Use these to get going:
-		// setSetpoint() - Sets where the PID controller should move the system
-		// to
-		// enable() - Enables the PID controller.
-		super("ShooterArm", kP, kI, kD);
-		setAbsoluteTolerance(TOLERANCE);
+	public static final double SETPOINT_INTAKE_POSITION = 0;
+	public static final double SETPOINT_HORIZONTAL_POSITION = 7.5;
+	public static final double SETPOINT_SHOOTING_POSITION = 17.0;
+
+	// TODO: figure out these values
+	public static final double[] SETPOINTS = { SETPOINT_INTAKE_POSITION, SETPOINT_HORIZONTAL_POSITION,
+			SETPOINT_SHOOTING_POSITION };
+	// This array needs to be in ascending order for other code to work.
+
+	// Change this to change the default PIDController for the DriveTrain.
+	PIDController controller = new DisabledShooterArmPIDController(this);
+
+	/**
+	 * Predefined {@link PIDController}s that the {@link ShooterArm} can use.
+	 */
+	public static enum ShooterArmPIDController {
+		/**
+		 * A vision-tracking-based {@link PIDController} for the
+		 * {@link ShooterArm}.
+		 */
+		VISION_TRACK,
+		/**
+		 * An angle-based {@link PIDController} for the {@link ShooterArm}.
+		 */
+		ANGLE,
+		/**
+		 * A {@link PIDController} for the {@link ShooterArm} that does nothing.
+		 */
+		DISABLED;
+
+		private PIDController getPIDControllerForShooterArm(ShooterArm shooterArm) {
+			switch (this) {
+			case VISION_TRACK:
+				return new VisionTrackingBasedShooterArmPIDController(shooterArm);
+			case ANGLE:
+				return new AngleBasedShooterArmPIDController(shooterArm);
+			default:
+				return new DisabledShooterArmPIDController(shooterArm);
+			}
+		}
 	}
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
+		setDefaultCommand(new JoystickShooterArm());
 	}
 
 	/**
@@ -55,6 +88,13 @@ public class ShooterArm extends PIDSubsystem {
 	}
 
 	/**
+	 * Resets the shooter arm motor encoder to the value 0.0.
+	 */
+	public void zeroShooterArmEncoder() {
+		shooterArmEncoder.reset();
+	}
+
+	/**
 	 * Gets the {@link CANTalon} that represents the shooter arm motor.
 	 * 
 	 * @return The {@link CANTalon} associated with the shooter arm motor.
@@ -70,7 +110,11 @@ public class ShooterArm extends PIDSubsystem {
 	 *            The power, between -1.0 and 1.0.
 	 */
 	public void setShooterArmMotorPower(double power) {
-		shooterArmMotor.set(power);
+		if (power < 0.0 && shooterArmLowerLimitSwitch.get() && !SmartDashboard.getBoolean("Override Shooter Limit Switch", false)) {
+			// If motor is going against limit switch
+			power = 0.0;
+		}
+		shooterArmMotor.set(-power);
 	}
 
 	/**
@@ -78,34 +122,94 @@ public class ShooterArm extends PIDSubsystem {
 	 * general end to motion of the shooter arm.
 	 */
 	public void stop() {
-		disable();
+		controller.disable();
 		setShooterArmMotorPower(0.0);
 	}
 
 	/**
-	 * Return {@code true} if the error is within the tolerance determined by
-	 * {@link ShooterArm#TOLERANCE}.<br>
-	 * <em>This method overrides {@link PIDSubsystem}'s
-	 * {@link PIDSubsystem#onTarget onTarget} method as a workaround for
-	 * <a href="https://usfirst.collab.net/sf/tracker/do/viewArtifact/projects.wpilib/tracker.4_defects/artf4812">
-	 * a bug in WPILib's implementation</a>.</em>
+	 * Sets the {@link PIDController} for this {@link ShooterArm}.
+	 * 
+	 * @param pidController
+	 *            A {@link PIDController}.
+	 */
+	public void setPIDController(PIDController pidController) {
+		stop();
+		controller = pidController;
+		controller.enable();
+	}
+
+	/**
+	 * Sets the {@link PIDController} for this {@link ShooterArm}.
+	 * 
+	 * @param shooterArmPIDController
+	 *            A value from the {@code ShooterArmPIDController} {@code enum}
+	 *            representing the desired {@link PIDController}.
+	 */
+	public void setPIDController(ShooterArmPIDController shooterArmPIDController) {
+		setPIDController(shooterArmPIDController.getPIDControllerForShooterArm(this));
+	}
+
+	/**
+	 * Disables the {@link PIDController} for this {@link ShooterArm}.
+	 */
+	public void disablePIDController() {
+		setPIDController(ShooterArmPIDController.DISABLED);
+	}
+
+	/**
+	 * Gets the {@link PIDController} that this {@link ShooterArm} is currently
+	 * using.
+	 * 
+	 * @return The {@link PIDController} that this {@link ShooterArm} is
+	 *         currently using.
+	 */
+	public PIDController getPIDController() {
+		return controller;
+	}
+
+	/**
+	 * Sets the setpoint for the PIDController. Equivalent to
+	 * getPIDController().setSetpoint(setpoint).
+	 * 
+	 * @param setpoint
+	 *            The desired setpoint.
+	 */
+	public void setSetpoint(double setpoint) {
+		getPIDController().setSetpoint(setpoint);
+	}
+
+	/**
+	 * Return {@code true} if the error is within the specified tolerance.
+	 * Equivalent to getPIDController().onTarget().<br>
+	 * <em>The current implementation of {@link PIDController#onTarget()} is
+	 * buggy. If you are using a {@link PIDController} that is not a
+	 * {@link ShooterArmPIDController}, please implement this method yourself.</em>
 	 * 
 	 * @return {@code true} if the error is less than the tolerance.
 	 */
 	public boolean onTarget() {
-		return (Math.abs(getPIDController().getError()) < TOLERANCE);
+		return getPIDController().onTarget();
 	}
 
-	protected double returnPIDInput() {
-		// Return your input value for the PID loop
-		// e.g. a sensor, like a potentiometer:
-		// yourPot.getAverageVoltage() / kYourMaxVoltage;
-		return getAngle();
+	/**
+	 * Gets the {@link DigitalInput} that represents the shooter arm lower limit
+	 * switch.
+	 * 
+	 * @return The {@link DigitalInput} associated with the shooter arm lower
+	 *         limit switch.
+	 */
+	public DigitalInput getShooterArmLowerLimitSwitch() {
+		return shooterArmLowerLimitSwitch;
 	}
 
-	protected void usePIDOutput(double output) {
-		// Use output to drive your system, like a motor
-		// e.g. yourMotor.set(output);
-		setShooterArmMotorPower(output);
+	/**
+	 * Gets the {@code boolean} that represents the status of the shooter arm
+	 * lower limit switch.
+	 * 
+	 * @return {@code true} if the shooter arm lower limit switch is hit,
+	 *         {@code false} otherwise.
+	 */
+	public boolean isLowerLimitSwitchHit() {
+		return shooterArmLowerLimitSwitch.get();
 	}
 }

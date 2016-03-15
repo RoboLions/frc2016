@@ -1,29 +1,31 @@
 package org.usfirst.frc.team1261.robot.commands;
 
 import org.usfirst.frc.team1261.robot.Robot;
+
+import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class IntakeArmDown extends Command {
-	
-	public static final double POWER = -1.0;
+public class SpikeIn extends Command {
 
-    public IntakeArmDown() {
+	public static final Value SPIKE_VALUE = Value.kForward;
+	
+    public SpikeIn() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.intake);
+    	requires(Robot.spikePuncher);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.intake.setIntakeArmMotorPower(0.0);
+    	Robot.spikePuncher.setSpikeValue(Value.kOff);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.intake.setIntakeArmMotorPower(POWER);
+    	Robot.spikePuncher.setSpikeValue(SPIKE_VALUE);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -33,7 +35,7 @@ public class IntakeArmDown extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.intake.setIntakeArmMotorPower(0.0);
+    	Robot.spikePuncher.setSpikeValue(Value.kOff);
     }
 
     // Called when another command which requires one or more of the same

@@ -1,29 +1,28 @@
 package org.usfirst.frc.team1261.robot.commands;
 
 import org.usfirst.frc.team1261.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class IntakeOut extends Command {
-	
-	public static final double POWER = -1.0;
+public class PowerLED extends Command {
 
-    public IntakeOut() {
+    public PowerLED() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.intakeRoller);
+    	requires(Robot.visionTrackingLED);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.intakeRoller.stop();
+    	Robot.visionTrackingLED.disable();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.intakeRoller.setIntakeRollerMotorPower(POWER);
+    	Robot.visionTrackingLED.enable();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -33,7 +32,7 @@ public class IntakeOut extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.intakeRoller.stop();
+    	Robot.visionTrackingLED.disable();
     }
 
     // Called when another command which requires one or more of the same

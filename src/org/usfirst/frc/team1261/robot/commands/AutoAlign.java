@@ -1,39 +1,42 @@
 package org.usfirst.frc.team1261.robot.commands;
 
 import org.usfirst.frc.team1261.robot.Robot;
+import org.usfirst.frc.team1261.robot.subsystems.DriveTrain;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class ShooterArmDown extends Command {
-	
-	public static final double POWER = -1.0;
+public class AutoAlign extends Command {
 
-	public ShooterArmDown() {
+	public static final double X_AXIS_TARGET = 0.0;
+
+	public AutoAlign() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		requires(Robot.shooterArm);
+		requires(Robot.driveTrain);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.shooterArm.stop();
+		Robot.driveTrain.setPIDController(DriveTrain.DriveTrainPIDController.VISION_TRACK);
+		Robot.driveTrain.setSetpoint(X_AXIS_TARGET);
+
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.shooterArm.setShooterArmMotorPower(POWER);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return false;
+		return Robot.driveTrain.onTarget();
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.shooterArm.stop();
+		Robot.driveTrain.stop();
 	}
 
 	// Called when another command which requires one or more of the same

@@ -7,20 +7,22 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class AutonomousCommand extends Command {
-	
-	static final double TOLERANCE = 10.0;
-	static final double SETPOINT = 500.0;
+public class GoToIntakeArmPosition extends Command {
 
-    public AutonomousCommand() {
+	private double position;
+	
+    public GoToIntakeArmPosition(double position) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.driveTrain);
+    	requires(Robot.intakeArm);
+    	this.position = position;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.driveTrain.driveToRelative(SETPOINT);
+    	Robot.intakeArm.stop();
+    	Robot.intakeArm.enable();
+    	Robot.intakeArm.setSetpoint(position);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -29,12 +31,12 @@ public class AutonomousCommand extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.driveTrain.onTarget();
+        return Robot.intakeArm.onTarget();
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.driveTrain.stop();
+    	Robot.intakeArm.stop();
     }
 
     // Called when another command which requires one or more of the same

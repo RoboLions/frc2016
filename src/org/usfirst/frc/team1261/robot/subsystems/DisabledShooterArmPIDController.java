@@ -5,38 +5,36 @@ import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
 /**
- * An angle-based {@link DriveTrain} {@link PIDController}.
+ * A {@link PIDController} for the {@link ShooterArm} that does nothing.
  */
-class AngleBasedDriveTrainPIDController extends PIDController {
+class DisabledShooterArmPIDController extends PIDController {
 
-	public static final double kP = 0.001;
+	public static final double kP = 0.0;
 	public static final double kI = 0.0;
 	public static final double kD = 0.0;
-	public static final double DEFAULT_TOLERANCE = 10.0;
+	public static final double DEFAULT_TOLERANCE = 0.0;
 
-	public static final double OUTPUT_THRESHOLD = 0.25;
+	/**
+	 * Error value used for PID because this PID controller has no effect.
+	 */
+	public static final double DEFAULT_ERROR = 0.0;
 
-	public AngleBasedDriveTrainPIDController(DriveTrain driveTrain) {
+	public DisabledShooterArmPIDController(ShooterArm shooterArm) {
 		super(kP, kI, kD, new DisplacementPIDSource() {
 			@Override
 			public double pidGet() {
-				return driveTrain.getYaw();
+				return DEFAULT_ERROR;
 			}
 		}, new PIDOutput() {
 			@Override
 			public void pidWrite(double output) {
-				if (Math.abs(output) <= OUTPUT_THRESHOLD) {
-					output = Math.signum(output) * OUTPUT_THRESHOLD;
-				}
-				driveTrain.turn(output);
 			}
 		});
-		setAbsoluteTolerance(DEFAULT_TOLERANCE);
 	}
-	
+
 	/**
 	 * Return {@code true} if the error is within the tolerance determined by
-	 * {@link AngleBasedDriveTrainPIDController#DEFAULT_TOLERANCE}.<br>
+	 * {@link DisabledShooterArmPIDController#DEFAULT_TOLERANCE}.<br>
 	 * <em>This method overrides {@link PIDSubsystem}'s
 	 * {@link PIDSubsystem#onTarget onTarget} method as a workaround for
 	 * <a href="https://usfirst.collab.net/sf/tracker/do/viewArtifact/projects.wpilib/tracker.4_defects/artf4812">

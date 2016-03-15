@@ -1,16 +1,23 @@
 
 package org.usfirst.frc.team1261.robot;
 
-import org.usfirst.frc.team1261.robot.commands.IntakeArmDown;
-import org.usfirst.frc.team1261.robot.commands.IntakeArmUp;
-import org.usfirst.frc.team1261.robot.commands.IntakeIn;
+import org.usfirst.frc.team1261.robot.commands.AutoElevateAlignShoot;
+import org.usfirst.frc.team1261.robot.commands.BothMotorIntake;
 import org.usfirst.frc.team1261.robot.commands.IntakeOut;
-import org.usfirst.frc.team1261.robot.commands.ShooterArmDown;
-import org.usfirst.frc.team1261.robot.commands.ShooterArmUp;
+import org.usfirst.frc.team1261.robot.commands.PrepareToShoot;
+import org.usfirst.frc.team1261.robot.commands.ShooterArmSetpointDown;
+import org.usfirst.frc.team1261.robot.commands.ShooterArmSetpointUp;
+import org.usfirst.frc.team1261.robot.commands.SpikeOutAndIn;
+import org.usfirst.frc.team1261.robot.commands.TrackElevateAlign;
+import org.usfirst.frc.team1261.robot.triggers.DriverRightTriggerTrigger;
+import org.usfirst.frc.team1261.robot.triggers.ManipulatorDPadDownTrigger;
+import org.usfirst.frc.team1261.robot.triggers.ManipulatorDPadUpTrigger;
+import org.usfirst.frc.team1261.robot.triggers.ManipulatorLeftTriggerTrigger;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.buttons.Trigger;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -66,30 +73,38 @@ public class OI {
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
 	
-	Joystick driverJoystick = new Joystick(DRIVER_JOYSTICK);
-	Joystick manipulatorJoystick = new Joystick(MANIPULATOR_JOYSTICK);
+	static Joystick driverJoystick = new Joystick(DRIVER_JOYSTICK);
+	static Joystick manipulatorJoystick = new Joystick(MANIPULATOR_JOYSTICK);
 	
-	Button intakeInButton = new JoystickButton(driverJoystick, BUTTON_A);
-	Button intakeOutButton = new JoystickButton(driverJoystick, BUTTON_B);
-	Button intakeArmUpButton = new JoystickButton(driverJoystick, BUTTON_Y);
-	Button intakeArmDownButton = new JoystickButton(driverJoystick, BUTTON_X);
-	Button shooterArmUpButton = new JoystickButton(driverJoystick, BUTTON_RIGHT_BUMPER);
-	Button shooterArmDownButton = new JoystickButton(driverJoystick, BUTTON_LEFT_BUMPER);
+	Button prepareToShootButton = new JoystickButton(manipulatorJoystick, BUTTON_RIGHT_BUMPER);
+	Button trackElevateAlignButton = new JoystickButton(driverJoystick, BUTTON_A);
+	Button autoElevateAlignShootButton = new JoystickButton(driverJoystick, BUTTON_B);
+	Trigger spikeOutAndInButton = new DriverRightTriggerTrigger(driverJoystick);
+	Trigger autoIntakeButton = new ManipulatorLeftTriggerTrigger(manipulatorJoystick);
+	Trigger intakeArmSetpointDownButton = new ManipulatorDPadDownTrigger(manipulatorJoystick);
+	Trigger intakeArmSetpointUpButton = new ManipulatorDPadUpTrigger(manipulatorJoystick);
+	Button shooterArmSetpointUpButton = new JoystickButton(manipulatorJoystick, BUTTON_B);
+	Button shooterArmSetpointDownButton = new JoystickButton(manipulatorJoystick, BUTTON_A);
+	Button intakeRollerOutput = new JoystickButton(manipulatorJoystick, BUTTON_LEFT_BUMPER);
 	
 	public OI() {
-		intakeInButton.whileHeld(new IntakeIn());
-		intakeOutButton.whileHeld(new IntakeOut());
-		intakeArmUpButton.whileHeld(new IntakeArmUp());
-		intakeArmDownButton.whileHeld(new IntakeArmDown());
-		shooterArmUpButton.whileHeld(new ShooterArmUp());
-		shooterArmDownButton.whileHeld(new ShooterArmDown());
+		prepareToShootButton.whenPressed(new PrepareToShoot());
+		trackElevateAlignButton.toggleWhenPressed(new TrackElevateAlign());
+		autoElevateAlignShootButton.toggleWhenPressed(new AutoElevateAlignShoot());
+		spikeOutAndInButton.whenActive(new SpikeOutAndIn());
+		autoIntakeButton.whileActive(new BothMotorIntake());
+		//intakeArmSetpointDownButton.whenActive(new IntakeArmSetpointDown());
+		//intakeArmSetpointUpButton.whenActive(new IntakeArmSetpointUp());
+		shooterArmSetpointDownButton.toggleWhenPressed(new ShooterArmSetpointDown());
+		shooterArmSetpointUpButton.toggleWhenPressed(new ShooterArmSetpointUp());
+		intakeRollerOutput.whileHeld(new IntakeOut());
 	}
 	
-	public Joystick getDriverJoystick() {
+	public static Joystick getDriverJoystick() {
 		return driverJoystick;
 	}
 	
-	public Joystick getManipulatorJoystick() {
+	public static Joystick getManipulatorJoystick() {
 		return manipulatorJoystick;
 	}
 }

@@ -5,8 +5,8 @@ import org.usfirst.frc.team1261.robot.commands.JoystickDrive;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -16,14 +16,16 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class DriveTrain extends Subsystem {
 
+	public static final double RANGEFINDER_VOLTS_TO_DISTANCE_FACTOR = 1.0;
+	public static final double RANGEFINDER_NO_SIGNAL_THRESHOLD = 0.25;
+
 	CANTalon frontLeftMotor = RobotMap.frontLeftMotor;
 	CANTalon rearLeftMotor = RobotMap.rearLeftMotor;
 	CANTalon frontRightMotor = RobotMap.frontRightMotor;
 	CANTalon rearRightMotor = RobotMap.rearRightMotor;
-	Encoder leftEncoder = RobotMap.leftEncoder;
-	Encoder rightEncoder = RobotMap.rightEncoder;
 	RobotDrive robotDrive = RobotMap.driveTrain;
 	AHRS navX = RobotMap.navX;
+	AnalogInput rangeFinder = RobotMap.rangeFinder;
 
 	// Change this to change the default PIDController for the DriveTrain.
 	PIDController controller = new DisabledDriveTrainPIDController(this);
@@ -41,6 +43,11 @@ public class DriveTrain extends Subsystem {
 		 */
 		ANGLE,
 		/**
+		 * A vision-tracking-based {@link PIDController} for the
+		 * {@link DriveTrain}.
+		 */
+		VISION_TRACK,
+		/**
 		 * A {@link PIDController} for the {@link DriveTrain} that does nothing.
 		 */
 		DISABLED;
@@ -51,10 +58,16 @@ public class DriveTrain extends Subsystem {
 				return new DistanceBasedDriveTrainPIDController(driveTrain);
 			case ANGLE:
 				return new AngleBasedDriveTrainPIDController(driveTrain);
+			case VISION_TRACK:
+				return new VisionTrackingBasedDriveTrainPIDController(driveTrain);
 			default:
 				return new DisabledDriveTrainPIDController(driveTrain);
 			}
 		}
+	}
+
+	public class RangeFinderNoSignalException extends Exception {
+		private static final long serialVersionUID = 7796196790913368565L;
 	}
 
 	public void initDefaultCommand() {
@@ -72,12 +85,12 @@ public class DriveTrain extends Subsystem {
 	}
 
 	/**
-	 * Returns distance traveled according to the right encoder.
+	 * Returns distance traveled according to the left encoder.
 	 * 
-	 * @return Right encoder's distance traveled in encoder units.
+	 * @return Left encoder's distance traveled in encoder units.
 	 */
 	public double leftDistanceTraveled() {
-		return leftEncoder.getDistance();
+		return frontLeftMotor.getEncPosition();
 	}
 
 	/**
@@ -86,15 +99,15 @@ public class DriveTrain extends Subsystem {
 	 * @return Right encoder's distance traveled in encoder units.
 	 */
 	public double rightDistanceTraveled() {
-		return rightEncoder.getDistance();
+		return frontRightMotor.getEncPosition();
 	}
 
 	/**
 	 * Resets the encoders measuring distance traveled.
 	 */
 	public void resetDistanceTraveled() {
-		leftEncoder.reset();
-		rightEncoder.reset();
+		frontLeftMotor.setEncPosition(0);
+		frontRightMotor.setEncPosition(0);
 	}
 
 	/**
@@ -128,13 +141,11 @@ public class DriveTrain extends Subsystem {
 	}
 
 	/**
-	 * Gets the accumulated yaw angle from the navX micro. This does not reset
-	 * when the robot turns a full 360 degrees, so it is useful for algorithms
-	 * expecting a continuous, unbounded input range. To reset this value to
-	 * zero degrees, use the {@link DriveTrain#zeroYaw zeroYaw} method.
+	 * Gets the yaw angle from the navX micro. To reset this value to zero
+	 * degrees, use the {@link DriveTrain#zeroAngle zeroAngle} method.
 	 * 
-	 * @return A {@code double} representing the accumulated yaw angle in
-	 *         degrees.
+	 * @return A {@code float} between 0.0 and 360.0 representing the yaw angle
+	 *         in degrees.
 	 * @see {@link DriveTrain#getYaw getYaw}
 	 */
 	public double getAngle() {
@@ -315,5 +326,22 @@ public class DriveTrain extends Subsystem {
 	 */
 	public CANTalon getRearRightMotor() {
 		return rearRightMotor;
+	}
+
+	/**
+	 * Gets the {@link AnalogInput} that represents the laser range finder.
+	 * 
+	 * @return The {@link AnalogInput} associated with the laser range finder.
+	 */
+	public AnalogInput getRangeFinder() {
+		return rangeFinder;
+	}
+
+	public double getRangeFinderDistance() throws RangeFinderNoSignalException {
+		double rangeFinderVoltage = rangeFinder.getVoltage();
+		if (rangeFinderVoltage < RANGEFINDER_NO_SIGNAL_THRESHOLD) {
+			throw new RangeFinderNoSignalException();
+		}
+		return rangeFinderVoltage * RANGEFINDER_VOLTS_TO_DISTANCE_FACTOR;
 	}
 }
