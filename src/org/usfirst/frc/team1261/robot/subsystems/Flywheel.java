@@ -143,7 +143,7 @@ public class Flywheel extends Subsystem {
 	 * @return {@code true} if the photogate is blocked, {@code false}
 	 *         otherwise.
 	 */
-	public boolean getPhotoGateStatus() {
+	public boolean isPhotoGateBlocked() {
 		return photoGate.get();
 	}
 

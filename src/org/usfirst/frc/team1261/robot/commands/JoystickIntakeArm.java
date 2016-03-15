@@ -18,7 +18,7 @@ public class JoystickIntakeArm extends Command {
 	public static final double DEADZONE = 0.25; // 0.25;
 	public static final double MAXIMUM_JOYSTICK_INPUT = 1.0;
 
-	public static final double MINIMUM_POWER_FACTOR = 0.8; // 0.9;
+	public static final double MINIMUM_POWER_FACTOR = 0.8;
 	public static final double MAXIMUM_POWER_FACTOR = 1.0;
 
 	// Used for calculating the scaling factor for the joystick to motor power

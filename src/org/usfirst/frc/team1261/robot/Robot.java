@@ -5,13 +5,18 @@
 package org.usfirst.frc.team1261.robot;
 
 import org.usfirst.frc.team1261.robot.commands.DriveForward;
+import org.usfirst.frc.team1261.robot.commands.ReachAutonomousProgram;
+import org.usfirst.frc.team1261.robot.commands.SimpleAutonomousProgram;
 import org.usfirst.frc.team1261.robot.commands.ZeroAngle;
+import org.usfirst.frc.team1261.robot.commands.ZeroIntakeArmEncoder;
+import org.usfirst.frc.team1261.robot.commands.ZeroShooterArmEncoder;
 import org.usfirst.frc.team1261.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1261.robot.subsystems.Flywheel;
 import org.usfirst.frc.team1261.robot.subsystems.IntakeArm;
 import org.usfirst.frc.team1261.robot.subsystems.IntakeRoller;
 import org.usfirst.frc.team1261.robot.subsystems.ShooterArm;
 import org.usfirst.frc.team1261.robot.subsystems.SpikePuncher;
+import org.usfirst.frc.team1261.robot.subsystems.VisionTrackingLED;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -39,6 +44,7 @@ public class Robot extends IterativeRobot {
 	public static Flywheel flywheel;
 	public static ShooterArm shooterArm;
 	public static SpikePuncher spikePuncher;
+	public static VisionTrackingLED visionTrackingLED;
 
 	public static OI oi;
 
@@ -63,6 +69,7 @@ public class Robot extends IterativeRobot {
 		flywheel = new Flywheel();
 		shooterArm = new ShooterArm();
 		spikePuncher = new SpikePuncher();
+		visionTrackingLED = new VisionTrackingLED();
 
 		oi = new OI();
 	}
@@ -107,7 +114,13 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Defense Type Chooser", defenseTypeChooser);
 
 		SmartDashboard.putData(new ZeroAngle());
-		SmartDashboard.putData(new DriveForward(5.0));
+		SmartDashboard.putData(new ZeroShooterArmEncoder());
+		SmartDashboard.putData(new ZeroIntakeArmEncoder());
+
+		SmartDashboard.putBoolean("Autonomous enabled", true);
+		SmartDashboard.putBoolean("ONLY REACH DEFENSES", false);
+		
+		SmartDashboard.putBoolean("Override Shooter Limit Switch", false);
 
 		if (CAMERA_ID != null) {
 			server = CameraServer.getInstance();
@@ -142,20 +155,18 @@ public class Robot extends IterativeRobot {
 	 * to the switch structure below with additional strings & commands.
 	 */
 	public void autonomousInit() {
-
-		System.out.println("Starting Position: " + startingPositionChooser.getSelected() + "     Defense Type: "
-				+ defenseTypeChooser.getSelected() + "     Shot Location: " + shotLocationChooser.getSelected()
-				+ "     End Position: " + endingPositionChooser.getSelected());
-
-		if ((String) startingPositionChooser.getSelected() == "Left") {
-			isAlignedVert = false;
-		} else {
-			isAlignedVert = true;
-		}
-		SmartDashboard.putBoolean("Aligned Vertically", isAlignedVert);
-
 		// autonomousCommand = (Command) chooser.getSelected();
-		autonomousCommand = new DriveForward(10.0);
+		if (SmartDashboard.getBoolean("Autonomous enabled", true)) {
+			if(SmartDashboard.getBoolean("ONLY REACH DEFENSES", false)){
+				autonomousCommand = new ReachAutonomousProgram();
+			}
+			else{
+				autonomousCommand = new SimpleAutonomousProgram();
+			}
+		} else {
+			autonomousCommand = null;
+		}
+		autonomousCommand = new DriveForward(3.0);
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -206,23 +217,13 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during all modes
 	 */
 	public void allPeriodic() {
-		SmartDashboard.putNumber("Left distance traveled", Robot.driveTrain.leftDistanceTraveled());
-		SmartDashboard.putNumber("Right distance traveled", Robot.driveTrain.rightDistanceTraveled());
-		SmartDashboard.putNumber("Distance traveled", Robot.driveTrain.distanceTraveled());
 		SmartDashboard.putNumber("Shooter arm encoder", Robot.shooterArm.getAngle());
 		SmartDashboard.putNumber("Intake arm encoder", Robot.intakeArm.getAngle());
-		SmartDashboard.putBoolean("Shooter loaded", Robot.flywheel.getPhotoGateStatus());
-		SmartDashboard.putBoolean("Intake upper limit",
-				Robot.intakeArm.getLimitSwitchStatus() == IntakeArm.LimitSwitchStatus.UPPER);
-		SmartDashboard.putBoolean("Intake lower limit",
-				Robot.intakeArm.getLimitSwitchStatus() == IntakeArm.LimitSwitchStatus.LOWER);
-		SmartDashboard.putNumber("Flywheel left speed", Robot.flywheel.getLeftFlywheelMotor().getEncPosition());
-		SmartDashboard.putNumber("Flywheel right speed", Robot.flywheel.getRightFlywheelMotor().getEncPosition());
 		SmartDashboard.putNumber("Rangefinder voltage", RobotMap.rangeFinder.getVoltage());
-		SmartDashboard.putNumber("navX pitch", RobotMap.navX.getPitch());
-		SmartDashboard.putNumber("navX roll", RobotMap.navX.getRoll());
 		SmartDashboard.putNumber("navX yaw", RobotMap.navX.getYaw());
-		SmartDashboard.putNumber("navX angle", RobotMap.navX.getAngle());
+		SmartDashboard.putBoolean("Shooter arm lower limit", Robot.shooterArm.isLowerLimitSwitchHit());
+		SmartDashboard.putBoolean("Intake arm lower limit", Robot.intakeArm.isLowerLimitSwitchHit());
+		SmartDashboard.putBoolean("Intake arm upper limit", Robot.intakeArm.isUpperLimitSwitchHit());
 		SmartDashboard.putBoolean("navX connected", RobotMap.navX.isConnected());
 		SmartDashboard.putBoolean("navX calibrating", RobotMap.navX.isCalibrating());
 	}

@@ -5,14 +5,13 @@ import org.usfirst.frc.team1261.robot.Robot;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * An straight driving {@link DriveTrain} {@link PIDController}.
  */
 public class StraightDrivingDriveTrainPIDController extends PIDController {
 
-	public static final double kP = 0.005;
+	public static final double kP = 0.0055;
 	public static final double kI = 0.0;
 	public static final double kD = 0.0;
 	public static final double DEFAULT_TOLERANCE = 5.0;
@@ -26,7 +25,6 @@ public class StraightDrivingDriveTrainPIDController extends PIDController {
 		}, new PIDOutput() {
 			@Override
 			public void pidWrite(double output) {
-				SmartDashboard.putNumber("PID output", output);
 				Robot.driveTrain.getRobotDrive().drive(-power, output);
 			}
 		});

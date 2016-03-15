@@ -5,11 +5,11 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 /**
  * A class that retrieves vision tracking data from the Raspberry Pi.
  */
-class RaspberryPiCommunicationAdapter {
+public class RaspberryPiCommunicationAdapter {
 
 	/**
-	 * Indicates that the vision processor was unable to identify any
-	 * contours representing goals.
+	 * Indicates that the vision processor was unable to identify any contours
+	 * representing goals.
 	 */
 	static class NoContoursFoundException extends Exception {
 		private static final long serialVersionUID = 8913380034267672587L;
@@ -27,12 +27,16 @@ class RaspberryPiCommunicationAdapter {
 	public static final double X_AXIS_TARGET = X_IMAGE_SIZE / 2;
 	public static final double Y_AXIS_TOLERANCE = Y_IMAGE_SIZE * TOLERANCE_FACTOR;
 	public static final double X_AXIS_TOLERANCE = X_IMAGE_SIZE * TOLERANCE_FACTOR;
-
+	
 	/**
 	 * Value used for x, y, and area of target when it cannot be retrieved.
 	 */
 	public static final double DEFAULT_VALUE = 0.0;
 
+	public static void setShooterFired(boolean fired) {
+		CONTOUR_TABLE.putBoolean("shooterFired", fired);
+	}
+	
 	/**
 	 * Gets the y-axis offset of the center of the goal from where the shooter
 	 * arm is pointing.
@@ -103,5 +107,16 @@ class RaspberryPiCommunicationAdapter {
 		} else {
 			return CONTOUR_TABLE.getNumber("area", DEFAULT_VALUE);
 		}
+	}
+
+	/**
+	 * Returns a boolean indicating whether or not a contour representing the
+	 * goal could be identified.
+	 * 
+	 * @return {@code true} if the contour representing the goal could be
+	 *         identified, {@code false} otherwise.
+	 */
+	public static boolean isContourFound() {
+		return CONTOUR_TABLE.getBoolean("contourFound", false);
 	}
 }

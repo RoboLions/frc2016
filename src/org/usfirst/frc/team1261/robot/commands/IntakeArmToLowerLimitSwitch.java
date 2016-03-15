@@ -7,35 +7,32 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class FlywheelOut extends Command {
-	
-	public static final double POWER = 1.0;
+public class IntakeArmToLowerLimitSwitch extends Command {
 
-    public FlywheelOut() {
+    public IntakeArmToLowerLimitSwitch() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.flywheel);
+    	requires(Robot.intakeArm);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.flywheel.stop();
+    	Robot.intakeArm.stop();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	//RaspberryPiCommunicationAdapter.setShooterFired(true);
-    	Robot.flywheel.setFlywheelPower(POWER);
+    	Robot.intakeArm.setIntakeArmMotorPower(-.8);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return Robot.intakeArm.isLowerLimitSwitchHit();
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.flywheel.stop();
+    	Robot.intakeArm.stop();
     }
 
     // Called when another command which requires one or more of the same

@@ -9,6 +9,6 @@ public class AutoIntakeShooter extends FlywheelIn {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return Robot.flywheel.getPhotoGateStatus();
+		return Robot.flywheel.isPhotoGateBlocked();
 	}
 }

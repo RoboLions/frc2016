@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class AutoElevateAlignShoot extends CommandGroup {
 
-	public static final double MINIMUM_SPIKE_DELAY = 4.0;
+	public static final double MINIMUM_SPIKE_DELAY = 0.0;
 
 	public AutoElevateAlignShoot() {
 		// Add Commands here:
