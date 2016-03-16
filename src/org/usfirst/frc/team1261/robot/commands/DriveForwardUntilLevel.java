@@ -14,7 +14,7 @@ public class DriveForwardUntilLevel extends Command {
 	public static final double DEFAULT_POWER = 0.7;
 	public static final double PITCH_THRESHOLD = 7.5;
 	public static final double ROLL_THRESHOLD = 7.5;
-	public static final double MINIMUM_LEVEL_DURATION = 1.0;
+	public static final double MINIMUM_LEVEL_DURATION = 0.75;
 
 	private static final double MINIMUM_LEVEL_DURATION_MICROSECONDS = MINIMUM_LEVEL_DURATION * 1000000;
 	private boolean onDefense = false;
