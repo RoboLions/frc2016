@@ -4,7 +4,6 @@
 
 package org.usfirst.frc.team1261.robot;
 
-import org.usfirst.frc.team1261.robot.commands.DriveForwardUntilLevel;
 import org.usfirst.frc.team1261.robot.commands.ReachAutonomousProgram;
 import org.usfirst.frc.team1261.robot.commands.SimpleAutonomousProgram;
 import org.usfirst.frc.team1261.robot.commands.ZeroAngle;
@@ -166,7 +165,6 @@ public class Robot extends IterativeRobot {
 		} else {
 			autonomousCommand = null;
 		}
-		autonomousCommand = new DriveForwardUntilLevel();
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
