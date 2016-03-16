@@ -224,5 +224,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putBoolean("Intake arm upper limit", Robot.intakeArm.isUpperLimitSwitchHit());
 		SmartDashboard.putBoolean("navX connected", RobotMap.navX.isConnected());
 		SmartDashboard.putBoolean("navX calibrating", RobotMap.navX.isCalibrating());
+		SmartDashboard.putNumber("Flywheel left speed", Robot.flywheel.getLeftFlywheelMotor().getEncVelocity());
+		SmartDashboard.putNumber("Flywheel right speed", Robot.flywheel.getRightFlywheelMotor().getEncVelocity());
 	}
 }
