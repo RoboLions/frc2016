@@ -21,7 +21,7 @@ public class ShooterArm extends Subsystem {
 
 	public static final double SETPOINT_INTAKE_POSITION = 0;
 	public static final double SETPOINT_HORIZONTAL_POSITION = 7.5;
-	public static final double SETPOINT_SHOOTING_POSITION = 17.0;
+	public static final double SETPOINT_SHOOTING_POSITION = 16.5;
 
 	// TODO: figure out these values
 	public static final double[] SETPOINTS = { SETPOINT_INTAKE_POSITION, SETPOINT_HORIZONTAL_POSITION,
