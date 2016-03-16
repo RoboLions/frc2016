@@ -15,7 +15,7 @@ public class JoystickIntakeArm extends Command {
 	public static final int JOYSTICK_AXIS = OI.AXIS_LEFT_STICK_Y;
 	public static final double JOYSTICK_SCALING_FACTOR = -1.0;
 
-	public static final double DEADZONE = 0.25; // 0.25;
+	public static final double DEADZONE = 0.25;
 	public static final double MAXIMUM_JOYSTICK_INPUT = 1.0;
 
 	public static final double MINIMUM_POWER_FACTOR = 0.8;
