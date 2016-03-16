@@ -15,6 +15,7 @@ public class JoystickShooterArm extends Command {
 	public static final int JOYSTICK_AXIS = OI.AXIS_RIGHT_STICK_Y;
 
 	public static final double POWER_SCALING_FACTOR = -1.0;
+	public static final double MINIMUM_POWER = 0.14;
 
     public JoystickShooterArm() {
         // Use requires() here to declare subsystem dependencies
@@ -29,7 +30,11 @@ public class JoystickShooterArm extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.shooterArm.setShooterArmMotorPower(JOYSTICK.getRawAxis(JOYSTICK_AXIS) * POWER_SCALING_FACTOR);
+    	double power = JOYSTICK.getRawAxis(JOYSTICK_AXIS) * POWER_SCALING_FACTOR;
+    	if (Math.abs(power) < MINIMUM_POWER) {
+    		power = 0.0;
+    	}
+    	Robot.shooterArm.setShooterArmMotorPower(power);
     }
 
     // Make this return true when this Command no longer needs to run execute()
