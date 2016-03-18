@@ -122,6 +122,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putBoolean("ONLY REACH DEFENSES", false);
 		
 		SmartDashboard.putBoolean("Override Shooter Limit Switch", false);
+		SmartDashboard.putBoolean("Override Intake Arm Limits", false);
 
 		if (CAMERA_ID != null) {
 			server = CameraServer.getInstance();

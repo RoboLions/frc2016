@@ -210,6 +210,9 @@ public class ShooterArm extends Subsystem {
 	 *         {@code false} otherwise.
 	 */
 	public boolean isLowerLimitSwitchHit() {
+		if (SmartDashboard.getBoolean("Override Shooter Limit Switch", false)) {
+			return false;
+		}
 		return shooterArmLowerLimitSwitch.get();
 	}
 }
