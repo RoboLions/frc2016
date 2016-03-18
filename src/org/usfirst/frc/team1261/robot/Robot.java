@@ -4,6 +4,7 @@
 
 package org.usfirst.frc.team1261.robot;
 
+import org.usfirst.frc.team1261.robot.commands.LowBarAutonomousProgram;
 import org.usfirst.frc.team1261.robot.commands.ReachAutonomousProgram;
 import org.usfirst.frc.team1261.robot.commands.SimpleAutonomousProgram;
 import org.usfirst.frc.team1261.robot.commands.ZeroAngle;
@@ -117,6 +118,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(new ZeroIntakeArmEncoder());
 
 		SmartDashboard.putBoolean("Autonomous enabled", true);
+		SmartDashboard.putBoolean("Low bar autonomous", false);
 		SmartDashboard.putBoolean("ONLY REACH DEFENSES", false);
 		
 		SmartDashboard.putBoolean("Override Shooter Limit Switch", false);
@@ -156,10 +158,11 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		// autonomousCommand = (Command) chooser.getSelected();
 		if (SmartDashboard.getBoolean("Autonomous enabled", true)) {
-			if(SmartDashboard.getBoolean("ONLY REACH DEFENSES", false)){
+			if (SmartDashboard.getBoolean("ONLY REACH DEFENSES", false)) {
 				autonomousCommand = new ReachAutonomousProgram();
-			}
-			else{
+			} else if (SmartDashboard.getBoolean("Low bar autonomous", false)) {
+				autonomousCommand = new LowBarAutonomousProgram();
+			} else {
 				autonomousCommand = new SimpleAutonomousProgram();
 			}
 		} else {
