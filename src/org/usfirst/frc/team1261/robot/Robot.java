@@ -5,6 +5,7 @@
 package org.usfirst.frc.team1261.robot;
 
 import org.usfirst.frc.team1261.robot.commands.LowBarAutonomousProgram;
+import org.usfirst.frc.team1261.robot.commands.RampartsAutonomousProgram;
 import org.usfirst.frc.team1261.robot.commands.ReachAutonomousProgram;
 import org.usfirst.frc.team1261.robot.commands.SimpleAutonomousProgram;
 import org.usfirst.frc.team1261.robot.commands.ZeroAngle;
@@ -120,6 +121,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putBoolean("Autonomous enabled", true);
 		SmartDashboard.putBoolean("Low bar autonomous", false);
 		SmartDashboard.putBoolean("ONLY REACH DEFENSES", false);
+		SmartDashboard.putBoolean("Ramparts Autonomous", false);
 		
 		SmartDashboard.putBoolean("Override Shooter Limit Switch", false);
 		SmartDashboard.putBoolean("Override Intake Arm Limits", false);
@@ -163,6 +165,8 @@ public class Robot extends IterativeRobot {
 				autonomousCommand = new ReachAutonomousProgram();
 			} else if (SmartDashboard.getBoolean("Low bar autonomous", false)) {
 				autonomousCommand = new LowBarAutonomousProgram();
+			} else if (SmartDashboard.getBoolean("Ramparts Autonomous", false)) {
+				autonomousCommand = new RampartsAutonomousProgram();
 			} else {
 				autonomousCommand = new SimpleAutonomousProgram();
 			}
