@@ -110,7 +110,7 @@ public class ShooterArm extends Subsystem {
 	 *            The power, between -1.0 and 1.0.
 	 */
 	public void setShooterArmMotorPower(double power) {
-		if (power < 0.0 && shooterArmLowerLimitSwitch.get() && !SmartDashboard.getBoolean("Override Shooter Limit Switch", false)) {
+		if (power < 0.0 && shooterArmLowerLimitSwitch.get() && !SmartDashboard.getBoolean("Override shooter limit switch", false)) {
 			// If motor is going against limit switch
 			power = 0.0;
 		}
@@ -210,6 +210,9 @@ public class ShooterArm extends Subsystem {
 	 *         {@code false} otherwise.
 	 */
 	public boolean isLowerLimitSwitchHit() {
+		if (SmartDashboard.getBoolean("Override shooter limit switch", false)) {
+			return false;
+		}
 		return shooterArmLowerLimitSwitch.get();
 	}
 }

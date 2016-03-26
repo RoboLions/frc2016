@@ -4,6 +4,8 @@
 
 package org.usfirst.frc.team1261.robot;
 
+import org.usfirst.frc.team1261.robot.commands.LowBarAutonomousProgram;
+import org.usfirst.frc.team1261.robot.commands.RampartsAutonomousProgram;
 import org.usfirst.frc.team1261.robot.commands.ReachAutonomousProgram;
 import org.usfirst.frc.team1261.robot.commands.SimpleAutonomousProgram;
 import org.usfirst.frc.team1261.robot.commands.ZeroAngle;
@@ -48,14 +50,10 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 
 	Command autonomousCommand;
-	SendableChooser chooser;
 
 	public static boolean isAlignedVert = true;
 
-	SendableChooser startingPositionChooser = new SendableChooser();
-	SendableChooser endingPositionChooser = new SendableChooser();
 	SendableChooser defenseTypeChooser = new SendableChooser();
-	SendableChooser shotLocationChooser = new SendableChooser();
 
 	CameraServer server;
 
@@ -83,43 +81,25 @@ public class Robot extends IterativeRobot {
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		// SmartDashboard.putData("Auto mode", chooser);
 
-		startingPositionChooser.addDefault("Left", "Left");
-		startingPositionChooser.addObject("Left-Center", "Left-Center");
-		startingPositionChooser.addObject("Center", "Center");
-		startingPositionChooser.addObject("Right-Center", "Right-Center");
-		startingPositionChooser.addObject("Right", "Right");
+		defenseTypeChooser.addDefault("Low bar", DefenseType.LOW_BAR);
+		defenseTypeChooser.addObject("Portcullis", DefenseType.PORTCULLIS);
+		defenseTypeChooser.addObject("Cheval-de-frise", DefenseType.CHEVAL_DE_FRISE);
+		defenseTypeChooser.addObject("Moat", DefenseType.MOAT);
+		defenseTypeChooser.addObject("Ramparts", DefenseType.RAMPARTS);
+		defenseTypeChooser.addObject("Rock wall", DefenseType.ROCK_WALL);
+		defenseTypeChooser.addObject("Rough terrain", DefenseType.ROUGH_TERRAIN);
 
-		endingPositionChooser.addDefault("Left", "Left");
-		endingPositionChooser.addObject("Left-Center", "Left-Center");
-		endingPositionChooser.addObject("Center", "Center");
-		endingPositionChooser.addObject("Right-Center", "Right-Center");
-		endingPositionChooser.addObject("Right", "Right");
-
-		defenseTypeChooser.addDefault("Low Bar", "Low Bar");
-		defenseTypeChooser.addObject("Portcullis", "Portcullis");
-		defenseTypeChooser.addObject("Cheval-de-Frise", "Cheval-de-Frise");
-		defenseTypeChooser.addObject("Moat", "Moat");
-		defenseTypeChooser.addObject("Ramparts", "Ramparts");
-		defenseTypeChooser.addObject("Rock Wall", "Rock Wall");
-		defenseTypeChooser.addObject("Rough Terrain", "Rough Terrain");
-
-		shotLocationChooser.addDefault("Middle-Long", "Middle-Long");
-		shotLocationChooser.addObject("Middle-Short", "Middle-Short");
-		shotLocationChooser.addObject("Side-Long", "Side-Long");
-
-		SmartDashboard.putData("Starting Position Chooser", startingPositionChooser);
-		SmartDashboard.putData("Shot Location Chooser", shotLocationChooser);
-		SmartDashboard.putData("Ending Position Chooser", endingPositionChooser);
-		SmartDashboard.putData("Defense Type Chooser", defenseTypeChooser);
+		SmartDashboard.putData("Defense type", defenseTypeChooser);
 
 		SmartDashboard.putData(new ZeroAngle());
 		SmartDashboard.putData(new ZeroShooterArmEncoder());
 		SmartDashboard.putData(new ZeroIntakeArmEncoder());
 
 		SmartDashboard.putBoolean("Autonomous enabled", true);
-		SmartDashboard.putBoolean("ONLY REACH DEFENSES", false);
-		
-		SmartDashboard.putBoolean("Override Shooter Limit Switch", false);
+		SmartDashboard.putBoolean("Only reach defenses", false);
+
+		SmartDashboard.putBoolean("Override shooter limit switch", false);
+		SmartDashboard.putBoolean("Override intake arm limits", false);
 
 		if (CAMERA_ID != null) {
 			server = CameraServer.getInstance();
@@ -156,11 +136,19 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		// autonomousCommand = (Command) chooser.getSelected();
 		if (SmartDashboard.getBoolean("Autonomous enabled", true)) {
-			if(SmartDashboard.getBoolean("ONLY REACH DEFENSES", false)){
+			if (SmartDashboard.getBoolean("Only reach defenses", false)) {
 				autonomousCommand = new ReachAutonomousProgram();
-			}
-			else{
-				autonomousCommand = new SimpleAutonomousProgram();
+			} else {
+				switch ((DefenseType) defenseTypeChooser.getSelected()) {
+				case LOW_BAR:
+					autonomousCommand = new LowBarAutonomousProgram();
+					break;
+				case RAMPARTS:
+					autonomousCommand = new RampartsAutonomousProgram();
+					break;
+				default:
+					autonomousCommand = new SimpleAutonomousProgram();
+				}
 			}
 		} else {
 			autonomousCommand = null;
