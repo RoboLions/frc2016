@@ -10,12 +10,12 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
 class VisionTrackingBasedShooterArmPIDController extends PIDController {
 
 	// TODO: figure out these values
-	public static final double kP = 0.003;
+	public static final double kP = 0.005;
 	public static final double kI = 0.0;
 	public static final double kD = 0.0;
 	public static final double DEFAULT_TOLERANCE = RaspberryPiCommunicationAdapter.Y_AXIS_TOLERANCE;
 
-	public static final double OUTPUT_THRESHOLD = 0.12;
+	public static final double OUTPUT_THRESHOLD = 0.3;
 
 	/**
 	 * Error value used for PID when no target can be found.
@@ -38,7 +38,7 @@ class VisionTrackingBasedShooterArmPIDController extends PIDController {
 				if (Math.abs(output) <= OUTPUT_THRESHOLD) {
 					output = Math.signum(output) * OUTPUT_THRESHOLD;
 				}
-				if (!RaspberryPiCommunicationAdapter.isContourFound()) {
+				if (!RaspberryPiCommunicationAdapter.isContourFound() || shooterArm.onTarget()) {
 					output = 0.0;
 				}
 				edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putNumber("Shooter arm power", output);

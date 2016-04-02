@@ -15,7 +15,7 @@ class VisionTrackingBasedDriveTrainPIDController extends PIDController {
 	public static final double kD = 0.0;
 	public static final double DEFAULT_TOLERANCE = RaspberryPiCommunicationAdapter.X_AXIS_TOLERANCE;
 
-	public static final double OUTPUT_THRESHOLD = 0.2;
+	public static final double OUTPUT_THRESHOLD = 0.25;
 
 	/**
 	 * Error value used for PID when no target can be found.
@@ -39,7 +39,7 @@ class VisionTrackingBasedDriveTrainPIDController extends PIDController {
 				if (Math.abs(output) <= OUTPUT_THRESHOLD) {
 					output = Math.signum(output) * OUTPUT_THRESHOLD;
 				}
-				if (!RaspberryPiCommunicationAdapter.isContourFound()) {
+				if (!RaspberryPiCommunicationAdapter.isContourFound() || driveTrain.onTarget()) {
 					output = 0.0;
 				}
 				edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putNumber("Drivetrain turn power", output);
