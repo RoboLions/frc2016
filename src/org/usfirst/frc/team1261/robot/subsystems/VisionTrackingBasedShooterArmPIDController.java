@@ -15,7 +15,7 @@ class VisionTrackingBasedShooterArmPIDController extends PIDController {
 	public static final double kD = 0.0;
 	public static final double DEFAULT_TOLERANCE = RaspberryPiCommunicationAdapter.Y_AXIS_TOLERANCE;
 
-	public static final double OUTPUT_THRESHOLD = 0.3;
+	public static final double OUTPUT_THRESHOLD = 0.25;
 
 	/**
 	 * Error value used for PID when no target can be found.

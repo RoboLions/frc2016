@@ -17,7 +17,7 @@ public class RaspberryPiCommunicationAdapter {
 
 	public static final NetworkTable CONTOUR_TABLE = NetworkTable.getTable("RaspberryPI");
 
-	public static final double TOLERANCE_FACTOR = 0.03;
+	public static final double TOLERANCE_FACTOR = 0.04;
 
 	public static final double DEFAULT_Y_IMAGE_SIZE = 240;
 	public static final double DEFAULT_X_IMAGE_SIZE = 320;
