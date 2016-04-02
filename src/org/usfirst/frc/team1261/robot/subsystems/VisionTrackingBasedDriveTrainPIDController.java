@@ -10,8 +10,8 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
 class VisionTrackingBasedDriveTrainPIDController extends PIDController {
 
 	// TODO: figure out these values
-	public static final double kP = 0.0015;
-	public static final double kI = 0.0001;
+	public static final double kP = 0.0025;
+	public static final double kI = 0.0;
 	public static final double kD = 0.0;
 	public static final double DEFAULT_TOLERANCE = RaspberryPiCommunicationAdapter.X_AXIS_TOLERANCE;
 
@@ -27,6 +27,7 @@ class VisionTrackingBasedDriveTrainPIDController extends PIDController {
 			@Override
 			public double pidGet() {
 				try {
+					edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putNumber("x-error", RaspberryPiCommunicationAdapter.getTargetXOffset());
 					return RaspberryPiCommunicationAdapter.getTargetXOffset();
 				} catch (RaspberryPiCommunicationAdapter.NoContoursFoundException e) {
 					return DEFAULT_ERROR;
@@ -38,6 +39,10 @@ class VisionTrackingBasedDriveTrainPIDController extends PIDController {
 				if (Math.abs(output) <= OUTPUT_THRESHOLD) {
 					output = Math.signum(output) * OUTPUT_THRESHOLD;
 				}
+				if (!RaspberryPiCommunicationAdapter.isContourFound()) {
+					output = 0.0;
+				}
+				edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putNumber("Drivetrain turn power", output);
 				driveTrain.turn(output);
 			}
 		});

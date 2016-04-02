@@ -36,7 +36,7 @@ public class AutoElevateAlignShoot extends CommandGroup {
 		requires(Robot.spikePuncher);
 		addParallel(new FlywheelOut());
 		addSequential(new CommandWithMinimumDuration(new AutoElevateAlign(), MINIMUM_SPIKE_DELAY));
-		//addSequential(new SpikeOutAndIn());
+		addSequential(new SpikeOutAndIn());
 		addSequential(new CancelCommandGroup(this));
 	}
 	
