@@ -39,6 +39,8 @@ public class Robot extends IterativeRobot {
 	public static final int IMAGE_QUALITY = 50;
 	public static final String CAMERA_ID = null;
 
+	public static final double MINIMUM_FLYWHEEL_VELOCITY = 575.0;
+
 	public static DriveTrain driveTrain;
 	public static IntakeArm intakeArm;
 	public static IntakeRoller intakeRoller;
@@ -214,5 +216,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putBoolean("navX calibrating", RobotMap.navX.isCalibrating());
 		SmartDashboard.putNumber("Flywheel left speed", Robot.flywheel.getLeftFlywheelMotor().getEncVelocity());
 		SmartDashboard.putNumber("Flywheel right speed", Robot.flywheel.getRightFlywheelMotor().getEncVelocity());
+		SmartDashboard.putBoolean("Flywheel ready",
+				(Math.abs(Robot.flywheel.getLeftFlywheelMotor().getEncVelocity()) >= MINIMUM_FLYWHEEL_VELOCITY && Math
+						.abs(Robot.flywheel.getRightFlywheelMotor().getEncVelocity()) >= MINIMUM_FLYWHEEL_VELOCITY));
 	}
 }

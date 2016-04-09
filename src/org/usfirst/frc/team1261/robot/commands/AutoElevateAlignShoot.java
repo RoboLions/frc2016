@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class AutoElevateAlignShoot extends CommandGroup {
 
-	public static final double MINIMUM_SPIKE_DELAY = 0.0;
+	public static final double MINIMUM_FLYWHEEL_VELOCITY = Robot.MINIMUM_FLYWHEEL_VELOCITY;
 
 	public AutoElevateAlignShoot() {
 		// Add Commands here:
@@ -35,7 +35,7 @@ public class AutoElevateAlignShoot extends CommandGroup {
 		requires(Robot.flywheel);
 		requires(Robot.spikePuncher);
 		addParallel(new FlywheelOut());
-		addSequential(new CommandWithMinimumDuration(new AutoElevateAlign(), MINIMUM_SPIKE_DELAY));
+		addSequential(new CommandWithMinimumFlywheelVelocity(new AutoElevateAlign(), MINIMUM_FLYWHEEL_VELOCITY));
 		addSequential(new SpikeOutAndIn());
 		addSequential(new CancelCommandGroup(this));
 	}
