@@ -146,6 +146,7 @@ public class Robot extends IterativeRobot {
 					autonomousCommand = new LowBarAutonomousProgram();
 					break;
 				case RAMPARTS:
+				case MOAT:
 					autonomousCommand = new RampartsAutonomousProgram();
 					break;
 				default:
