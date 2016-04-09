@@ -4,6 +4,7 @@ package org.usfirst.frc.team1261.robot;
 import org.usfirst.frc.team1261.robot.commands.AutoElevateAlignShoot;
 import org.usfirst.frc.team1261.robot.commands.BothMotorIntake;
 import org.usfirst.frc.team1261.robot.commands.IntakeOut;
+import org.usfirst.frc.team1261.robot.commands.PowerLED;
 import org.usfirst.frc.team1261.robot.commands.PrepareToShoot;
 import org.usfirst.frc.team1261.robot.commands.ShooterArmSetpointDown;
 import org.usfirst.frc.team1261.robot.commands.ShooterArmSetpointUp;
@@ -79,6 +80,7 @@ public class OI {
 	Button prepareToShootButton = new JoystickButton(manipulatorJoystick, BUTTON_RIGHT_BUMPER);
 	Button trackElevateAlignButton = new JoystickButton(driverJoystick, BUTTON_A);
 	Button autoElevateAlignShootButton = new JoystickButton(driverJoystick, BUTTON_B);
+	Button powerLEDButton = new JoystickButton(driverJoystick, BUTTON_LEFT_BUMPER);
 	Trigger spikeOutAndInButton = new DriverRightTriggerTrigger(driverJoystick);
 	Trigger autoIntakeButton = new ManipulatorLeftTriggerTrigger(manipulatorJoystick);
 	Trigger intakeArmSetpointDownButton = new ManipulatorDPadDownTrigger(manipulatorJoystick);
@@ -91,6 +93,7 @@ public class OI {
 		prepareToShootButton.whenPressed(new PrepareToShoot());
 		trackElevateAlignButton.toggleWhenPressed(new TrackElevateAlign());
 		autoElevateAlignShootButton.toggleWhenPressed(new AutoElevateAlignShoot());
+		powerLEDButton.whileHeld(new PowerLED());
 		spikeOutAndInButton.whenActive(new SpikeOutAndIn());
 		autoIntakeButton.whileActive(new BothMotorIntake());
 		//intakeArmSetpointDownButton.whenActive(new IntakeArmSetpointDown());
