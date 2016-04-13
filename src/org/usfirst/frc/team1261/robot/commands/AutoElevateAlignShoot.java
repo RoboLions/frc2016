@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1261.robot.commands;
 
 import org.usfirst.frc.team1261.robot.Robot;
+import org.usfirst.frc.team1261.robot.subsystems.Flywheel;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -10,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class AutoElevateAlignShoot extends CommandGroup {
 
-	public static final double MINIMUM_SPIKE_DELAY = 0.0;
+	public static final double MINIMUM_FLYWHEEL_SPEED = Flywheel.MINIMUM_FLYWHEEL_SPEED;
 
 	public AutoElevateAlignShoot() {
 		// Add Commands here:
@@ -34,10 +35,15 @@ public class AutoElevateAlignShoot extends CommandGroup {
 		requires(Robot.driveTrain);
 		requires(Robot.flywheel);
 		requires(Robot.spikePuncher);
-		addParallel(new FlywheelOut());
-		addSequential(new CommandWithMinimumDuration(new AutoElevateAlign(), MINIMUM_SPIKE_DELAY));
+		requires(Robot.visionTrackingLED);
+		FlywheelOut flywheelOut = new FlywheelOut();
+		PowerLED powerLED = new PowerLED();
+		addParallel(flywheelOut);
+		addParallel(powerLED);
+		addSequential(new CommandWithMinimumFlywheelSpeed(new AutoElevateAlign(), MINIMUM_FLYWHEEL_SPEED));
 		addSequential(new SpikeOutAndIn());
-		addSequential(new CancelCommandGroup(this));
+		addSequential(new FinishCommand(flywheelOut));
+		addSequential(new FinishCommand(powerLED));
 	}
 	
     

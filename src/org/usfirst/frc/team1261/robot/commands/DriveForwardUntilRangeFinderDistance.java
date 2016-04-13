@@ -55,5 +55,6 @@ public class DriveForwardUntilRangeFinderDistance extends Command {
     // subsystems is scheduled to run
     protected void interrupted() {
     	end();
+    	System.out.println("DriveForwardUntilRangeFinderDistance was interrupted.");
     }
 }

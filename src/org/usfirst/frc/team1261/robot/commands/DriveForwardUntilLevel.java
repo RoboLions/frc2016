@@ -78,5 +78,6 @@ public class DriveForwardUntilLevel extends Command {
 	// subsystems is scheduled to run
 	protected void interrupted() {
 		end();
+		System.out.println("DriveForwardUntilLevel was interrupted.");
 	}
 }

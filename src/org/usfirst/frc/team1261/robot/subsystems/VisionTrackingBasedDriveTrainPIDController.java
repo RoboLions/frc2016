@@ -11,7 +11,7 @@ class VisionTrackingBasedDriveTrainPIDController extends PIDController {
 
 	// TODO: figure out these values
 	public static final double kP = 0.0018;
-	public static final double kI = 0.0002;
+	public static final double kI = 0.00026;
 	public static final double kD = 0.01;
 	public static final double DEFAULT_TOLERANCE = RaspberryPiCommunicationAdapter.X_AXIS_TOLERANCE;
 

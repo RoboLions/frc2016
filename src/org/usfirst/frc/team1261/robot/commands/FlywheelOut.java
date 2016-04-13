@@ -7,9 +7,11 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class FlywheelOut extends Command {
+public class FlywheelOut extends Command implements Finishable {
 	
 	public static final double POWER = 1.0;
+
+	private boolean finished = false;
 
     public FlywheelOut() {
         // Use requires() here to declare subsystem dependencies
@@ -20,6 +22,7 @@ public class FlywheelOut extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.flywheel.stop();
+    	finished = false;
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -30,7 +33,7 @@ public class FlywheelOut extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return finished;
     }
 
     // Called once after isFinished returns true
@@ -43,4 +46,8 @@ public class FlywheelOut extends Command {
     protected void interrupted() {
     	end();
     }
+
+	public void setFinished(boolean finished) {
+		this.finished = finished;
+	}
 }
