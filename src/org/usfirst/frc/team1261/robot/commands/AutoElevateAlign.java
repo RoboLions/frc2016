@@ -29,6 +29,7 @@ public class AutoElevateAlign extends Command {
 
  // Called just before this Command runs the first time
     protected void initialize() {
+    	System.out.println("Starting auto-shot...");
     	Robot.driveTrain.setPIDController(DriveTrain.DriveTrainPIDController.VISION_TRACK);
 		Robot.driveTrain.setSetpoint(X_AXIS_TARGET);
     	Robot.shooterArm.setPIDController(ShooterArm.ShooterArmPIDController.VISION_TRACK);

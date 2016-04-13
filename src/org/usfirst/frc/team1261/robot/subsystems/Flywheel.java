@@ -38,6 +38,9 @@ public class Flywheel extends Subsystem {
 	public static final double RIGHT_MOTOR_GAIN_I = 0.0;
 	public static final double RIGHT_MOTOR_GAIN_D = 0.0;
 
+	public static final double REQUIRED_FLYWHEEL_SPEED = 200.0;
+	public static final double MINIMUM_FLYWHEEL_SPEED = 575.0;
+
 	CANTalon flywheelLeftMotor = RobotMap.flywheelLeftMotor;
 	CANTalon flywheelRightMotor = RobotMap.flywheelRightMotor;
 	DigitalInput photoGate = RobotMap.photoGate;
@@ -145,6 +148,45 @@ public class Flywheel extends Subsystem {
 	 */
 	public boolean isPhotoGateBlocked() {
 		return photoGate.get();
+	}
+
+	/**
+	 * Gets the {@code boolean} that represents whether the flywheel is at or
+	 * above the given speed. This represents if it is safe to shoot.
+	 * 
+	 * @param speed
+	 *            The speed at or above which the flywheel must be.
+	 * @return {@code true} if both flywheel motors are at or above the given
+	 *         speed, {@code false} otherwise.
+	 */
+	public boolean meetsSpeed(double speed) {
+		if (Math.abs(flywheelLeftMotor.getEncVelocity()) < speed)
+			return false;
+		if (Math.abs(flywheelRightMotor.getEncVelocity()) < speed)
+			return false;
+		return true;
+	}
+
+	/**
+	 * Gets the {@code boolean} that represents whether the flywheel is at or
+	 * above the {@link Flywheel#REQUIRED_FLYWHEEL_SPEED}. This represents if it
+	 * is safe to shoot.
+	 * 
+	 * @return {@code true} if it is safe to shoot, {@code false} otherwise.
+	 */
+	public boolean meetsRequiredSpeed() {
+		return meetsSpeed(REQUIRED_FLYWHEEL_SPEED);
+	}
+
+	/**
+	 * Gets the {@code boolean} that represents whether the flywheel is at or
+	 * above the {@link Flywheel#MINIMUM_FLYWHEEL_SPEED}. This represents if the
+	 * robot should shoot.
+	 * 
+	 * @return {@code true} if the robot should shoot, {@code false} otherwise.
+	 */
+	public boolean meetsMinimumSpeed() {
+		return meetsSpeed(MINIMUM_FLYWHEEL_SPEED);
 	}
 
 	/**

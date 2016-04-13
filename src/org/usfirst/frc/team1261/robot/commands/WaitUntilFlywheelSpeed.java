@@ -7,14 +7,14 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class WaitUntilFlywheelVelocity extends Command {
+public class WaitUntilFlywheelSpeed extends Command {
 
-	private final double minimumVelocity;
+	private final double minimumSpeed;
 
-	public WaitUntilFlywheelVelocity(double minimumVelocity) {
+	public WaitUntilFlywheelSpeed(double minimumSpeed) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		this.minimumVelocity = minimumVelocity;
+		this.minimumSpeed = minimumSpeed;
 	}
 
 	// Called just before this Command runs the first time
@@ -27,8 +27,7 @@ public class WaitUntilFlywheelVelocity extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return (Math.abs(Robot.flywheel.getLeftFlywheelMotor().getEncVelocity()) >= minimumVelocity
-				&& Math.abs(Robot.flywheel.getRightFlywheelMotor().getEncVelocity()) >= minimumVelocity);
+		return Robot.flywheel.meetsSpeed(minimumSpeed);
 	}
 
 	// Called once after isFinished returns true

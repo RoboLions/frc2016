@@ -11,7 +11,7 @@ public class RaspberryPiCommunicationAdapter {
 	 * Indicates that the vision processor was unable to identify any contours
 	 * representing goals.
 	 */
-	static class NoContoursFoundException extends Exception {
+	public static class NoContoursFoundException extends Exception {
 		private static final long serialVersionUID = 8913380034267672587L;
 	}
 
@@ -27,7 +27,7 @@ public class RaspberryPiCommunicationAdapter {
 	public static final double X_AXIS_TARGET = X_IMAGE_SIZE / 2;
 	public static final double Y_AXIS_TOLERANCE = Y_IMAGE_SIZE * TOLERANCE_FACTOR;
 	public static final double X_AXIS_TOLERANCE = X_IMAGE_SIZE * TOLERANCE_FACTOR;
-	
+
 	/**
 	 * Value used for x, y, and area of target when it cannot be retrieved.
 	 */
@@ -94,9 +94,9 @@ public class RaspberryPiCommunicationAdapter {
 	}
 
 	/**
-	 * Gets the area of the contour representing the goal.
+	 * Gets the area of the box representing the goal.
 	 * 
-	 * @return The area of the contour representing the goal in pixels.
+	 * @return The area of the box representing the goal in pixels.
 	 * @throws NoContoursFoundException
 	 *             If no contours representing goals can be identified.
 	 */

@@ -4,6 +4,7 @@
 
 package org.usfirst.frc.team1261.robot;
 
+import org.usfirst.frc.team1261.robot.commands.DriveForwardUntilLevel;
 import org.usfirst.frc.team1261.robot.commands.LowBarAutonomousProgram;
 import org.usfirst.frc.team1261.robot.commands.RampartsAutonomousProgram;
 import org.usfirst.frc.team1261.robot.commands.ReachAutonomousProgram;
@@ -11,13 +12,16 @@ import org.usfirst.frc.team1261.robot.commands.SimpleAutonomousProgram;
 import org.usfirst.frc.team1261.robot.commands.ZeroAngle;
 import org.usfirst.frc.team1261.robot.commands.ZeroIntakeArmEncoder;
 import org.usfirst.frc.team1261.robot.commands.ZeroShooterArmEncoder;
+import org.usfirst.frc.team1261.robot.commands.TurnUntilContourFound.Direction;
 import org.usfirst.frc.team1261.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1261.robot.subsystems.Flywheel;
 import org.usfirst.frc.team1261.robot.subsystems.IntakeArm;
 import org.usfirst.frc.team1261.robot.subsystems.IntakeRoller;
+import org.usfirst.frc.team1261.robot.subsystems.RaspberryPiCommunicationAdapter;
 import org.usfirst.frc.team1261.robot.subsystems.ShooterArm;
 import org.usfirst.frc.team1261.robot.subsystems.SpikePuncher;
 import org.usfirst.frc.team1261.robot.subsystems.VisionTrackingLED;
+import org.usfirst.frc.team1261.robot.subsystems.RaspberryPiCommunicationAdapter.NoContoursFoundException;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -39,8 +43,6 @@ public class Robot extends IterativeRobot {
 	public static final int IMAGE_QUALITY = 50;
 	public static final String CAMERA_ID = null;
 
-	public static final double MINIMUM_FLYWHEEL_VELOCITY = 575.0;
-
 	public static DriveTrain driveTrain;
 	public static IntakeArm intakeArm;
 	public static IntakeRoller intakeRoller;
@@ -56,6 +58,7 @@ public class Robot extends IterativeRobot {
 	public static boolean isAlignedVert = true;
 
 	SendableChooser defenseTypeChooser = new SendableChooser();
+	SendableChooser startingPositionChooser = new SendableChooser();
 
 	CameraServer server;
 
@@ -91,7 +94,12 @@ public class Robot extends IterativeRobot {
 		defenseTypeChooser.addObject("Rock wall", DefenseType.ROCK_WALL);
 		defenseTypeChooser.addObject("Rough terrain", DefenseType.ROUGH_TERRAIN);
 
+		startingPositionChooser.addDefault("Left of tower", Direction.FROM_LEFT);
+		startingPositionChooser.addObject("In front of tower", Direction.NONE);
+		startingPositionChooser.addObject("Right of tower", Direction.FROM_RIGHT);
+
 		SmartDashboard.putData("Defense type", defenseTypeChooser);
+		SmartDashboard.putData("Starting position", startingPositionChooser);
 
 		SmartDashboard.putData(new ZeroAngle());
 		SmartDashboard.putData(new ZeroShooterArmEncoder());
@@ -99,6 +107,7 @@ public class Robot extends IterativeRobot {
 
 		SmartDashboard.putBoolean("Autonomous enabled", true);
 		SmartDashboard.putBoolean("Only reach defenses", false);
+		SmartDashboard.putBoolean("Shoot during autonomous", true);
 
 		SmartDashboard.putBoolean("Override shooter limit switch", false);
 		SmartDashboard.putBoolean("Override intake arm limits", false);
@@ -141,16 +150,18 @@ public class Robot extends IterativeRobot {
 			if (SmartDashboard.getBoolean("Only reach defenses", false)) {
 				autonomousCommand = new ReachAutonomousProgram();
 			} else {
+				boolean shoot = SmartDashboard.getBoolean("Shoot during autonomous", true);
+				Direction direction = (Direction) startingPositionChooser.getSelected();
 				switch ((DefenseType) defenseTypeChooser.getSelected()) {
 				case LOW_BAR:
-					autonomousCommand = new LowBarAutonomousProgram();
+					autonomousCommand = new LowBarAutonomousProgram(shoot);
 					break;
 				case RAMPARTS:
 				case MOAT:
-					autonomousCommand = new RampartsAutonomousProgram();
+					autonomousCommand = new RampartsAutonomousProgram(shoot, direction);
 					break;
 				default:
-					autonomousCommand = new SimpleAutonomousProgram();
+					autonomousCommand = new SimpleAutonomousProgram(shoot, direction);
 				}
 			}
 		} else {
@@ -217,8 +228,19 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putBoolean("navX calibrating", RobotMap.navX.isCalibrating());
 		SmartDashboard.putNumber("Flywheel left speed", Robot.flywheel.getLeftFlywheelMotor().getEncVelocity());
 		SmartDashboard.putNumber("Flywheel right speed", Robot.flywheel.getRightFlywheelMotor().getEncVelocity());
-		SmartDashboard.putBoolean("Flywheel ready",
-				(Math.abs(Robot.flywheel.getLeftFlywheelMotor().getEncVelocity()) >= MINIMUM_FLYWHEEL_VELOCITY && Math
-						.abs(Robot.flywheel.getRightFlywheelMotor().getEncVelocity()) >= MINIMUM_FLYWHEEL_VELOCITY));
+		SmartDashboard.putBoolean("Flywheel ready", Robot.flywheel.meetsMinimumSpeed());
+		try {
+			SmartDashboard.putNumber("Target area", RaspberryPiCommunicationAdapter.getArea());
+		} catch (NoContoursFoundException e) {
+			SmartDashboard.putNumber("Target area", 0.0);
+		}
+		double pitch = Robot.driveTrain.getNavX().getPitch();
+		double roll = Robot.driveTrain.getNavX().getRoll();
+		double yaw = Robot.driveTrain.getNavX().getYaw();
+		boolean isLevel = (Math.abs(pitch) <= DriveForwardUntilLevel.PITCH_THRESHOLD) && (Math.abs(roll) <= DriveForwardUntilLevel.ROLL_THRESHOLD);
+		SmartDashboard.putBoolean("Is level", isLevel);
+		SmartDashboard.putNumber("navX pitch", pitch);
+		SmartDashboard.putNumber("navX roll", roll);
+		SmartDashboard.putNumber("navX yaw", yaw);
 	}
 }

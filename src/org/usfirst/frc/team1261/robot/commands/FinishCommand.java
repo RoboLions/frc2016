@@ -1,22 +1,23 @@
 package org.usfirst.frc.team1261.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class CancelCommandGroup extends Command {
+public class FinishCommand extends Command {
 
-	private CommandGroup commandGroup;
+	private Finishable command;
 
-    public CancelCommandGroup(CommandGroup commandGroup) {
-        this.commandGroup = commandGroup;
+    public FinishCommand(Finishable command) {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    	this.command = command;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	commandGroup.cancel();
+    	command.setFinished(true);
     }
 
     // Called repeatedly when this Command is scheduled to run

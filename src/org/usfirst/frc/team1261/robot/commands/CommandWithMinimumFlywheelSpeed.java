@@ -6,9 +6,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class CommandWithMinimumFlywheelVelocity extends CommandGroup {
+public class CommandWithMinimumFlywheelSpeed extends CommandGroup {
 
-	public CommandWithMinimumFlywheelVelocity(Command command, double minimumVelocity) {
+	public CommandWithMinimumFlywheelSpeed(Command command, double minimumSpeed) {
 		// Add Commands here:
 		// e.g. addSequential(new Command1());
 		// addSequential(new Command2());
@@ -27,6 +27,6 @@ public class CommandWithMinimumFlywheelVelocity extends CommandGroup {
 		// arm.
 
 		addParallel(command);
-		addParallel(new WaitUntilFlywheelVelocity(minimumVelocity));
+		addParallel(new WaitUntilFlywheelSpeed(minimumSpeed));
 	}
 }
