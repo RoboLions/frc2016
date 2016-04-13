@@ -8,17 +8,17 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class SimpleAutonomousProgram extends CommandGroup {
+public class RampartsAutonomousProgram extends CommandGroup {
 
 	public static final double SHOOTER_ARM_INITIAL_POSITION = ShooterArm.SETPOINT_HORIZONTAL_POSITION;
 	public static final double SHOOTER_ARM_FINAL_POSITION = ShooterArm.SETPOINT_SHOOTING_POSITION;
-	public static final double DRIVE_FORWARD_UNTIL_LEVEL_TIMEOUT = 3.1;
+	public static final double DRIVE_FORWARD_UNTIL_LEVEL_TIMEOUT = 3.5;
 	public static final double DRIVE_FORWARD_UNTIL_RANGE_FINDER_DISTANCE_TIMEOUT = 0.5;
 	public static final double RANGE_FINDER_DISTANCE = 1.4;
 	public static final double LOWER_INTAKE_ARM_TIMEOUT = 0.75;
 	public static final double INTAKE_DURATION = 0.75;
 
-	public SimpleAutonomousProgram(boolean shoot, Direction direction) {
+	public RampartsAutonomousProgram(boolean shoot, Direction direction) {
 		// Add Commands here:
 		// e.g. addSequential(new Command1());
 		// addSequential(new Command2());

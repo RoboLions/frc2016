@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The {@link PIDSubsystem} representing the intake arm.
@@ -61,7 +62,7 @@ public class IntakeArm extends PIDSubsystem {
 	 *            The power, between -1.0 and 1.0.
 	 */
 	public void setIntakeArmMotorPower(double power) {
-		if ((power < 0.0 && intakeArmLowerLimitSwitch.get()) || (power > 0.0 && intakeArmUpperLimitSwitch.get())) {
+		if (!SmartDashboard.getBoolean("Override intake arm limits", false) && ((power < 0.0 && intakeArmLowerLimitSwitch.get()) || (power > 0.0 && intakeArmUpperLimitSwitch.get()))) {
 			// If motor is going against limit switch
 			power = 0.0;
 		}
@@ -168,6 +169,9 @@ public class IntakeArm extends PIDSubsystem {
 	 *         {@code false} otherwise.
 	 */
 	public boolean isLowerLimitSwitchHit() {
+		if (SmartDashboard.getBoolean("Override intake arm limits", false)) {
+			return false;
+		}
 		return intakeArmLowerLimitSwitch.get();
 	}
 
@@ -190,6 +194,9 @@ public class IntakeArm extends PIDSubsystem {
 	 *         {@code false} otherwise.
 	 */
 	public boolean isUpperLimitSwitchHit() {
+		if (SmartDashboard.getBoolean("Override intake arm limits", false)) {
+			return false;
+		}
 		return intakeArmUpperLimitSwitch.get();
 	}
 }

@@ -25,6 +25,9 @@ public class StraightDrivingDriveTrainPIDController extends PIDController {
 		}, new PIDOutput() {
 			@Override
 			public void pidWrite(double output) {
+				if (power < 0.0) {
+					output = -output;
+				}
 				Robot.driveTrain.getRobotDrive().drive(-power, output);
 			}
 		});

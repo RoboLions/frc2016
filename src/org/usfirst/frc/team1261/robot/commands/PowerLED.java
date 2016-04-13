@@ -7,7 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class PowerLED extends Command {
+public class PowerLED extends Command implements Finishable {
+
+	private boolean finished = false;
 
     public PowerLED() {
         // Use requires() here to declare subsystem dependencies
@@ -18,6 +20,7 @@ public class PowerLED extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.visionTrackingLED.disable();
+    	finished = false;
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -27,7 +30,7 @@ public class PowerLED extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return finished;
     }
 
     // Called once after isFinished returns true
@@ -40,4 +43,8 @@ public class PowerLED extends Command {
     protected void interrupted() {
     	end();
     }
+
+	public void setFinished(boolean finished) {
+		this.finished = finished;
+	}
 }

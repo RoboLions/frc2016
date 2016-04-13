@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class SpikeIn extends Command {
 
-	public static final Value SPIKE_VALUE = Value.kForward;
+	public static final Value SPIKE_VALUE = Value.kReverse;
 	
     public SpikeIn() {
         // Use requires() here to declare subsystem dependencies

@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1261.robot.subsystems;
 
 import org.usfirst.frc.team1261.robot.RobotMap;
-import org.usfirst.frc.team1261.robot.commands.PowerLED;
 
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Relay.Value;
@@ -13,14 +12,13 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class VisionTrackingLED extends Subsystem {
 
 	public static final Value ON_VALUE = Value.kForward;
-	public static final Value OFF_VALUE = Value.kReverse;
+	public static final Value OFF_VALUE = Value.kOff;
 
 	Relay ledPower = RobotMap.ledPower;
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
-		setDefaultCommand(new PowerLED());
 	}
 
 	/**

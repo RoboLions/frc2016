@@ -4,19 +4,24 @@
 
 package org.usfirst.frc.team1261.robot;
 
-import org.usfirst.frc.team1261.robot.commands.DriveForward;
+import org.usfirst.frc.team1261.robot.commands.DriveForwardUntilLevel;
+import org.usfirst.frc.team1261.robot.commands.LowBarAutonomousProgram;
+import org.usfirst.frc.team1261.robot.commands.RampartsAutonomousProgram;
 import org.usfirst.frc.team1261.robot.commands.ReachAutonomousProgram;
 import org.usfirst.frc.team1261.robot.commands.SimpleAutonomousProgram;
 import org.usfirst.frc.team1261.robot.commands.ZeroAngle;
 import org.usfirst.frc.team1261.robot.commands.ZeroIntakeArmEncoder;
 import org.usfirst.frc.team1261.robot.commands.ZeroShooterArmEncoder;
+import org.usfirst.frc.team1261.robot.commands.TurnUntilContourFound.Direction;
 import org.usfirst.frc.team1261.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1261.robot.subsystems.Flywheel;
 import org.usfirst.frc.team1261.robot.subsystems.IntakeArm;
 import org.usfirst.frc.team1261.robot.subsystems.IntakeRoller;
+import org.usfirst.frc.team1261.robot.subsystems.RaspberryPiCommunicationAdapter;
 import org.usfirst.frc.team1261.robot.subsystems.ShooterArm;
 import org.usfirst.frc.team1261.robot.subsystems.SpikePuncher;
 import org.usfirst.frc.team1261.robot.subsystems.VisionTrackingLED;
+import org.usfirst.frc.team1261.robot.subsystems.RaspberryPiCommunicationAdapter.NoContoursFoundException;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -49,14 +54,11 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 
 	Command autonomousCommand;
-	SendableChooser chooser;
 
 	public static boolean isAlignedVert = true;
 
-	SendableChooser startingPositionChooser = new SendableChooser();
-	SendableChooser endingPositionChooser = new SendableChooser();
 	SendableChooser defenseTypeChooser = new SendableChooser();
-	SendableChooser shotLocationChooser = new SendableChooser();
+	SendableChooser startingPositionChooser = new SendableChooser();
 
 	CameraServer server;
 
@@ -84,43 +86,31 @@ public class Robot extends IterativeRobot {
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		// SmartDashboard.putData("Auto mode", chooser);
 
-		startingPositionChooser.addDefault("Left", "Left");
-		startingPositionChooser.addObject("Left-Center", "Left-Center");
-		startingPositionChooser.addObject("Center", "Center");
-		startingPositionChooser.addObject("Right-Center", "Right-Center");
-		startingPositionChooser.addObject("Right", "Right");
+		defenseTypeChooser.addDefault("Low bar", DefenseType.LOW_BAR);
+		defenseTypeChooser.addObject("Portcullis", DefenseType.PORTCULLIS);
+		defenseTypeChooser.addObject("Cheval-de-frise", DefenseType.CHEVAL_DE_FRISE);
+		defenseTypeChooser.addObject("Moat", DefenseType.MOAT);
+		defenseTypeChooser.addObject("Ramparts", DefenseType.RAMPARTS);
+		defenseTypeChooser.addObject("Rock wall", DefenseType.ROCK_WALL);
+		defenseTypeChooser.addObject("Rough terrain", DefenseType.ROUGH_TERRAIN);
 
-		endingPositionChooser.addDefault("Left", "Left");
-		endingPositionChooser.addObject("Left-Center", "Left-Center");
-		endingPositionChooser.addObject("Center", "Center");
-		endingPositionChooser.addObject("Right-Center", "Right-Center");
-		endingPositionChooser.addObject("Right", "Right");
+		startingPositionChooser.addDefault("Left of tower", Direction.FROM_LEFT);
+		startingPositionChooser.addObject("In front of tower", Direction.NONE);
+		startingPositionChooser.addObject("Right of tower", Direction.FROM_RIGHT);
 
-		defenseTypeChooser.addDefault("Low Bar", "Low Bar");
-		defenseTypeChooser.addObject("Portcullis", "Portcullis");
-		defenseTypeChooser.addObject("Cheval-de-Frise", "Cheval-de-Frise");
-		defenseTypeChooser.addObject("Moat", "Moat");
-		defenseTypeChooser.addObject("Ramparts", "Ramparts");
-		defenseTypeChooser.addObject("Rock Wall", "Rock Wall");
-		defenseTypeChooser.addObject("Rough Terrain", "Rough Terrain");
-
-		shotLocationChooser.addDefault("Middle-Long", "Middle-Long");
-		shotLocationChooser.addObject("Middle-Short", "Middle-Short");
-		shotLocationChooser.addObject("Side-Long", "Side-Long");
-
-		SmartDashboard.putData("Starting Position Chooser", startingPositionChooser);
-		SmartDashboard.putData("Shot Location Chooser", shotLocationChooser);
-		SmartDashboard.putData("Ending Position Chooser", endingPositionChooser);
-		SmartDashboard.putData("Defense Type Chooser", defenseTypeChooser);
+		SmartDashboard.putData("Defense type", defenseTypeChooser);
+		SmartDashboard.putData("Starting position", startingPositionChooser);
 
 		SmartDashboard.putData(new ZeroAngle());
 		SmartDashboard.putData(new ZeroShooterArmEncoder());
 		SmartDashboard.putData(new ZeroIntakeArmEncoder());
 
 		SmartDashboard.putBoolean("Autonomous enabled", true);
-		SmartDashboard.putBoolean("ONLY REACH DEFENSES", false);
-		
-		SmartDashboard.putBoolean("Override Shooter Limit Switch", false);
+		SmartDashboard.putBoolean("Only reach defenses", false);
+		SmartDashboard.putBoolean("Shoot during autonomous", true);
+
+		SmartDashboard.putBoolean("Override shooter limit switch", false);
+		SmartDashboard.putBoolean("Override intake arm limits", false);
 
 		if (CAMERA_ID != null) {
 			server = CameraServer.getInstance();
@@ -157,16 +147,26 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		// autonomousCommand = (Command) chooser.getSelected();
 		if (SmartDashboard.getBoolean("Autonomous enabled", true)) {
-			if(SmartDashboard.getBoolean("ONLY REACH DEFENSES", false)){
+			if (SmartDashboard.getBoolean("Only reach defenses", false)) {
 				autonomousCommand = new ReachAutonomousProgram();
-			}
-			else{
-				autonomousCommand = new SimpleAutonomousProgram();
+			} else {
+				boolean shoot = SmartDashboard.getBoolean("Shoot during autonomous", true);
+				Direction direction = (Direction) startingPositionChooser.getSelected();
+				switch ((DefenseType) defenseTypeChooser.getSelected()) {
+				case LOW_BAR:
+					autonomousCommand = new LowBarAutonomousProgram(shoot);
+					break;
+				case RAMPARTS:
+				case MOAT:
+					autonomousCommand = new RampartsAutonomousProgram(shoot, direction);
+					break;
+				default:
+					autonomousCommand = new SimpleAutonomousProgram(shoot, direction);
+				}
 			}
 		} else {
 			autonomousCommand = null;
 		}
-		autonomousCommand = new DriveForward(3.0);
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -226,5 +226,21 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putBoolean("Intake arm upper limit", Robot.intakeArm.isUpperLimitSwitchHit());
 		SmartDashboard.putBoolean("navX connected", RobotMap.navX.isConnected());
 		SmartDashboard.putBoolean("navX calibrating", RobotMap.navX.isCalibrating());
+		SmartDashboard.putNumber("Flywheel left speed", Robot.flywheel.getLeftFlywheelMotor().getEncVelocity());
+		SmartDashboard.putNumber("Flywheel right speed", Robot.flywheel.getRightFlywheelMotor().getEncVelocity());
+		SmartDashboard.putBoolean("Flywheel ready", Robot.flywheel.meetsMinimumSpeed());
+		try {
+			SmartDashboard.putNumber("Target area", RaspberryPiCommunicationAdapter.getArea());
+		} catch (NoContoursFoundException e) {
+			SmartDashboard.putNumber("Target area", 0.0);
+		}
+		double pitch = Robot.driveTrain.getNavX().getPitch();
+		double roll = Robot.driveTrain.getNavX().getRoll();
+		double yaw = Robot.driveTrain.getNavX().getYaw();
+		boolean isLevel = (Math.abs(pitch) <= DriveForwardUntilLevel.PITCH_THRESHOLD) && (Math.abs(roll) <= DriveForwardUntilLevel.ROLL_THRESHOLD);
+		SmartDashboard.putBoolean("Is level", isLevel);
+		SmartDashboard.putNumber("navX pitch", pitch);
+		SmartDashboard.putNumber("navX roll", roll);
+		SmartDashboard.putNumber("navX yaw", yaw);
 	}
 }

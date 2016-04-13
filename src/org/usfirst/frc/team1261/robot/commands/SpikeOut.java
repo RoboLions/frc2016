@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class SpikeOut extends Command {
 
-	public static final Value SPIKE_VALUE = Value.kReverse;
+	public static final Value SPIKE_VALUE = Value.kForward;
 
 	private static int shotCount = 0;
 	
@@ -23,7 +23,7 @@ public class SpikeOut extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.spikePuncher.setSpikeValue(Value.kOff);
-    	System.out.println("Spike fired! This was shot #" + (++shotCount) + ". Shooter arm encoder was at: " + Robot.shooterArm.getAngle());
+    	System.out.println("Spike fired! This was shot #" + (++shotCount) + ". Flywheel left speed was: " + Robot.flywheel.getLeftFlywheelMotor().getEncVelocity() + "; flywheel right speed was: " + Robot.flywheel.getRightFlywheelMotor().getEncVelocity());
     }
 
     // Called repeatedly when this Command is scheduled to run

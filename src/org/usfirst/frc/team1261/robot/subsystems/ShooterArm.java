@@ -21,7 +21,7 @@ public class ShooterArm extends Subsystem {
 
 	public static final double SETPOINT_INTAKE_POSITION = 0;
 	public static final double SETPOINT_HORIZONTAL_POSITION = 7.5;
-	public static final double SETPOINT_SHOOTING_POSITION = 17.0;
+	public static final double SETPOINT_SHOOTING_POSITION = 16.5;
 
 	// TODO: figure out these values
 	public static final double[] SETPOINTS = { SETPOINT_INTAKE_POSITION, SETPOINT_HORIZONTAL_POSITION,
@@ -110,7 +110,7 @@ public class ShooterArm extends Subsystem {
 	 *            The power, between -1.0 and 1.0.
 	 */
 	public void setShooterArmMotorPower(double power) {
-		if (power < 0.0 && shooterArmLowerLimitSwitch.get() && !SmartDashboard.getBoolean("Override Shooter Limit Switch", false)) {
+		if (power < 0.0 && shooterArmLowerLimitSwitch.get() && !SmartDashboard.getBoolean("Override shooter limit switch", false)) {
 			// If motor is going against limit switch
 			power = 0.0;
 		}
@@ -210,6 +210,9 @@ public class ShooterArm extends Subsystem {
 	 *         {@code false} otherwise.
 	 */
 	public boolean isLowerLimitSwitchHit() {
+		if (SmartDashboard.getBoolean("Override shooter limit switch", false)) {
+			return false;
+		}
 		return shooterArmLowerLimitSwitch.get();
 	}
 }
