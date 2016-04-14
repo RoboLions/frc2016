@@ -161,6 +161,7 @@ public class Robot extends IterativeRobot {
 					break;
 				case RAMPARTS:
 				case MOAT:
+				case ROCK_WALL:
 					autonomousCommand = new RampartsAutonomousProgram(shoot, direction);
 					break;
 				default:
