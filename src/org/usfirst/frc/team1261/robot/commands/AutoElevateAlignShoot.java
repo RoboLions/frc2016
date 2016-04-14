@@ -4,7 +4,6 @@ import org.usfirst.frc.team1261.robot.Robot;
 import org.usfirst.frc.team1261.robot.subsystems.Flywheel;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -48,15 +47,14 @@ public class AutoElevateAlignShoot extends CommandGroup {
 	
     
     public void initialize() {
-    	SmartDashboard.putBoolean("AutoElevateAlign running", true);
+    	System.out.println("Starting auto-shot...");
     }
-    
 
     public void end() {
-    	SmartDashboard.putBoolean("AutoElevateAlign running", false);
+    	System.out.println("Auto-shot finished.");
     }
     
     public void interrupted() {
-    	end();
+    	System.out.println("Auto-shot interrupted.");
     }
 }
