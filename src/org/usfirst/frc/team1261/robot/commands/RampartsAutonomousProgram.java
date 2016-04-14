@@ -12,6 +12,7 @@ public class RampartsAutonomousProgram extends CommandGroup {
 
 	public static final double SHOOTER_ARM_INITIAL_POSITION = ShooterArm.SETPOINT_HORIZONTAL_POSITION;
 	public static final double SHOOTER_ARM_FINAL_POSITION = ShooterArm.SETPOINT_SHOOTING_POSITION;
+	public static final double MINIMUM_LEVEL_DURATION = 0.7;
 	public static final double DRIVE_FORWARD_UNTIL_LEVEL_TIMEOUT = 3.7;
 	public static final double DRIVE_FORWARD_UNTIL_RANGE_FINDER_DISTANCE_TIMEOUT = 0.5;
 	public static final double RANGE_FINDER_DISTANCE = 1.4;
@@ -36,7 +37,8 @@ public class RampartsAutonomousProgram extends CommandGroup {
 		// a CommandGroup containing them would require both the chassis and the
 		// arm.
 		addSequential(new GoToShooterArmPosition(SHOOTER_ARM_INITIAL_POSITION));
-		addSequential(new DriveForwardUntilLevel(), DRIVE_FORWARD_UNTIL_LEVEL_TIMEOUT);
+		addSequential(new DriveForwardUntilLevel(DriveForwardUntilLevel.DEFAULT_POWER, MINIMUM_LEVEL_DURATION),
+				DRIVE_FORWARD_UNTIL_LEVEL_TIMEOUT);
 		addSequential(new DriveForwardUntilRangeFinderDistance(RANGE_FINDER_DISTANCE),
 				DRIVE_FORWARD_UNTIL_RANGE_FINDER_DISTANCE_TIMEOUT);
 		addSequential(new IntakeArmToLowerLimitSwitch(), LOWER_INTAKE_ARM_TIMEOUT);

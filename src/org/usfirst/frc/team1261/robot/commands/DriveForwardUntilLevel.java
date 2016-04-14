@@ -14,13 +14,13 @@ public class DriveForwardUntilLevel extends Command {
 	public static final double DEFAULT_POWER = 0.7;
 	public static final double PITCH_THRESHOLD = 7.5;
 	public static final double ROLL_THRESHOLD = 7.5;
-	public static final double MINIMUM_LEVEL_DURATION = 0.75;
+	public static final double DEFAULT_MINIMUM_LEVEL_DURATION = 0.4;
 
-	private static final double MINIMUM_LEVEL_DURATION_MICROSECONDS = MINIMUM_LEVEL_DURATION * 1000000;
 	private boolean onDefense = false;
 	private boolean crossedDefense = false;
 	private long timeAtDefenseCross = 0;
 	private double power = DEFAULT_POWER;
+	private double minimumLevelDurationMicroseconds = DEFAULT_MINIMUM_LEVEL_DURATION * 1000000;
 
 	public DriveForwardUntilLevel() {
 		// Use requires() here to declare subsystem dependencies
@@ -31,6 +31,12 @@ public class DriveForwardUntilLevel extends Command {
 	public DriveForwardUntilLevel(double power) {
 		this();
 		this.power = power;
+	}
+
+	public DriveForwardUntilLevel(double power, double minimumLevelDuration) {
+		this();
+		this.power = power;
+		this.minimumLevelDurationMicroseconds = minimumLevelDuration * 1000000;
 	}
 
 	// Called just before this Command runs the first time
@@ -69,7 +75,7 @@ public class DriveForwardUntilLevel extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		boolean finished = (crossedDefense && Utility.getFPGATime() - timeAtDefenseCross >= MINIMUM_LEVEL_DURATION_MICROSECONDS);
+		boolean finished = (crossedDefense && Utility.getFPGATime() - timeAtDefenseCross >= minimumLevelDurationMicroseconds);
 		if (finished) {
 			System.out.println("DriveForwardUntilLevel: We have finished normally.");
 		}
