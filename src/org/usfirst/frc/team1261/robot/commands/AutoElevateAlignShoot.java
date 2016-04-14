@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class AutoElevateAlignShoot extends CommandGroup {
 
+	public static final double INTAKE_DURATION = 0.5;
 	public static final double MINIMUM_FLYWHEEL_SPEED = Flywheel.MINIMUM_FLYWHEEL_SPEED;
 
 	public AutoElevateAlignShoot() {
@@ -37,6 +38,7 @@ public class AutoElevateAlignShoot extends CommandGroup {
 		requires(Robot.visionTrackingLED);
 		FlywheelOut flywheelOut = new FlywheelOut();
 		PowerLED powerLED = new PowerLED();
+		addSequential(new FlywheelIn(), INTAKE_DURATION);
 		addParallel(flywheelOut);
 		addParallel(powerLED);
 		addSequential(new CommandWithMinimumFlywheelSpeed(new AutoElevateAlign(), MINIMUM_FLYWHEEL_SPEED));

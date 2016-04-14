@@ -17,7 +17,6 @@ public class RampartsAutonomousProgram extends CommandGroup {
 	public static final double DRIVE_FORWARD_UNTIL_RANGE_FINDER_DISTANCE_TIMEOUT = 0.5;
 	public static final double RANGE_FINDER_DISTANCE = 1.4;
 	public static final double LOWER_INTAKE_ARM_TIMEOUT = 0.75;
-	public static final double INTAKE_DURATION = 0.75;
 
 	public RampartsAutonomousProgram(boolean shoot, Direction direction) {
 		// Add Commands here:
@@ -45,7 +44,6 @@ public class RampartsAutonomousProgram extends CommandGroup {
 		addSequential(new GoToShooterArmPosition(SHOOTER_ARM_FINAL_POSITION));
 		if (shoot) {
 			addSequential(new TurnUntilContourFound(direction));
-			addSequential(new FlywheelIn(), INTAKE_DURATION);
 			addSequential(new AutoElevateAlignShoot());
 		}
 	}
