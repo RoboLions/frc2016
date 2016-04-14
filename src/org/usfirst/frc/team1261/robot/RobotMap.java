@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.RobotDrive.MotorType;
+import edu.wpi.first.wpilibj.Servo;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -38,6 +39,7 @@ public class RobotMap {
 	public static CANTalon flywheelLeftMotor;
 	public static CANTalon flywheelRightMotor;
 	public static CANTalon shooterArmMotor;
+	public static CANTalon liftArmWinchMotor;
 	public static Relay spike;
 	public static Encoder shooterArmEncoder;
 	public static Encoder intakeArmEncoder;
@@ -49,6 +51,8 @@ public class RobotMap {
 	public static DigitalInput photoGate;
 	public static Relay ledPower;
 	public static AnalogInput rangeFinder;
+	public static Servo liftArmBottomServo;
+	public static Servo liftArmTopServo;
 
 	public static void init() {
 		frontLeftMotor = new CANTalon(3);
@@ -72,6 +76,9 @@ public class RobotMap {
 		photoGate = new DigitalInput(4);
 		ledPower = new Relay(1);
 		rangeFinder = new AnalogInput(0);
+		liftArmBottomServo = new Servo(0);
+		liftArmTopServo = new Servo(1);
+		liftArmWinchMotor = new CANTalon(0);
 
 		driveTrain.setInvertedMotor(MotorType.kFrontLeft, true);
 		driveTrain.setInvertedMotor(MotorType.kRearLeft, true);
