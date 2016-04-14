@@ -78,7 +78,7 @@ public class RobotMap {
 		rangeFinder = new AnalogInput(0);
 		liftArmBottomServo = new Servo(0);
 		liftArmTopServo = new Servo(1);
-		liftArmWinchMotor = new CANTalon(0);
+		liftArmWinchMotor = new CANTalon(11);
 
 		driveTrain.setInvertedMotor(MotorType.kFrontLeft, true);
 		driveTrain.setInvertedMotor(MotorType.kRearLeft, true);
