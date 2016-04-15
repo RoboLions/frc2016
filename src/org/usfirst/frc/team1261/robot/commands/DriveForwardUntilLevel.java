@@ -14,6 +14,7 @@ public class DriveForwardUntilLevel extends Command {
 	public static final double DEFAULT_POWER = 0.7;
 	public static final double PITCH_THRESHOLD = 7.5;
 	public static final double ROLL_THRESHOLD = 7.5;
+	public static final double INITIAL_IGNORE_DURATION = 1.0;
 	public static final double DEFAULT_MINIMUM_LEVEL_DURATION = 0.4;
 
 	private boolean onDefense = false;
@@ -50,6 +51,9 @@ public class DriveForwardUntilLevel extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
+		if (timeSinceInitialized() < INITIAL_IGNORE_DURATION) {
+			return;
+		}
 		double pitch = Robot.driveTrain.getNavX().getPitch();
 		double roll = Robot.driveTrain.getNavX().getRoll();
 		boolean isLevel = (Math.abs(pitch) <= PITCH_THRESHOLD) && (Math.abs(roll) <= ROLL_THRESHOLD);
