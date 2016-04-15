@@ -15,7 +15,7 @@ class VisionTrackingBasedShooterArmPIDController extends PIDController {
 	public static final double kD = 0.0;
 	public static final double DEFAULT_TOLERANCE = RaspberryPiCommunicationAdapter.Y_AXIS_TOLERANCE;
 
-	public static final double OUTPUT_THRESHOLD = 0.0;
+	public static final double MAXIMUM_OUTPUT = 0.7;
 
 	/**
 	 * Error value used for PID when no target can be found.
@@ -35,8 +35,8 @@ class VisionTrackingBasedShooterArmPIDController extends PIDController {
 		}, new PIDOutput() {
 			@Override
 			public void pidWrite(double output) {
-				if (Math.abs(output) <= OUTPUT_THRESHOLD) {
-					output = Math.signum(output) * OUTPUT_THRESHOLD;
+				if (Math.abs(output) > MAXIMUM_OUTPUT) {
+					output = Math.signum(output) * MAXIMUM_OUTPUT;
 				}
 				if (!RaspberryPiCommunicationAdapter.isContourFound() || shooterArm.onTarget()) {
 					output = 0.0;
