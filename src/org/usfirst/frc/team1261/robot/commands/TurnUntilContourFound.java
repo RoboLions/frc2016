@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class TurnUntilContourFound extends Command {
 
 	public static final double POWER = 0.25;
-	public static final double MAXIMUM_ANGLE = 90.0;
+	public static final double MAXIMUM_ANGLE = 60.0;
 	public static final double MINIMUM_CONTOUR_DURATION = 0.25;
 
 	private static final double MINIMUM_CONTOUR_DURATION_MICROSECONDS = MINIMUM_CONTOUR_DURATION * 1000000;
@@ -34,12 +34,8 @@ public class TurnUntilContourFound extends Command {
 		case FROM_RIGHT:
 			power = -POWER;
 			break;
-		case RIGHT:
-		case FROM_LEFT:
-			power = POWER;
-			break;
 		default:
-			power = 0.0;
+			power = POWER;
 		}
 	}
 
@@ -53,6 +49,10 @@ public class TurnUntilContourFound extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
+		double yaw = Robot.driveTrain.getYaw();
+		if (Math.abs(yaw) >= MAXIMUM_ANGLE) {
+			power = Math.abs(power) * -Math.signum(yaw);
+		}
 		Robot.driveTrain.turn(power);
 		Robot.visionTrackingLED.enable();
 		if (RaspberryPiCommunicationAdapter.isContourFound()) {
@@ -67,8 +67,7 @@ public class TurnUntilContourFound extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return ((contourFound && Utility.getFPGATime() - timeWhenContourFound >= MINIMUM_CONTOUR_DURATION_MICROSECONDS)
-				|| Math.abs(Robot.driveTrain.getYaw()) >= MAXIMUM_ANGLE);
+		return contourFound && Utility.getFPGATime() - timeWhenContourFound >= MINIMUM_CONTOUR_DURATION_MICROSECONDS;
 	}
 
 	// Called once after isFinished returns true

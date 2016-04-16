@@ -9,19 +9,20 @@ import org.usfirst.frc.team1261.robot.commands.LowBarAutonomousProgram;
 import org.usfirst.frc.team1261.robot.commands.RampartsAutonomousProgram;
 import org.usfirst.frc.team1261.robot.commands.ReachAutonomousProgram;
 import org.usfirst.frc.team1261.robot.commands.SimpleAutonomousProgram;
+import org.usfirst.frc.team1261.robot.commands.TurnUntilContourFound.Direction;
 import org.usfirst.frc.team1261.robot.commands.ZeroAngle;
 import org.usfirst.frc.team1261.robot.commands.ZeroIntakeArmEncoder;
 import org.usfirst.frc.team1261.robot.commands.ZeroShooterArmEncoder;
-import org.usfirst.frc.team1261.robot.commands.TurnUntilContourFound.Direction;
 import org.usfirst.frc.team1261.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1261.robot.subsystems.Flywheel;
 import org.usfirst.frc.team1261.robot.subsystems.IntakeArm;
 import org.usfirst.frc.team1261.robot.subsystems.IntakeRoller;
+import org.usfirst.frc.team1261.robot.subsystems.LiftArm;
 import org.usfirst.frc.team1261.robot.subsystems.RaspberryPiCommunicationAdapter;
+import org.usfirst.frc.team1261.robot.subsystems.RaspberryPiCommunicationAdapter.NoContoursFoundException;
 import org.usfirst.frc.team1261.robot.subsystems.ShooterArm;
 import org.usfirst.frc.team1261.robot.subsystems.SpikePuncher;
 import org.usfirst.frc.team1261.robot.subsystems.VisionTrackingLED;
-import org.usfirst.frc.team1261.robot.subsystems.RaspberryPiCommunicationAdapter.NoContoursFoundException;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -50,6 +51,7 @@ public class Robot extends IterativeRobot {
 	public static ShooterArm shooterArm;
 	public static SpikePuncher spikePuncher;
 	public static VisionTrackingLED visionTrackingLED;
+	public static LiftArm liftArm;
 
 	public static OI oi;
 
@@ -72,6 +74,7 @@ public class Robot extends IterativeRobot {
 		shooterArm = new ShooterArm();
 		spikePuncher = new SpikePuncher();
 		visionTrackingLED = new VisionTrackingLED();
+		liftArm = new LiftArm();
 
 		oi = new OI();
 	}
@@ -158,6 +161,7 @@ public class Robot extends IterativeRobot {
 					break;
 				case RAMPARTS:
 				case MOAT:
+				case ROCK_WALL:
 					autonomousCommand = new RampartsAutonomousProgram(shoot, direction);
 					break;
 				default:
