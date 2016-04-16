@@ -4,13 +4,13 @@ import org.usfirst.frc.team1261.robot.Robot;
 import org.usfirst.frc.team1261.robot.subsystems.Flywheel;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
 public class AutoElevateAlignShoot extends CommandGroup {
 
+	public static final double INTAKE_DURATION = 0.5;
 	public static final double MINIMUM_FLYWHEEL_SPEED = Flywheel.MINIMUM_FLYWHEEL_SPEED;
 
 	public AutoElevateAlignShoot() {
@@ -38,6 +38,7 @@ public class AutoElevateAlignShoot extends CommandGroup {
 		requires(Robot.visionTrackingLED);
 		FlywheelOut flywheelOut = new FlywheelOut();
 		PowerLED powerLED = new PowerLED();
+		addSequential(new FlywheelIn(), INTAKE_DURATION);
 		addParallel(flywheelOut);
 		addParallel(powerLED);
 		addSequential(new CommandWithMinimumFlywheelSpeed(new AutoElevateAlign(), MINIMUM_FLYWHEEL_SPEED));
@@ -48,15 +49,14 @@ public class AutoElevateAlignShoot extends CommandGroup {
 	
     
     public void initialize() {
-    	SmartDashboard.putBoolean("AutoElevateAlign running", true);
+    	System.out.println("Starting auto-shot...");
     }
-    
 
     public void end() {
-    	SmartDashboard.putBoolean("AutoElevateAlign running", false);
+    	System.out.println("Auto-shot finished.");
     }
     
     public void interrupted() {
-    	end();
+    	System.out.println("Auto-shot interrupted.");
     }
 }
