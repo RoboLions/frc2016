@@ -13,7 +13,7 @@ class VisionTrackingBasedDriveTrainPIDController extends PIDController {
 	public static final double kP = 0.0018;
 	public static final double kI = 0.00026;
 	public static final double kD = 0.01;
-	public static final double DEFAULT_TOLERANCE = RaspberryPiCommunicationAdapter.X_AXIS_TOLERANCE;
+	public static final double DEFAULT_TOLERANCE = RaspberryPi.X_AXIS_TOLERANCE;
 
 	public static final double OUTPUT_THRESHOLD = 0.17;
 
@@ -27,9 +27,9 @@ class VisionTrackingBasedDriveTrainPIDController extends PIDController {
 			@Override
 			public double pidGet() {
 				try {
-					edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putNumber("x-error", RaspberryPiCommunicationAdapter.getTargetXOffset());
-					return RaspberryPiCommunicationAdapter.getTargetXOffset();
-				} catch (RaspberryPiCommunicationAdapter.NoContoursFoundException e) {
+					edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putNumber("x-error", RaspberryPi.getTargetXOffset());
+					return RaspberryPi.getTargetXOffset();
+				} catch (RaspberryPi.NoContoursFoundException e) {
 					return DEFAULT_ERROR;
 				}
 			}
@@ -39,7 +39,7 @@ class VisionTrackingBasedDriveTrainPIDController extends PIDController {
 				if (Math.abs(output) <= OUTPUT_THRESHOLD) {
 					output = Math.signum(output) * OUTPUT_THRESHOLD;
 				}
-				if (!RaspberryPiCommunicationAdapter.isContourFound() || driveTrain.onTarget()) {
+				if (!RaspberryPi.isContourFound() || driveTrain.onTarget()) {
 					output = 0.0;
 				}
 				edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putNumber("Drivetrain turn power", output);
@@ -60,6 +60,6 @@ class VisionTrackingBasedDriveTrainPIDController extends PIDController {
 	 * @return {@code true} if the error is less than the tolerance.
 	 */
 	public boolean onTarget() {
-		return (RaspberryPiCommunicationAdapter.isContourFound() && Math.abs(getError()) < DEFAULT_TOLERANCE);
+		return (RaspberryPi.isContourFound() && Math.abs(getError()) < DEFAULT_TOLERANCE);
 	}
 }

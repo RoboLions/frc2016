@@ -13,7 +13,7 @@ class VisionTrackingBasedShooterArmPIDController extends PIDController {
 	public static final double kP = 0.007;
 	public static final double kI = 0.00015;
 	public static final double kD = 0.0;
-	public static final double DEFAULT_TOLERANCE = RaspberryPiCommunicationAdapter.Y_AXIS_TOLERANCE;
+	public static final double DEFAULT_TOLERANCE = RaspberryPi.Y_AXIS_TOLERANCE;
 
 	public static final double MINIMUM_OUTPUT = 0.15;
 	public static final double MAXIMUM_OUTPUT = 0.65;
@@ -28,8 +28,8 @@ class VisionTrackingBasedShooterArmPIDController extends PIDController {
 			@Override
 			public double pidGet() {
 				try {
-					return RaspberryPiCommunicationAdapter.getTargetYOffset();
-				} catch (RaspberryPiCommunicationAdapter.NoContoursFoundException e) {
+					return RaspberryPi.getTargetYOffset();
+				} catch (RaspberryPi.NoContoursFoundException e) {
 					return DEFAULT_ERROR;
 				}
 			}
@@ -42,7 +42,7 @@ class VisionTrackingBasedShooterArmPIDController extends PIDController {
 				if (Math.abs(output) > MAXIMUM_OUTPUT) {
 					output = Math.signum(output) * MAXIMUM_OUTPUT;
 				}
-				if (!RaspberryPiCommunicationAdapter.isContourFound() || shooterArm.onTarget()) {
+				if (!RaspberryPi.isContourFound() || shooterArm.onTarget()) {
 					output = 0.0;
 				}
 				edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putNumber("Shooter arm power", output);
@@ -63,6 +63,6 @@ class VisionTrackingBasedShooterArmPIDController extends PIDController {
 	 * @return {@code true} if the error is less than the tolerance.
 	 */
 	public boolean onTarget() {
-		return (RaspberryPiCommunicationAdapter.isContourFound() && Math.abs(getError()) < DEFAULT_TOLERANCE);
+		return (RaspberryPi.isContourFound() && Math.abs(getError()) < DEFAULT_TOLERANCE);
 	}
 }

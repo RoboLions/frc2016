@@ -25,7 +25,7 @@ public class DriveTrain extends Subsystem {
 	CANTalon rearRightMotor = RobotMap.rearRightMotor;
 	RobotDrive robotDrive = RobotMap.driveTrain;
 	AHRS navX = RobotMap.navX;
-	AnalogInput rangeFinder = RobotMap.rangeFinder;
+	AnalogInput forwardRangeFinder = RobotMap.forwardRangeFinder;
 
 	// Change this to change the default PIDController for the DriveTrain.
 	PIDController controller = new DisabledDriveTrainPIDController(this);
@@ -334,11 +334,11 @@ public class DriveTrain extends Subsystem {
 	 * @return The {@link AnalogInput} associated with the laser range finder.
 	 */
 	public AnalogInput getRangeFinder() {
-		return rangeFinder;
+		return forwardRangeFinder;
 	}
 
-	public double getRangeFinderDistance() throws RangeFinderNoSignalException {
-		double rangeFinderVoltage = rangeFinder.getVoltage();
+	public double getForwardRangeFinderDistance() throws RangeFinderNoSignalException {
+		double rangeFinderVoltage = forwardRangeFinder.getVoltage();
 		if (rangeFinderVoltage < RANGEFINDER_NO_SIGNAL_THRESHOLD) {
 			throw new RangeFinderNoSignalException();
 		}

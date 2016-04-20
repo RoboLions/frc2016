@@ -50,7 +50,7 @@ public class RobotMap {
 	public static DigitalInput shooterArmLowerLimitSwitch;
 	public static DigitalInput photoGate;
 	public static Relay ledPower;
-	public static AnalogInput rangeFinder;
+	public static AnalogInput forwardRangeFinder;
 	public static Servo liftArmBottomServo;
 	public static Servo liftArmTopServo;
 
@@ -75,7 +75,7 @@ public class RobotMap {
 		shooterArmLowerLimitSwitch = new DigitalInput(1);
 		photoGate = new DigitalInput(4);
 		ledPower = new Relay(1);
-		rangeFinder = new AnalogInput(0);
+		forwardRangeFinder = new AnalogInput(0);
 		liftArmBottomServo = new Servo(0);
 		liftArmTopServo = new Servo(1);
 		liftArmWinchMotor = new CANTalon(11);
@@ -84,7 +84,7 @@ public class RobotMap {
 		driveTrain.setInvertedMotor(MotorType.kRearLeft, true);
 		driveTrain.setInvertedMotor(MotorType.kFrontRight, true);
 		driveTrain.setInvertedMotor(MotorType.kRearRight, true);
-		rangeFinder.setAverageBits(0);
-		rangeFinder.setOversampleBits(0);
+		forwardRangeFinder.setAverageBits(0);
+		forwardRangeFinder.setOversampleBits(0);
 	}
 }

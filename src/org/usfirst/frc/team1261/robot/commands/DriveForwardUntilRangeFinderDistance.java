@@ -40,7 +40,7 @@ public class DriveForwardUntilRangeFinderDistance extends Command {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         try {
-        	return (Robot.driveTrain.getRangeFinderDistance() < distance);
+        	return (Robot.driveTrain.getForwardRangeFinderDistance() < distance);
         } catch (DriveTrain.RangeFinderNoSignalException e) {
         	return false;
         }

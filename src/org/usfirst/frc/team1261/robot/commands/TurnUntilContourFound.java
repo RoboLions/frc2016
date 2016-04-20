@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1261.robot.commands;
 
 import org.usfirst.frc.team1261.robot.Robot;
-import org.usfirst.frc.team1261.robot.subsystems.RaspberryPiCommunicationAdapter;
+import org.usfirst.frc.team1261.robot.subsystems.RaspberryPi;
 
 import edu.wpi.first.wpilibj.Utility;
 import edu.wpi.first.wpilibj.command.Command;
@@ -55,7 +55,7 @@ public class TurnUntilContourFound extends Command {
 		}
 		Robot.driveTrain.turn(power);
 		Robot.visionTrackingLED.enable();
-		if (RaspberryPiCommunicationAdapter.isContourFound()) {
+		if (RaspberryPi.isContourFound()) {
     		if (!contourFound) {
     			timeWhenContourFound = Utility.getFPGATime();
     		}

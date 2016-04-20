@@ -18,8 +18,8 @@ import org.usfirst.frc.team1261.robot.subsystems.Flywheel;
 import org.usfirst.frc.team1261.robot.subsystems.IntakeArm;
 import org.usfirst.frc.team1261.robot.subsystems.IntakeRoller;
 import org.usfirst.frc.team1261.robot.subsystems.LiftArm;
-import org.usfirst.frc.team1261.robot.subsystems.RaspberryPiCommunicationAdapter;
-import org.usfirst.frc.team1261.robot.subsystems.RaspberryPiCommunicationAdapter.NoContoursFoundException;
+import org.usfirst.frc.team1261.robot.subsystems.RaspberryPi;
+import org.usfirst.frc.team1261.robot.subsystems.RaspberryPi.NoContoursFoundException;
 import org.usfirst.frc.team1261.robot.subsystems.ShooterArm;
 import org.usfirst.frc.team1261.robot.subsystems.SpikePuncher;
 import org.usfirst.frc.team1261.robot.subsystems.VisionTrackingLED;
@@ -223,7 +223,7 @@ public class Robot extends IterativeRobot {
 	public void allPeriodic() {
 		SmartDashboard.putNumber("Shooter arm encoder", Robot.shooterArm.getAngle());
 		SmartDashboard.putNumber("Intake arm encoder", Robot.intakeArm.getAngle());
-		SmartDashboard.putNumber("Rangefinder voltage", RobotMap.rangeFinder.getVoltage());
+		SmartDashboard.putNumber("Rangefinder voltage", RobotMap.forwardRangeFinder.getVoltage());
 		SmartDashboard.putNumber("navX yaw", RobotMap.navX.getYaw());
 		SmartDashboard.putBoolean("Shooter arm lower limit", Robot.shooterArm.isLowerLimitSwitchHit());
 		SmartDashboard.putBoolean("Intake arm lower limit", Robot.intakeArm.isLowerLimitSwitchHit());
@@ -234,7 +234,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Flywheel right speed", Robot.flywheel.getRightFlywheelMotor().getEncVelocity());
 		SmartDashboard.putBoolean("Flywheel ready", Robot.flywheel.meetsMinimumSpeed());
 		try {
-			SmartDashboard.putNumber("Target area", RaspberryPiCommunicationAdapter.getArea());
+			SmartDashboard.putNumber("Target area", RaspberryPi.getArea());
 		} catch (NoContoursFoundException e) {
 			SmartDashboard.putNumber("Target area", 0.0);
 		}

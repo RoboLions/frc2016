@@ -1,11 +1,12 @@
 package org.usfirst.frc.team1261.robot.subsystems;
 
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 /**
  * A class that retrieves vision tracking data from the Raspberry Pi.
  */
-public class RaspberryPiCommunicationAdapter {
+public class RaspberryPi extends Subsystem {
 
 	/**
 	 * Indicates that the vision processor was unable to identify any contours
@@ -33,10 +34,11 @@ public class RaspberryPiCommunicationAdapter {
 	 */
 	public static final double DEFAULT_VALUE = 0.0;
 
-	public static void setShooterFired(boolean fired) {
-		CONTOUR_TABLE.putBoolean("shooterFired", fired);
-	}
-	
+    public void initDefaultCommand() {
+        // Set the default command for a subsystem here.
+        //setDefaultCommand(new MySpecialCommand());
+    }
+
 	/**
 	 * Gets the y-axis offset of the center of the goal from where the shooter
 	 * arm is pointing.
