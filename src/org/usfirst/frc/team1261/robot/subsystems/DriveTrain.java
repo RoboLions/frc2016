@@ -26,6 +26,7 @@ public class DriveTrain extends Subsystem {
 	RobotDrive robotDrive = RobotMap.driveTrain;
 	AHRS navX = RobotMap.navX;
 	AnalogInput forwardRangeFinder = RobotMap.forwardRangeFinder;
+	AnalogInput sideRangeFinder = RobotMap.sideRangeFinder;
 
 	// Change this to change the default PIDController for the DriveTrain.
 	PIDController controller = new DisabledDriveTrainPIDController(this);
@@ -66,6 +67,9 @@ public class DriveTrain extends Subsystem {
 		}
 	}
 
+	/**
+	 * TODO: wat.
+	 */
 	public class RangeFinderNoSignalException extends Exception {
 		private static final long serialVersionUID = 7796196790913368565L;
 	}
@@ -329,19 +333,36 @@ public class DriveTrain extends Subsystem {
 	}
 
 	/**
-	 * Gets the {@link AnalogInput} that represents the laser range finder.
+	 * Gets the {@link AnalogInput} that represents the forward-mounted laser range finder.
 	 * 
-	 * @return The {@link AnalogInput} associated with the laser range finder.
+	 * @return The {@link AnalogInput} associated with the forward-mounted laser range finder.
 	 */
-	public AnalogInput getRangeFinder() {
+	public AnalogInput getForwardRangeFinder() {
 		return forwardRangeFinder;
 	}
 
 	public double getForwardRangeFinderDistance() throws RangeFinderNoSignalException {
-		double rangeFinderVoltage = forwardRangeFinder.getVoltage();
-		if (rangeFinderVoltage < RANGEFINDER_NO_SIGNAL_THRESHOLD) {
+		double forwardRangeFinderVoltage = forwardRangeFinder.getVoltage();
+		if (forwardRangeFinderVoltage < RANGEFINDER_NO_SIGNAL_THRESHOLD) {
 			throw new RangeFinderNoSignalException();
 		}
-		return rangeFinderVoltage * RANGEFINDER_VOLTS_TO_DISTANCE_FACTOR;
+		return forwardRangeFinderVoltage * RANGEFINDER_VOLTS_TO_DISTANCE_FACTOR;
+	}
+	
+	/**
+	 * Gets the {@link AnalogInput} that represents the side-mounted laser range finder.
+	 * 
+	 * @return The {@link AnalogInput} associated with the side-mounted laser range finder.
+	 */
+	public AnalogInput getSideRangeFinder() {
+		return sideRangeFinder;
+	}
+
+	public double getSideRangeFinderDistance() throws RangeFinderNoSignalException {
+		double sideRangeFinderVoltage = sideRangeFinder.getVoltage();
+		if (sideRangeFinderVoltage < RANGEFINDER_NO_SIGNAL_THRESHOLD) {
+			throw new RangeFinderNoSignalException();
+		}
+		return sideRangeFinderVoltage * RANGEFINDER_VOLTS_TO_DISTANCE_FACTOR;
 	}
 }

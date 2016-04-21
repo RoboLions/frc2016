@@ -40,7 +40,7 @@ public class LowBarAutonomousProgram extends CommandGroup {
 		addSequential(new GoToShooterArmPosition(SHOOTER_ARM_INITIAL_POSITION));
 		addSequential(new DriveForwardUntilLevel(DRIVING_POWER, MINIMUM_LEVEL_DURATION),
 				DRIVE_FORWARD_UNTIL_LEVEL_TIMEOUT);
-		addSequential(new DriveForwardUntilRangeFinderDistance(RANGE_FINDER_DISTANCE, DRIVING_POWER),
+		addSequential(new DriveForwardUntilForwardRangeFinderDistance(RANGE_FINDER_DISTANCE, DRIVING_POWER),
 				DRIVE_FORWARD_UNTIL_RANGE_FINDER_DISTANCE_TIMEOUT);
 		addSequential(new GoToShooterArmPosition(SHOOTER_ARM_FINAL_POSITION));
 		if (shoot) {

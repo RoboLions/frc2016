@@ -8,21 +8,21 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class DriveForwardUntilRangeFinderDistance extends Command {
+public class DriveForwardUntilForwardRangeFinderDistance extends Command {
 
 	public static final double DEFAULT_POWER = 0.7;
 
 	private double power = DEFAULT_POWER;
 	private double distance;
 
-    public DriveForwardUntilRangeFinderDistance(double distanceFromWall) {
+    public DriveForwardUntilForwardRangeFinderDistance(double distanceFromWall) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.driveTrain);
     	distance = distanceFromWall;
     }
 
-    public DriveForwardUntilRangeFinderDistance(double distanceFromWall, double power) {
+    public DriveForwardUntilForwardRangeFinderDistance(double distanceFromWall, double power) {
     	this(distanceFromWall);
     	this.power = power;
     }

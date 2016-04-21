@@ -51,6 +51,7 @@ public class RobotMap {
 	public static DigitalInput photoGate;
 	public static Relay ledPower;
 	public static AnalogInput forwardRangeFinder;
+	public static AnalogInput sideRangeFinder;
 	public static Servo liftArmBottomServo;
 	public static Servo liftArmTopServo;
 
@@ -76,6 +77,7 @@ public class RobotMap {
 		photoGate = new DigitalInput(4);
 		ledPower = new Relay(1);
 		forwardRangeFinder = new AnalogInput(0);
+		sideRangeFinder = new AnalogInput(1);
 		liftArmBottomServo = new Servo(0);
 		liftArmTopServo = new Servo(1);
 		liftArmWinchMotor = new CANTalon(11);

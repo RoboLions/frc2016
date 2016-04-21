@@ -36,7 +36,7 @@ public class SimpleAutonomousProgram extends CommandGroup {
 		// arm.
 		addSequential(new GoToShooterArmPosition(SHOOTER_ARM_INITIAL_POSITION));
 		addSequential(new DriveForwardUntilLevel(), DRIVE_FORWARD_UNTIL_LEVEL_TIMEOUT);
-		addSequential(new DriveForwardUntilRangeFinderDistance(RANGE_FINDER_DISTANCE),
+		addSequential(new DriveForwardUntilForwardRangeFinderDistance(RANGE_FINDER_DISTANCE),
 				DRIVE_FORWARD_UNTIL_RANGE_FINDER_DISTANCE_TIMEOUT);
 		addSequential(new IntakeArmToLowerLimitSwitch(), LOWER_INTAKE_ARM_TIMEOUT);
 		addSequential(new GoToShooterArmPosition(SHOOTER_ARM_FINAL_POSITION));
