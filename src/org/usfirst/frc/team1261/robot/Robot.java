@@ -222,7 +222,8 @@ public class Robot extends IterativeRobot {
 	public void allPeriodic() {
 		SmartDashboard.putNumber("Shooter arm encoder", Robot.shooterArm.getAngle());
 		SmartDashboard.putNumber("Intake arm encoder", Robot.intakeArm.getAngle());
-		SmartDashboard.putNumber("Rangefinder voltage", RobotMap.forwardRangeFinder.getVoltage());
+		SmartDashboard.putNumber("Forward Rangefinder voltage", RobotMap.forwardRangeFinder.getVoltage());
+		SmartDashboard.putNumber("Side Rangefinder voltage", RobotMap.sideRangeFinder.getVoltage());
 		SmartDashboard.putNumber("navX yaw", RobotMap.navX.getYaw());
 		SmartDashboard.putBoolean("Shooter arm lower limit", Robot.shooterArm.isLowerLimitSwitchHit());
 		SmartDashboard.putBoolean("Intake arm lower limit", Robot.intakeArm.isLowerLimitSwitchHit());

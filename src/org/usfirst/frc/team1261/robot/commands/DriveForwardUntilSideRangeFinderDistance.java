@@ -13,8 +13,8 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DriveForwardUntilSideRangeFinderDistance extends Command {
 
 	public static final double DEFAULT_POWER = 0.7;
-	public static final double DEFAULT_MINIMUM_FINISHED_DURATION = 0.4;
-	private static final double IS_ON_DEFENSE_RANGE = 500;
+	public static final double DEFAULT_MINIMUM_FINISHED_DURATION = 0.3;
+	private static final double IS_ON_DEFENSE_RANGE = .5;
 
 	private boolean crossingDefense = false;
 	private boolean crossedDefense = false;
@@ -60,18 +60,18 @@ public class DriveForwardUntilSideRangeFinderDistance extends Command {
 		if (!crossedDefense) {
 			if (!isNotOnDefense && !crossingDefense) {
 				// We have just begun to cross the defense.
-				System.out.println("DriveForwardUntilLevel: We have just begun to cross the defense.");
+				System.out.println("DriveForwardUntilSideRangeFinderDistance: We have just begun to cross the defense.");
 				crossingDefense = true;
 			} else if (isNotOnDefense && crossingDefense) {
 				// We have just finished crossing the defense.
-				System.out.println("DriveForwardUntilLevel: We have just finished crossing the defense.");
+				System.out.println("DriveForwardUntilSideRangeFinderDistance: We have just finished crossing the defense.");
 				crossingDefense = false;
 				crossedDefense = true;
 				timeAtDefenseCross = Utility.getFPGATime();
 			}
 		} else if (!isNotOnDefense) {
 			// We didn't actually cross the defense.
-			System.out.println("DriveForwardUntilLevel: We didn't actually cross the defense.");
+			System.out.println("DriveForwardUntilSideRangeFinderDistance: We didn't actually cross the defense.");
 			crossingDefense = true;
 			crossedDefense = false;
 		}
@@ -81,7 +81,7 @@ public class DriveForwardUntilSideRangeFinderDistance extends Command {
 	protected boolean isFinished() {
 		boolean finished = (crossedDefense && Utility.getFPGATime() - timeAtDefenseCross >= minimumFinishedDurationMicroseconds);
 		if (finished) {
-			System.out.println("DriveForwardUntilLevel: We have finished normally.");
+			System.out.println("DriveForwardUntilSideRangeFinderDistance: We have finished normally.");
 		}
 		return finished;
 	}
@@ -107,6 +107,6 @@ public class DriveForwardUntilSideRangeFinderDistance extends Command {
 	// subsystems is scheduled to run
 	protected void interrupted() {
 		end();
-		System.out.println("DriveForwardUntilLevel: We have been interrupted.");
+		System.out.println("DriveForwardUntilSideRangeFinderDistance: We have been interrupted.");
 	}
 }
