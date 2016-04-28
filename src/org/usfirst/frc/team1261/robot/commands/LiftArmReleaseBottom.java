@@ -1,7 +1,5 @@
 package org.usfirst.frc.team1261.robot.commands;
 
-import org.usfirst.frc.team1261.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -18,7 +16,7 @@ public class LiftArmReleaseBottom extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.liftArm.setBottomServoPosition(POSITION);
+		//Robot.liftArm.setBottomServoPosition(POSITION);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
