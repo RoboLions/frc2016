@@ -39,7 +39,7 @@ public class RobotMap {
 	public static CANTalon flywheelLeftMotor;
 	public static CANTalon flywheelRightMotor;
 	public static CANTalon shooterArmMotor;
-	public static CANTalon liftArmWinchMotor;
+	public static CANTalon liftWinchMotor;
 	public static Relay spike;
 	public static Encoder shooterArmEncoder;
 	public static Encoder intakeArmEncoder;
@@ -52,8 +52,7 @@ public class RobotMap {
 	public static Relay ledPower;
 	public static AnalogInput forwardRangeFinder;
 	public static AnalogInput sideRangeFinder;
-	public static Servo liftArmBottomServo;
-	public static Servo liftArmTopServo;
+	public static Servo liftServo;
 
 	public static void init() {
 		frontLeftMotor = new CANTalon(3);
@@ -78,9 +77,8 @@ public class RobotMap {
 		ledPower = new Relay(1);
 		forwardRangeFinder = new AnalogInput(0);
 		sideRangeFinder = new AnalogInput(1);
-		liftArmBottomServo = new Servo(0);
-		liftArmTopServo = new Servo(1);
-		liftArmWinchMotor = new CANTalon(11);
+		liftServo = new Servo(0);
+		liftWinchMotor = new CANTalon(11);
 
 		driveTrain.setInvertedMotor(MotorType.kFrontLeft, true);
 		driveTrain.setInvertedMotor(MotorType.kRearLeft, true);

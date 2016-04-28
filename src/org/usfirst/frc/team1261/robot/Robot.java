@@ -17,7 +17,7 @@ import org.usfirst.frc.team1261.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1261.robot.subsystems.Flywheel;
 import org.usfirst.frc.team1261.robot.subsystems.IntakeArm;
 import org.usfirst.frc.team1261.robot.subsystems.IntakeRoller;
-import org.usfirst.frc.team1261.robot.subsystems.LiftArm;
+import org.usfirst.frc.team1261.robot.subsystems.Lift;
 import org.usfirst.frc.team1261.robot.subsystems.RaspberryPi;
 import org.usfirst.frc.team1261.robot.subsystems.RaspberryPi.NoContoursFoundException;
 import org.usfirst.frc.team1261.robot.subsystems.ShooterArm;
@@ -51,7 +51,7 @@ public class Robot extends IterativeRobot {
 	public static ShooterArm shooterArm;
 	public static SpikePuncher spikePuncher;
 	public static VisionTrackingLED visionTrackingLED;
-	public static LiftArm liftArm;
+	public static Lift liftArm;
 
 	public static OI oi;
 
@@ -74,7 +74,7 @@ public class Robot extends IterativeRobot {
 		shooterArm = new ShooterArm();
 		spikePuncher = new SpikePuncher();
 		visionTrackingLED = new VisionTrackingLED();
-		liftArm = new LiftArm();
+		liftArm = new Lift();
 
 		oi = new OI();
 	}

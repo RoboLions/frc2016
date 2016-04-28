@@ -7,11 +7,11 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class LiftArmIn extends Command {
+public class LiftIn extends Command {
 
 	public static final double POWER = 1.0;
 
-    public LiftArmIn() {
+    public LiftIn() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.liftArm);

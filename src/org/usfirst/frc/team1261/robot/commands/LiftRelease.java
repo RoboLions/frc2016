@@ -7,18 +7,18 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class LiftArmReleaseTop extends Command {
+public class LiftRelease extends Command {
 
 	public static final double POSITION = 0.0;
 
-	public LiftArmReleaseTop() {
+	public LiftRelease() {
 		// No requires(Robot.liftArm) statement because this command can run
 		// simultaneously with other LiftArm commands.
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.liftArm.setTopServoPosition(POSITION);
+		Robot.liftArm.setServoPosition(POSITION);
 	}
 
 	// Called repeatedly when this Command is scheduled to run

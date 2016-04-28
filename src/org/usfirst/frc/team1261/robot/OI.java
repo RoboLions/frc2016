@@ -4,9 +4,9 @@ package org.usfirst.frc.team1261.robot;
 import org.usfirst.frc.team1261.robot.commands.AutoElevateAlignShoot;
 import org.usfirst.frc.team1261.robot.commands.BothMotorIntake;
 import org.usfirst.frc.team1261.robot.commands.IntakeOut;
-import org.usfirst.frc.team1261.robot.commands.LiftArmIn;
-import org.usfirst.frc.team1261.robot.commands.LiftArmOut;
-import org.usfirst.frc.team1261.robot.commands.LiftArmRelease;
+import org.usfirst.frc.team1261.robot.commands.LiftIn;
+import org.usfirst.frc.team1261.robot.commands.LiftOut;
+import org.usfirst.frc.team1261.robot.commands.LiftRelease;
 import org.usfirst.frc.team1261.robot.commands.PowerLED;
 import org.usfirst.frc.team1261.robot.commands.SpikeOutAndIn;
 import org.usfirst.frc.team1261.robot.triggers.DriverRightTriggerTrigger;
@@ -84,9 +84,9 @@ public class OI {
 	//Trigger intakeArmSetpointUpButton = new ManipulatorDPadUpTrigger(manipulatorJoystick);
 	//Button shooterArmSetpointUpButton = new JoystickButton(manipulatorJoystick, BUTTON_Y);
 	//Button shooterArmSetpointDownButton = new JoystickButton(manipulatorJoystick, BUTTON_X);
-	Button liftArmInButton = new JoystickButton(manipulatorJoystick, BUTTON_Y);
-	Button liftArmOutButton = new JoystickButton(manipulatorJoystick, BUTTON_X);
-	Button liftArmReleaseButton = new JoystickButton(manipulatorJoystick, BUTTON_A);
+	Button liftInButton = new JoystickButton(manipulatorJoystick, BUTTON_Y);
+	Button liftOutButton = new JoystickButton(manipulatorJoystick, BUTTON_X);
+	Button liftReleaseButton = new JoystickButton(manipulatorJoystick, BUTTON_A);
 	Button intakeRollerOutput = new JoystickButton(manipulatorJoystick, BUTTON_LEFT_BUMPER);
 	
 	public OI() {
@@ -100,9 +100,9 @@ public class OI {
 		//intakeArmSetpointUpButton.whenActive(new IntakeArmSetpointUp());
 		//shooterArmSetpointDownButton.toggleWhenPressed(new ShooterArmSetpointDown());
 		//shooterArmSetpointUpButton.toggleWhenPressed(new ShooterArmSetpointUp());
-		liftArmInButton.whileHeld(new LiftArmIn());
-		liftArmOutButton.whileHeld(new LiftArmOut());
-		liftArmReleaseButton.whenPressed(new LiftArmRelease());
+		liftInButton.whileHeld(new LiftIn());
+		liftOutButton.whileHeld(new LiftOut());
+		liftReleaseButton.whenPressed(new LiftRelease());
 		intakeRollerOutput.whileHeld(new IntakeOut());
 	}
 	
