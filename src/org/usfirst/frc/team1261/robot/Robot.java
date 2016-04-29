@@ -6,6 +6,7 @@ package org.usfirst.frc.team1261.robot;
 
 import org.usfirst.frc.team1261.robot.commands.DriveForwardUntilLevel;
 import org.usfirst.frc.team1261.robot.commands.LowBarAutonomousProgram;
+import org.usfirst.frc.team1261.robot.commands.MoatAutonomousProgram;
 import org.usfirst.frc.team1261.robot.commands.RampartsAutonomousProgram;
 import org.usfirst.frc.team1261.robot.commands.ReachAutonomousProgram;
 import org.usfirst.frc.team1261.robot.commands.SimpleAutonomousProgram;
@@ -160,9 +161,11 @@ public class Robot extends IterativeRobot {
 					autonomousCommand = new LowBarAutonomousProgram(shoot);
 					break;
 				case RAMPARTS:
+					autonomousCommand = new RampartsAutonomousProgram(shoot, direction);
+					break;
 				case MOAT:
 				case ROCK_WALL:
-					autonomousCommand = new RampartsAutonomousProgram(shoot, direction);
+					autonomousCommand = new MoatAutonomousProgram(shoot, direction);
 					break;
 				default:
 					autonomousCommand = new SimpleAutonomousProgram(shoot, direction);
