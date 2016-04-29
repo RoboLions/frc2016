@@ -39,7 +39,7 @@ public class Flywheel extends Subsystem {
 	public static final double RIGHT_MOTOR_GAIN_D = 0.0;
 
 	public static final double REQUIRED_FLYWHEEL_SPEED = 200.0;
-	public static final double MINIMUM_FLYWHEEL_SPEED = 600.0;
+	public static final double MINIMUM_FLYWHEEL_SPEED = 700.0;
 
 	CANTalon flywheelLeftMotor = RobotMap.flywheelLeftMotor;
 	CANTalon flywheelRightMotor = RobotMap.flywheelRightMotor;
